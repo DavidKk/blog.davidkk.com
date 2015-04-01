@@ -144,3 +144,22 @@ root@192.168.1.109's password:
 
 ## 最后
 现在你可以开始折腾了。
+
+## 其他
+
+### 安装主题
+```
+#安装中文
+opkg install luci-i18n-chinese
+
+#安装主题
+opkg install luci-theme-bootstrap
+```
+
+然后到 webUI 上设置，依次选择系统 -》语言/主题 (system->lanuage/design)
+
+### 安装其他
+可以通过查找各种插件
+```
+opkg serach "*bootstrap"
+```
