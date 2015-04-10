@@ -100,9 +100,9 @@ sudo /etc/init.d/vboxadd setup # 可执行安装操作
 若没有挂载，挂载CD-ROM，选择菜单，Devices -> Insert Guest Additions CD image...
 
 ```
-sudo  mount /dev/cdrom /mnt/      # 挂载
-sudo  /mnt/VBoxLinuxAdditions-x86.run # 安装
-sudo umount /mnt/           # 卸载CD-ROM
+sudo mount /dev/cdrom /mnt/           # 挂载
+sudo /mnt/VBoxLinuxAdditions-x86.run  # 安装
+sudo umount /mnt/                     # 卸载CD-ROM
 ```
 
 

@@ -61,10 +61,9 @@ ifup wan
 
 也可以直接进入配置文件
 ```
+# 编辑配置
 vim /etc/config/network
-```
-编辑配置
-```
+
 config  interface looppack
         option ifname   lo
         option proto    static
@@ -80,19 +79,8 @@ config  interface wan
         option ifname   eth1
         option proto    dhcp
 
-```
-
-重启一下
-```
-/etc/init.d/network resert
-```
-
-
-## 更新到最新版本
-```
-#可以判断是否有更新
-# opkg list-upgradable 
-opkg update
+# 修改完重启一下
+/etc/init.d/network restart
 ```
 
 ## 安装webUI
@@ -142,8 +130,47 @@ root@192.168.1.109's password:
 # 开始时设置的密码
 ```
 
+## 使用 virtualbox 挂载虚拟硬盘
+
+- 设置
+- 存储
+- 选择 SATA
+- 添加虚拟硬盘
+- 创建新的虚拟硬盘
+
+### 启动虚拟机
+
+因为硬盘还没有格式化所以系统识别不了硬盘，因此我们将其格式化一下
+
+```
+# 下载格式化工具
+opkg update
+opkg install e2fsprogs
+
+# 格式化硬盘
+mkfs.ext4 /dev/sdb
+# mkfs.ext3 /dev/sdb
+# mkfs.ext2 /dev/sdb
+
+
+# 挂载硬盘
+mkdir -p /mnt/sdb
+mount /dev/sdb /mnt/sdb
+
+# 查看挂载硬盘的信息
+df -m
+Filesystem           1M-blocks      Used Available Use% Mounted on
+rootfs                      47        26        19  58% /
+/dev/root                   47        26        19  58% /
+tmpfs                      124         1       124   0% /tmp
+tmpfs                        1         0         1   0% /dev
+/dev/sdb                   497        23       449   5% /mnt/sdb
+
+# /dev/sdb 就是刚才挂载的硬盘
+```
+
 ## 最后
-现在你可以开始折腾了。
+现在你可以开始折腾了，有需要的请跳转到折腾篇。
 
 ## 其他
 
@@ -156,7 +183,7 @@ opkg install luci-i18n-chinese
 opkg install luci-theme-bootstrap
 ```
 
-然后到 webUI 上设置，依次选择系统 -》语言/主题 (system->lanuage/design)
+然后到 webUI 上设置，依次选择系统 -》语言/主题 (System -> Lanuage and Style)
 
 ### 安装其他
 可以通过查找各种插件
