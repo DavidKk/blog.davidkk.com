@@ -10,6 +10,8 @@
 
 ## 自动挂载硬盘/USB设备
 
+此篇已经在 OpenWrt 安装到 virtualbox 中有说明。
+
 ### 安装支持软件
 ```
 opkg update
@@ -43,17 +45,17 @@ mount /dev/sdb /mnt/sdb
 #### 查看挂载硬盘的信息
 ```
 df -m
-Filesystem           1M-blocks      Used Available Use% Mounted on
-rootfs                      47        26        19  58% /
-/dev/root                   47        26        19  58% /
-tmpfs                      124         1       124   0% /tmp
-tmpfs                        1         0         1   0% /dev
-/dev/sdb                   497        23       449   5% /mnt/sdb
+Filesystem  1M-blocks Used Available Use% Mounted on
+rootfs             47   26        19  58% /
+/dev/root          47   26        19  58% /
+tmpfs             124    1       124   0% /tmp
+tmpfs               1    0         1   0% /dev
+/dev/sdb          497   23       449   5% /mnt/sdb
 
 # /dev/sdb 就是刚才挂载的硬盘
 ```
 
-### 设置开启机动
+### 设置开机自动挂载
 ```
 /etc/init.d/fstab enable
 ```
@@ -65,13 +67,34 @@ tmpfs                        1         0         1   0% /dev
 
 ## 在扩展硬盘或USB设备中安装应用
 
-```
-# 挂载外置硬盘/USB设备，virtualbox 篇有讲
+### 新建安装目录
 
-mkdir /mnt/sdb/packages/
-echo dest extdisk /mnt/sdb/packages/ >> /etc/opkg.conf
-opkg --dest extdisk install python # --dest extdisk 是关键
 ```
+# 给安装路径标记一个ID/NAME
+mkdir /mnt/sdb/packages/
+echo dest sdb /mnt/sdb/packages/ >> /etc/opkg.conf
+
+# 安装应用
+opkg --dest sdb install python # --dest sdb 是关键
+```
+
+### 编辑环境变量
+
+```
+...
+# 添加 lib 路径
+export LD_LIBRARY_PATH="/mnt/sdb/usr/lib:/mnt/sdb/lib"
+
+# 扩展 bin/sbin 路径
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/mnt/sdb/packages/usr/bin:/mnt/sdb/packages/usr/sbin
+...
+
+# 保存&退出
+
+# 重启
+reboot
+```
+
 <!-- 在USB或硬盘中安装应用篇 END -->
 
 
@@ -248,10 +271,6 @@ cd ~/OpenWrt-SDK-Linux-i686-1
 
 - [goagent in github](https://github.com/goagent/goagent)
 
-### 安装 libopenssl
-
-
-
 ### 配置 goagent
 
 最好放到共享文档中使用编辑器修改，否则会出现很多 ^M
@@ -269,7 +288,7 @@ appid = app1|app2       # 你自己的 appid，没有？自己google，bing一�
 ...
 ```
 
-### PAC文件利用，新版其实可以忽略
+### PAC文件利用，现在的版本其实可以忽略(还是贴上以前的攻略)
 利用PAC文件可以实现自动代理。
 打开 SwitchyOmega > 设置 > goagent pac > 导出PAC，将导出 goagent.pac 文件上传到路由器/www目录中。根据这个文件浏览器就能确定哪些网址需要使用代理，哪些直接连接就可以了。
 打开 proxxy.ini 修改，一般新版已经修改好了
@@ -290,9 +309,9 @@ python goagent/local/proxy.py
 GoAgent Version    : 3.2.3 (python/2.7.3 gevent/1.0.1 pyopenssl/0.10)
 Listen Address     : 0.0.0.0:8087
 GAE Mode           : https (TLSv1)
-GAE APPID          : qowera|qoweraa|qowerae|qoweraq|qowerar|qoweraw
+GAE APPID          : appid1|appid2
 Pac Server         : http://192.168.1.105:8086/proxy.pac
-Pac File           : file:///mnt/share/goagent/local/proxy.pac
+Pac File           : file:///mnt/sdb/goagent/local/proxy.pac
 ------------------------------------------------------
 WARNING - [Apr 10 10:25:02] please install *libnss3-tools* package to import GoAgent root ca
 ```
@@ -301,3 +320,12 @@ WARNING - [Apr 10 10:25:02] please install *libnss3-tools* package to import GoA
 
 <!-- OpenWrt 安装 goagent 篇 END -->
 
+
+<!-- 自动更新可用 HOST 篇 START -->
+
+## 自动获取并更新可用 host
+
+安装 goagent，但是 DNS 服务器上的IP 被封了，连接不了 gae 还是一样被墙，因此我们可以直接定期更新我们路由器上的 host 文件，达到 gae 可访问。
+
+
+<!-- 自动更新可用 HOST 篇 END -->
