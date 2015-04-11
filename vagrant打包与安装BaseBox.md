@@ -1,3 +1,7 @@
+<!-- title: [backup]Vagrant && VirtualBox 安装，打包和分享 Base Box -->
+<!-- author: <David Jones qowera@qq.com> -->
+<!-- update: 2015-04-11 12:57:14 -->
+
 # [backup]Vagrant && VirtualBox 安装，打包和分享 Base Box
 
 ## 首先要准备的软件

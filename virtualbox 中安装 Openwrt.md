@@ -1,6 +1,12 @@
-# [backup]在 virtualbox 中安装 Openwrt
+<!-- title: [backup]在 virtualbox 中安装 OpenWrt -->
+<!-- author: <David Jones qowera@qq.com> -->
+<!-- update: 2015-04-11 12:57:14 -->
 
-##下载
+# [backup]在 virtualbox 中安装 OpenWrt
+
+本人是新手，所以在 virtualbox 折腾一下，否则砖头够建房了。
+
+## 下载
 - [virtualbox](https://www.virtualbox.org/)
 - [openwrt x86 镜像](https://downloads.openwrt.org/)
 
@@ -143,19 +149,35 @@ root@192.168.1.109's password:
 因为硬盘还没有格式化所以系统识别不了硬盘，因此我们将其格式化一下
 
 ```
+# 查看一下硬盘状态
+blkid
+/dev/sda1: TYPE="ext2"
+/dev/sda2: UUID="90f1212b-f256-4fff-9d2b-05af7de0859e" TYPE="ext4"
+/dev/sdb: UUID="f2d177f1-ab1a-477f-a99c-366c7c1a822c" TYPE="ext4"
+
 # 下载格式化工具
 opkg update
 opkg install e2fsprogs
 
 # 格式化硬盘
-mkfs.ext4 /dev/sdb
-# mkfs.ext3 /dev/sdb
-# mkfs.ext2 /dev/sdb
+mkfs.ext4 /dev/sdb        # ext4 格式
+# mkfs.ext3 /dev/sdb      # ext3 格式
+# mkfs.ext2 /dev/sdb      # ext2 格式
 
 
 # 挂载硬盘
 mkdir -p /mnt/sdb
 mount /dev/sdb /mnt/sdb
+
+# 编辑 fstab
+vim /etc/config/fstab 
+
+# 添加以下
+config mount
+        option device '/dev/sdb'
+        option target '/mnt/sdb'
+        option fstype 'ext4'
+        option enabled '1'
 
 # 查看挂载硬盘的信息
 df -m
@@ -167,6 +189,9 @@ tmpfs                        1         0         1   0% /dev
 /dev/sdb                   497        23       449   5% /mnt/sdb
 
 # /dev/sdb 就是刚才挂载的硬盘
+
+# 设置开启机动
+/etc/init.d/fstab enable
 ```
 
 ## 最后
