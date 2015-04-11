@@ -81,9 +81,11 @@ opkg --dest sdb install python # --dest sdb 是关键
 ### 编辑环境变量
 
 ```
+vim /etc/profile
+
 ...
 # 添加 lib 路径
-export LD_LIBRARY_PATH="/mnt/sdb/usr/lib:/mnt/sdb/lib"
+export LD_LIBRARY_PATH="/mnt/sdb/packages/usr/lib:/mnt/sdb/packages/lib"
 
 # 扩展 bin/sbin 路径
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/mnt/sdb/packages/usr/bin:/mnt/sdb/packages/usr/sbin
@@ -242,6 +244,8 @@ Retype SMB password:
 
 ## 安装 goagent
 
+具体 goagent 攻略请自行 google/bing，这里只说明具体 openwrt 中安装需注意事项。
+
 ### 安装 `python`, `python-crypto`, `pyopenssl`, `python-openssl`
 
 ```
@@ -260,12 +264,17 @@ python-mini
 - python-greenlet_0.4.5-1_x86.ipk
 
 若果没有则首先下载并安装 SDK
+
+- [官方WIKI](http://wiki.openwrt.org/doc/howto/obtain.firmware.sdk)
+
 ```
 cd ~
 wget http://downloads.openwrt.org/whiterussian/newest/OpenWrt-SDK-Linux-i686-1.tar.bz
 bzcat OpenWrt-SDK-Linux-i686-1.tar.bz2 | tar -xvf -
 cd ~/OpenWrt-SDK-Linux-i686-1
 ```
+
+<!-- 未完待续 -->
 
 ### 下载 goagent
 
@@ -300,7 +309,6 @@ port = 8086
 将 goagent.pac 放入 proxy.ini 相同目录中，此时pac访问地址为
 http://192.168.1.1:8086/goagent.pac
 
-
 ### 运行 goagent
 
 ```
@@ -316,16 +324,165 @@ Pac File           : file:///mnt/sdb/goagent/local/proxy.pac
 WARNING - [Apr 10 10:25:02] please install *libnss3-tools* package to import GoAgent root ca
 ```
 
-此处 warning 可以不了他
+此处 warning 可以不了他，因为 Openwrt 并木有一套完整的证书系统。
+若浏览器出现 https/ssl 隐私问题，请自行导入 `goagent/local/CA.cert`  证书，所有选项均信任，证书对于安全的重要性请自行 google/bing。
 
 <!-- OpenWrt 安装 goagent 篇 END -->
 
 
-<!-- 自动更新可用 HOST 篇 START -->
+<!-- 防止DNS污染篇 START -->
 
-## 自动获取并更新可用 host
+## 使用 pdnsd 与 dnsmasq 解决 DNS 污染与创建本地DNS缓存强劲加速解析速度
 
-安装 goagent，但是 DNS 服务器上的IP 被封了，连接不了 gae 还是一样被墙，因此我们可以直接定期更新我们路由器上的 host 文件，达到 gae 可访问。
+一般知名NDS服务器提供商，百度垃圾竟然玩劫持，这里严重吐槽，一下列出几个无劫持，国内没测试过有没劫持：
+
+##### 国内：
+
+- OpenerDNS:    42.120.21.30
+- 114DNS:       114.114.114.114   114.114.115.115
+- oneDNS:       112.124.47.27
+- aliDNS:       223.5.5.5         223.6.6.6
+
+##### 国际：
+
+- Google DNS:   8.8.8.8           8.8.4.4
+- OpenDNS:      208.67.222.222    208.67.220.220
+- V2EX DNS:     199.91.73.222     178.79.131.110
+
+### 安装 pdnsd
+
+pdnsd是一款高效灵活的DNS proxy服务器，它既可以充当一个DNS forwarding的角色，也可作为一个DNS cache服务器，更可以作为一款简单的本地解释DNS服务器。
+
+建议将此服务不要安装到USB或其他硬盘上，否则配置起来很麻烦。
+
+```
+opkg update
+opkg install pdnsd
+```
+
+开始配置 `pdnsd.conf`
+
+```
+vim /etc/pdnsd.conf
+
+global {
+  # debug = on;             # 调试模式，日志会写入 /var/pdnsd/pdnsd.debug
+  perm_cache = 5120;        # 缓存文件大小，单位KB
+  cache_dir = "/var/pdnsd"; # 缓存文件位置，保留默认
+  run_as = "nobody";        # 运行的用户，使用匿名用户
+  server_port = 1053;       # 使用1053作为DNS端口，默认是53，因为53端口已经被dnsmasq占用了
+  server_ip = 0.0.0.0;      # 监听所有
+  status_ctl = on;          # 方便在 pdnsd 运行时通过 pdnsd-ctl 进行管理
+  query_method = tcp_only;  # 最重要的配置，只使用 TCP 查询上级DNS, `tcp_only`, `udp_only`, `tcp_udp`
+  min_ttl = 15m;            # 最小TTL时间，自己酌情往上加，默认是15分钟
+  max_ttl = 1w;             # 最长TTL时间，默认一周
+  timeout = 10;             # 全局超时时间，默认10秒，酌情修改
+}
+
+server {
+  label = "Foreign";        # 为这组server起一个名字
+  ip = 8.8.8.8              # 这里为上级DNS地址，多个地址逗号分隔，可以换行，分号结尾
+     , 8.8.4.4              # Google DNS
+     , 208.67.222.222       # OpenDNS
+     , 208.67.220.220
+     , 199.91.73.222        # V2EX DNS
+     , 178.79.131.110
+  ;
+  timeout = 4;              # 超时值
+  root_server = on;         # 设置为 `on` 后，就代替系统默认的 dns 了。
+  uptest = none;            # 不去检测DNS是否无效。
+}
+
+source {
+  owner = localhost;
+# serve_aliases = on;
+  file = "/etc/hosts";
+}
+
+rr {
+  name = localhost;
+  reverse = on;
+  a = 127.0.0.1;
+  owner = localhost;
+  soa = localhost,root.localhost,42,86400,900,86400,86400;
+}
+```
+
+验证正常运行
+
+```
+# 此处IP应改成路由的IP地址，一般为 `192.168.1.1`，端口为刚才改的 1053
+dig @192.168.1.250 -p 1053 www.google.com
+```
+
+### 安装 dnsmasq
+
+一般情况下，openwrt 已经安装 dnsmasq，若未安装请直接安装。
+
+```
+opkg install dnsmasq
+```
+
+### 创建需要的DNS与HOSTS配置文件
+
+```
+# 创建 dnsmasq 专用配置路径，该路径下所有文件均为有效的配置文件
+mkdir /etc/dnsmasq.d
+cp /etc/resolv.conf /etc/resolv.dnsmasq.conf
+echo 'nameserver 127.0.0.1' > /etc/dnsmasq.d/resolv.dnsmasq.conf
+
+# 创建 dnsmasq 专用HOSTS文件
+cp /etc/hosts /etc/dnsmasq.hosts
+```
+
+### 编辑 dnsmasq 配置文件
+
+```
+vim /etc/dnsmasq.conf
+
+# resolv-file=/etc/resolv.dnsmasq.conf  # 配置文件路径
+conf-dir=/etc/dnsmasq.d                 # 导入所有文件作为 `resolv-file` 的配置
+strict-order                            # 表示严格安装resolv-file，文件中的顺序从上到下进行DNS解析, 直到第一个成功解析
+addn-hosts=/etc/dnsmasq.hosts           # 指定HOSTS，默认是系统文件/etc/hosts；
+# no-hosts                              # 不调用HOSTS文件
+cache-size=32768                        # 缓存文件大小
+listen-address=127.0.0.1                # 本机使用，多个情况下可用逗号隔开
+```
+
+### 重启 dnsmasq 服务
+```
+/etc/init.d/dnsmasq restart
+```
+
+### 检查 dnsmasq 服务
+
+查看 53 端口
+```
+netstat -tunlp|grep 53
+tcp   0   0   0.0.0.0:53  0.0.0.0:*   LISTEN  16292/dnsmasq
+netstat: /proc/net/tcp6: No such file or directory
+udp   0   0   0.0.0.0:53  0.0.0.0:*           16292/dnsmasq
+netstat: /proc/net/udp6: No such file or directory
+```
+
+检测 DNS 速度
+```
+dig google.com | grep "Query time"
+;; Query time: 385 msec
+dig google.com | grep "Query time"
+;; Query time: 0 msec
+
+# 此时已经缓存了
+```
+
+<!-- 防止DNS污染篇 END -->
 
 
-<!-- 自动更新可用 HOST 篇 END -->
+
+<!-- 工具篇 START -->
+## OpenWrt 实用工具
+
+- dig `opkg install bind-dig`
+- svn `opkg install `
+
+<!-- 工具篇 END -->
