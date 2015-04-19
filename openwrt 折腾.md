@@ -1,4 +1,4 @@
-<!-- title: [backup] openwrt 折腾篇 -->
+title: [backup] openwrt 折腾篇 -->
 <!-- author: <David Jones qowera@qq.com> -->
 <!-- update: 2015-04-11 12:57:14 -->
 
@@ -6,19 +6,20 @@
 
 本文说明个人 OpenWrt 折腾经历，一般都是智能路由需要完成的任务，以下分几个篇章进行记录折腾过程。
 
+
 <!-- 自动挂载扩容篇 START -->
 
 ## 自动挂载硬盘/USB设备
 
 此篇已经在 OpenWrt 安装到 virtualbox 中有说明。
 
-### 安装支持软件
+#### 安装支持软件
 ```
 opkg update
 opkg install block-mount  kmod-usb-storage  kmod-fs-ext4  # 安装usb支持
 ```
 
-### 查看硬盘状态
+#### 查看硬盘状态
 ```
 blkid
 /dev/sda1: TYPE="ext2"
@@ -26,7 +27,7 @@ blkid
 /dev/sdb: UUID="f2d177f1-ab1a-477f-a99c-366c7c1a822c" TYPE="ext4"
 ```
 
-### 格式化硬盘
+#### 格式化硬盘
 ```
 opkg update
 opkg install e2fsprogs    # 格式化工具
@@ -36,13 +37,14 @@ mkfs.ext4 /dev/sdb        # ext4 格式
 # mkfs.ext2 /dev/sdb      # ext2 格式
 ```
 
-### 挂载硬盘
+#### 挂载硬盘
 ```
 mkdir -p /mnt/sdb
 mount /dev/sdb /mnt/sdb
 ```
 
-#### 查看挂载硬盘的信息
+查看挂载硬盘的信息
+
 ```
 df -m
 Filesystem  1M-blocks Used Available Use% Mounted on
@@ -53,6 +55,18 @@ tmpfs               1    0         1   0% /dev
 /dev/sdb          497   23       449   5% /mnt/sdb
 
 # /dev/sdb 就是刚才挂载的硬盘
+```
+
+### 配置 `fstab` 挂载配置
+
+```
+vim /etc/config/fstab
+
+config mount
+        option device '/dev/sdb'
+        option target '/mnt/sdb'
+        option fstype 'ext4'
+        option enabled '1'
 ```
 
 ### 设置开机自动挂载
@@ -98,6 +112,7 @@ reboot
 ```
 
 <!-- 在USB或硬盘中安装应用篇 END -->
+
 
 
 <!-- OpenWrt 共享文档篇 START -->
@@ -334,7 +349,7 @@ WARNING - [Apr 10 10:25:02] please install *libnss3-tools* package to import GoA
 
 ## 使用 pdnsd 与 dnsmasq 解决 DNS 污染与创建本地DNS缓存强劲加速解析速度
 
-一般知名NDS服务器提供商，百度垃圾竟然玩劫持，这里严重吐槽，一下列出几个无劫持，国内没测试过有没劫持：
+一般知名NDS服务器提供商，百度垃圾竟然玩劫持，这里严重吐槽，一下列出几个，国内没测试过有没劫持：
 
 ##### 国内：
 
@@ -479,10 +494,173 @@ dig google.com | grep "Query time"
 
 
 
+
+<!-- 自动修改 HOSTS 守护进程 START -->
+## 自动修改 HOSTS 守护进程
+
+当你使用 goagent，但并不代表你就能擒墙，因为当 GAE IP 被封时，就无法连接服务器。因此随时随地获取可用HOSTS地址是恨必要的。
+这章节就拿获取可用 google hosts 为例子。
+
+<!-- 自动修改 HOSTS 守护进程 END -->
+
+
+<!-- IPv4 to IPv6 START -->
+## IPv4 to IPv6
+
+IPv4 将在不久将来淘汰掉了，IPv6 才是王道，只有部分城市与教育网拥有IPv6的地址。
+我们通过 IPv6 隧道 来解决我们不拥有 IPv6 IP 的问题。
+
+
+<!-- IPv4 to IPv6 END -->
+
+
+<!-- OpenWrt 安装迅雷 START -->
+## OpenWrt 迅雷离线下载
+
+迅雷远程下载固件，正式更名为迅雷固件，代号为Xware
+
+### 安装 Xware
+
+若安装 Xware luci 可以忽略这里，直接跳到下面 "安装 Xware luci"
+进入 `http://luyou.xunlei.com/` 找到自己的固件并下载
+
+```
+cp /mnt/sdb/share/xunlei /etc/xunlei
+./portal
+
+initing...
+try stopping xunlei service first...
+killall: ETMDaemon: no process killed
+killall: EmbedThunderManager: no process killed
+killall: vod_httpserver: no process killed
+setting xunlei runtime env...
+port: 9000 is usable.
+
+YOUR CONTROL PORT IS: 9000
+
+starting xunlei service...
+etm path: /etc/xunlei
+execv: /etc/xunlei/lib/ETMDaemon.
+
+getting xunlei service info...
+Connecting to 127.0.0.1:9000 (127.0.0.1:9000)
+
+THE ACTIVE CODE IS: xxxxx # 这里会返回一串激活码
+
+go to http://yuancheng.xunlei.com, bind your device with the active code.
+finished.
+```
+进入 [http://yuancheng.xunlei.com](http://yuancheng.xunlei.com)
+
+输入上面激活码，点击确认就成功绑定
+
+### 配置
+
+由于迅雷远程在每一个已经mount并且有读写权限的磁盘都会建立类似ThunderDB的文件夹，很讨厌，可以更改设置，让它排除掉某些磁盘
+
+这里要注意了，存储设备不能少于4G，否则 Xware 不会认你为存储设备，添加任务时会显示 "没有检测到外接存储设备"
+
+```
+vim cfg/thunder_mounts.cfg
+invalid_mounts
+{
+  /dev/sdb /CacheVolume
+  /dev/sdb /DataVolume
+  /dev/sdb /shares
+  /dev/sdb /nfs/TimeMachineBackup
+  /dev/sdb /nfs/Public
+  /dev/sdb /nfs/SmartWare
+}
+```
+
+#### 开机启动 Xware
+```
+ln -s /etc/init.d/xunlei /etc/xunlei/portal
+/etc/init.d/xunlei enable
+```
+
+### 安装 Xware luci
+
+傻瓜版建议直接安装这个算了若你的空间够大，安装 `Xware luci` 就不需要特意下载上面 `Xware`，因为这里内置了
+
+google/bing 搜索 `Xware luci`
+
+若还能使用可以点击以下地址下载
+[luci-app-xunlei_0.11-14_all.ipk](http://twin13009.sandai.net/g/forum.php?mod=viewthread&tid=1058&extra=&highlight=luci&page=11)
+
+```
+opkg install luci-app-xunlei_0.11-14_all.ipk
+```
+
+设置可以通过 webUI 服务 -> 迅雷远程下载
+
+选择启用，修改挂载点，修改安装目录，选择合适的固件程序版本，保存&应用
+
+#### 离线下载
+
+通过 [http://yuancheng.xunlei.com/](http://yuancheng.xunlei.com/) 管理下载
+
+<!-- OpenWrt 安装迅雷 END -->
+
+
+<!-- OpenWrt 安装 aria2 START -->
+## OpenWrt 安装 aria2
+
+- Aria2支持的下载种类更多，包括磁力链接（ MagnetLink ）和一些类似PT的源源
+- 界面更加先进 aria2webgui
+- 感觉Aria2设置比传输更加简单（貌似不需要端口映射之类的设置）
+- 最重要的是: Aria2下载速度更快
+
+#### 安装 aria2
+
+```
+opkg update
+opkg install aria2
+```
+
+#### 安装 aria2 webUI
+
+- [webui-aria2](https://github.com/ziahamza/webui-aria2)
+
+将它放到 `/www` 下
+```
+mv /mnt/sdb/webui-aria2-master /www/aria2
+```
+
+现在你可以访问 `192.168.1.x/aria2` 管理 aria2 下载了，但是进入时很多报错提示。
+
+#### 启动并测试
+
+```
+aria2c --enable-rpc --rpc-listen-all
+2015-04-19 06:07:53.828164 NOTICE - IPv4 RPC: listening to port 6800
+
+2015-04-19 06:07:53.829446 NOTICE - IPv6 RPC: listening to port 6800
+
+# 此时表示已经成功启动了
+```
+
+进入 `192.168.1.x/aria2` 看看是否报错都没有了？
+若还是提示链接失败，可能是 HTTPS 模式证书问题导致连接不上，此时可以开启 HTTP 模式，上文有提到。
+
+
+#### 其他
+
+aria2 的速度比较慢，你也可以通过 迅雷离线 + Aria2 + YAAW 打造最快的下载方式，不过这里这里要购买迅雷会员才能完成，此处就略过了。
+
+- [迅雷离线助手](https://github.com/ohsc/ThunderLixianAssistant)
+- [ThunderLixianExporter](https://github.com/binux/ThunderLixianExporter)
+- [YAAW](https://github.com/binux/yaaw)
+
+<!-- OpenWrt 安装 aria2 END -->
+
+
 <!-- 工具篇 START -->
 ## OpenWrt 实用工具
 
-- dig `opkg install bind-dig`
-- svn `opkg install `
+- dig         `opkg install bind-dig`
+- svn         `opkg install subversion-client`  # 建议安装到硬盘
+- python      `opkg isntall python`             # 建议安装到硬盘
 
 <!-- 工具篇 END -->
+
