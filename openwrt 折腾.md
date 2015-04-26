@@ -1,4 +1,4 @@
-title: [backup] openwrt 折腾篇 -->
+<!-- title: [backup] openwrt 折腾篇 -->
 <!-- author: <David Jones qowera@qq.com> -->
 <!-- update: 2015-04-11 12:57:14 -->
 
@@ -663,4 +663,3 @@ aria2 的速度比较慢，你也可以通过 迅雷离线 + Aria2 + YAAW 打造
 - python      `opkg isntall python`             # 建议安装到硬盘
 
 <!-- 工具篇 END -->
-
