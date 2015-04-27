@@ -4,6 +4,9 @@
 
 # [backup] Git 服务器搭建
 
+服务器: ubuntu in virtualbox
+本机: osx
+
 ## 安装 git
 
 ```
@@ -79,7 +82,7 @@ Connection to 192.168.33.10 closed.
 ```
 
 #### 创建证书授权登陆
-授权有两种方式，Git服务器生成授权的ssh-keygen给予用户。
+授权有两种方式，Git服务器生成授权的ssh-keygen给予用户（感觉不太好，太麻烦了）
 
 ```
 # 生成ssh-keygen
@@ -127,24 +130,29 @@ Host sample
 现在你可以执行 `git clone`
 ```
 git clone git:sample/srv/sample.git
-# git:xxx 对应 `config` 文件的 Hosts
+# git:xxx 对应 `config` 文件的 Host
+```
+
+可以测试证书是否正常连接
+```
+ssh -o IdentitiesOnly=yes -i ~/.ssh/vagrant git@192.168.33.10.git echo ok
 ```
 
 #### 提交证书授权登陆
-授权有两种方式，用户提交ssh-keygen给予Git服务器授权。
+授权有两种方式，用户提交ssh-keygen给予Git服务器授权。可以免除设置用户 ssh config。
 
 ```
-# 本机
-vim ~/.ssh/id_rsa                                         # linux
+# 用户
+vim ~/.ssh/id_rsa # linux
 
 # 追加到服务器
-sudo vim /home/git/.ssh/authorized_keys                   # 文件没有自己建
+sudo vim /home/git/.ssh/authorized_keys # 文件没有自己建
 
 # 自己建 >> 必须归属git用户
 sudo mkdir /home/git/.ssh
-sudo chown -R git:git /home/git/.ssh                      # 设置一下归属
-sudo chmod 700 /home/git/.ssh                             # 设置一下权限
-sudo cat /tmp/id_rsa >> /home/git/.ssh/authorized_keys    # tmp/id_sra 为电脑上的SSH-key
+sudo chown -R git:git /home/git/.ssh  # 设置一下归属
+sudo chmod 700 /home/git/.ssh         # 设置一下权限
+sudo cat /tmp/id_rsa >> /home/git/.ssh/authorized_keys # tmp/id_sra 为电脑上的SSH-key
 
 # 建议直接使用git用户，若前面关闭shell功能此时将无法切换用户
 su git
