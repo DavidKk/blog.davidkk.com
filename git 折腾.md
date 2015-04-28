@@ -1042,3 +1042,157 @@ To git@vagrant:/srv/sample.git
 如果 `git pull` 提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令 `git branch --set-upstream branch-name origin/branch-name`。
 
 ### 标签管理
+
+当我们完成一个版本的开发工作，那么我们可以发布版本了，通常情况下先为一个版本打一个标签，这就是版本号标签了。
+
+#### 创建标签
+```
+git checkout master
+Switched to branch 'master'
+
+git tag v1.0
+```
+这样我们就成功为 `master` 打上 `1.0` 的标签了。我们可以通过 `git tag` 查看仓库的标签列表。
+
+```
+git tag
+v1.0
+``` 
+
+如果我们想要为某个版本打上标签，因为已经忘记了打标签，我们可以这样做
+```
+git log --pretty=oneline
+e460b6dc48dcf16fc9b4a66406d2bcee3310787d resolve confilt.
+333c9eecec436e19cb6eedb06882cb896160a181 no message.
+
+git tag beta 333c9eecec436e19cb6eedb06882cb896160a181
+
+git tab
+beta
+v1.0
+```
+
+现在我们可以看到有两个标签，一个是 `beta` 版本，另外一个是 `v1.0` 版本。
+
+标签可能还没具有具体意义，我们可以为标签添加备注。
+
+```
+git tag -a v1.0 -m 'version 1.0' e460b6dc48dcf16fc9b4a66406d2bcee3310787d
+
+git show v1.0
+tag v1.0
+Tagger: David Jones <qowera@qq.com>
+Date:   Wed Apr 29 00:55:54 2015 +0800
+
+version 1.0
+
+commit e460b6dc48dcf16fc9b4a66406d2bcee3310787d
+Merge: 333c9ee 8b36ede
+Author: David Jones <qowera@qq.com>
+Date:   Wed Apr 29 00:39:15 2015 +0800
+
+    resolve confilt.
+
+diff --cc c.txt
+index 41fbc6f,ce452a7..6693e78
+--- a/c.txt
++++ b/c.txt
+@@@ -1,1 -1,1 +1,1 @@@
+- i can make a big confilt.
+ -make a confilt
+++i must resolve confilt.
+```
+
+通过 `git show tagname` 就可以查看到详细的 `tag` 信息了。
+
+然而我们还可以对标签进行私钥签名，我们先来删除标签
+
+```
+git tag -d v1.0
+Deleted tag 'v1.0' (was e9c2a35)
+```
+
+然后我们再来创建一个私钥签名的 `tag`，通过 `git tag -s`来创建
+
+```
+git tag -s v1.0 -m "signed version 1.0 released" 
+error: cannot run gpg: No such file or directory
+error: could not run gpg.
+error: unable to sign the tag
+```
+
+报错了，因为我们并没有安装gpg（GnuPG）或没有找到gpg密钥对。
+
+```
+$ git show v1.0
+tag v1.0
+Tagger: David Jones <qowera@qq.com>
+Date:   Wed Apr 29 00:55:54 2015 +0800
+
+signed version 0.2 released
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (Darwin)
+
+iQEcBAABAgAGBQJSGpMhAAoJEPUxHyDAhBpT4QQIAKeHfR3bo...
+-----END PGP SIGNATURE-----
+
+commit e460b6dc48dcf16fc9b4a66406d2bcee3310787d
+Merge: 333c9ee 8b36ede
+Author: David Jones <qowera@qq.com>
+Date:   Wed Apr 29 00:39:15 2015 +0800
+
+    resolve confilt.
+
+diff --cc c.txt
+index 41fbc6f,ce452a7..6693e78
+--- a/c.txt
++++ b/c.txt
+@@@ -1,1 -1,1 +1,1 @@@
+- i can make a big confilt.
+ -make a confilt
+++i must resolve confilt.
+```
+
+#### 操作标签
+
+删除标签
+
+```
+git tag -d v1.0
+Deleted tag 'v1.0' (was e9c2a35)
+```
+
+因为我们现在创建的标签只会保存在本地，因此我们把标签推送到远程同步。
+
+```
+git push origin v.10
+Counting objects: 14, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (8/8), 867 bytes | 0 bytes/s, done.
+Total 8 (delta 3), reused 0 (delta 0)
+To git@vagrant:/srv/sample.git
+ * [new tag]         v1.0 -> v1.0
+```
+
+这样远程服务器就会同步到该标签了，若我们的版本比较多，我们可以一次性把标签同步到远程
+
+```
+git push origin --tags
+Total 0 (delta 0), reused 0 (delta 0)
+To git@vagrant:/srv/sample.git
+ * [new tag]         beta -> beta
+```
+
+那么我们要删除远程的标签应该如何做呢？
+
+```
+git tag -d v1.0
+Deleted tag 'v1.0' (was 929b74a)
+
+git push origin :refs/tags/v1.0
+To git@vagrant:/srv/sample.git
+ - [deleted]         v1.0
+```
+
+这样我们就可以将远程仓库中的标签删除掉。
