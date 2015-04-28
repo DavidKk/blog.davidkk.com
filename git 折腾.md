@@ -1,8 +1,8 @@
-<!-- title: [backup] Git 折腾 -->
+<!-- title: [backup] Git 学习/教程 -->
 <!-- author: <David Jones qowera@qq.com> -->
 <!-- update: 2015-04-26 14:26:23 -->
 
-# [backup] Git 折腾
+# [backup] Git 学习/教程
 
 建议安装 `source tree`，边用命令行边观察 `source tree` 版本的变化，更形象了解 git 的运作方式.
 
@@ -487,3 +487,558 @@ git clone git@github.com:/team/sample.git sample
 
 #### 创建与合并分支
 
+在 `source tree` 上我们可以很清晰看见一条开发时间轴，我们可以建立新的分支进行开发，最后合并到主分支上。
+
+```
+git branch dev
+
+git branch
+  dev
+* master
+```
+
+通过 `git branch branch_name` 我们可以创建一个新的分支，而 `git branch` 可以查看所有的分支。而当前 HEAD 还是指向 `master`。
+
+如果我们要切换到 `master` 分支下，我们可以通过以下命令实现
+
+```
+git checkout master
+
+git branch
+  dev
+* master
+```
+
+我们也可以简单地直接创建并跳转到新的分支，我们可以这样做：
+
+```
+git checkout -b dev
+Switched to a new branch 'dev'
+
+git branch
+* dev
+  master
+```
+
+通过 `git checkout -b` 我们可以创建一个新的分支，同时切换到新的 `dev` 分支上，而 HEAD 指向的新分支 `dev`。
+
+`dev` 分支已经开发完毕了，我们要合并到主干分支上
+
+```
+git merge dev
+Already up-to-date.
+```
+
+这样，`dev` 上的分支就会合并到 `master` 分支上；注意，这里是把某一分支合并到当前分支上；因此当前我们操作的分支是 `master`。
+
+现在我不想要 `dev` 分支了，我们可以这样把它删掉
+
+```
+git branch -d dev
+Deleted branch dev (was b13c68f).
+
+git branch
+* master
+```
+
+现在值剩下主分支了。
+
+### 解决冲突
+
+合并代码绝对不会这么容易，我们来谈谈如何解决冲突吧。首先我们先来制造冲突：
+```
+git checkout -b featureA
+git branch featureB
+
+echo 'fuck boss.' >>  version.txt
+git add version.txt
+git commit -m 'add a verion file'
+
+git checkout featureB
+echo 'fuck Q.' >> version.txt
+git add version.txt
+git commit -m 'add a confilt file.'
+
+git merge featureA
+Auto-merging version.txt
+CONFLICT (add/add): Merge conflict in version.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+git status
+On branch featureB
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+  both added:      version.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+发现有冲突了，我们来看一下冲突的内容
+
+```
+cat version.txt
+<<<<<<< HEAD
+fuck Q.
+=======
+Fuck boss.
+>>>>>>> featureA
+```
+
+我们修改一下文件
+
+```
+echo 'Fuck boss.' >> version.txt
+git add version.txt
+git commit -m 'conflict fixed'
+[featureB 33665f2] conflict fixed
+```
+
+然后我们可以通过 `git log` 产看分支历史
+
+```
+git log --graph --pretty=oneline --abbrev-commit
+*   33665f2 conflict fixed
+|\
+| * 3209975 add version file.
+* | 827c276 nima shuoge maoxiana.
+|/
+* b13c68f delete file.
+....
+```
+
+最后工作完成了，我们可以合并到 `master` 分支并删除一下 `fetureA`, `fetureB` 分支
+
+```
+git checkout master
+git merge featureB
+git branch -d featureA featureB
+```
+
+工作完成。
+
+
+### 分支管理策略
+
+合并分支时，Git 默认会使用 `Fast forward` 模式，这种情况下，在删除分之后，会丢失分支信息。
+如果要强制使用 `Fast forward`，Git 就会在 `merge` 时生成一个新的 `commit`，这样我们就能在分支历史上看到分支信息。
+
+首先我们先要创建一个 `dev` 分支
+
+```
+git checkout -b dev
+Switched to a new branch 'dev'
+echo 'git merge' >> log.txt
+git add log.txt
+git commit -m 'add log file.'
+[dev cd80af4] add log file.
+ 1 file changed, 1 insertion(+)
+ create mode 100644 log.txt
+```
+
+切换到 `master` 分支
+
+```
+git checkout master
+Switched to branch 'master'
+```
+
+然后开始合并 `dev` 分支
+
+```
+git merge --no-ff -m 'merge with --no-ff' dev
+Merge made by the 'recursive' strategy.
+ log.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 log.txt
+
+git log --graph --pretty=oneline --abbrev-commit
+*   1dd2236 merge with --no-ff
+|\
+| * cd80af4 add log file.
+|/
+*   33665f2 conflict fixed
+...
+```
+
+通过上图我们可以看出，当我们不适用 `Fast forward` 时，`master` 的位置在 `1dd2236` 上，而 `dev` 的位置在 `cd80af4` 上，而 `HEAD` 指向 `master`。
+
+在实际开发中，我们会创建很多分支，而最主要的我们一般定义它为 `master` 分支（也称主分支），该分支应该是最稳定的。
+而我们开发一般定义一个 `dev` 分支，而我们开发中的每一个都有自己的一个自己的分支 `david`，`guoshan`等，当我们开发完毕，我们就往 `dev` 分支上合并。
+最后合并的时候我们最好使用 `--no-ff` 模式进行合并，这样就能完美显示合并前的那个分支了。
+
+### Bug 分支
+
+开发过程中，我们经常会遇到这样那样的BUG。因此我们通常会建立BUG分支进行BUG修复工作。
+然而这些BUG分支，我们通常会使用 `issue-number` 等命名，表示BUG分支。
+
+下面我们定义该BUG分支为 `issue-100`
+
+```
+git checkout -b issue-100
+Switched to a new branch 'issue-100'
+
+echo 'bugs fixed.' >> log.txt
+git checkout dev
+M log.txt
+Switched to branch 'dev'
+
+git merge issue-100
+Already up-to-date.
+
+git merge --no-ff -m 'fixed bugs.' issue-100
+Merge made by the 'recursive' strategy.
+ log.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 log.txt
+
+git branch -d issue-100
+Deleted branch issue-100 (was cd80af4).
+```
+
+通过这些步骤，我们成功修复了BUG。
+
+然后最屌的情况是，我们还在开发 `dev` 分支，突然来了个必须修改的紧急BUG，此时我们的 `dev` 分支还在开发中，
+而项目必须立马修改这个BUG，此时我们可以通过 `git stash` 把工作区存储起来。
+
+```
+echo 'i am developing.' >> log.txt
+git stash
+Saved working directory and index state WIP on dev: 7f41b6d fixed bugs.
+HEAD is now at 7f41b6d fixed bugs.
+
+git status
+On branch dev
+nothing to commit, working directory clean
+```
+
+我们通过 `git status` 查看工作区，可以很清晰看到工作区没有任何修改。
+
+```
+git checkout master
+Switched to branch 'master'
+
+git checkout -b issue-101
+Switched to a new branch 'issue-101'
+
+echo 'fixed bugs again.' >> log.txt
+git add log.txt
+git commit -m 'fixed bugs again.'
+[issue-101 7fca144] fixed bugs again.
+ 1 file changed, 1 insertion(+)
+
+git checkout master
+git merge --no-ff -m 'merge fixed bugs again.' issue-101
+Merge made by the 'recursive' strategy.
+ log.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+git branch -d issue-101
+Deleted branch issue-101 (was 7fca144).
+```
+
+修改完毕，现在我们可以进入 `dev` 中继续进行开发了，我们可以通过 `git stash list` 获取之前临时保存的版本号，`git stash apply` 来恢复
+
+```
+git checkout dev
+Switched to branch 'dev'
+
+git stash list
+stash@{0}: WIP on dev: 7f41b6d fixed bugs.
+
+git stash apply
+On branch dev
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+git stash drop
+Dropped refs/stash@{0} (2cac2dc8a542b517d9def938be7eb15269cbfc84)
+
+# or
+
+git stash pop
+On branch dev
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (69c0226c47f63c011bd786db2b0fe2f65b7a816e)
+```
+
+`git stash apply` 是恢复临时存储用的，`git stash drop` 是删除临时存储用的，我们也可以直接使用 `git stash pop` 进行恢复并删除。
+
+若我们要指定恢复到某一个临时存储
+
+```
+git stash list
+stash@{0}: WIP on dev: 7f41b6d fixed bugs.
+
+git stash apply stash@{0}
+On branch dev
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   log.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+### feature 分支
+
+在开发过程中，我们通常会为项目添加新的需求/功能，所以我们一般会建立一些 `feature` 分支来进行功能开发。
+
+```
+git checkout -b feature-login
+Switched to a new branch 'feature-login'
+
+echo 'add login feature.' >> log.txt
+git add log.txt
+
+git commit -m 'add login feature.'
+[feature-login 021b979] add login feature.
+ 1 file changed, 1 insertion(+)
+
+git checkout dev
+Switched to branch 'dev'
+
+git merge --no-ff -m 'merge login feature.' feature-login
+Merge made by the 'recursive' strategy.
+ log.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+git branch -d  feature-login
+Deleted branch feature-login (was 021b979).
+```
+
+### 多人协作
+
+当克隆远程仓库时，Git 会自动把本地 `master` 分支与远程 `master` 关联起来，并且给予远程仓库名称 `origin`。
+
+#### 查看远程仓库
+
+```
+git remote
+origin
+
+git remote -v
+origin  git@vagrant:/srv/sample.git (fetch)
+origin  git@vagrant:/srv/sample.git (push)
+```
+
+当我们并没有 `push` 权限的时候，我们将看不见有 `push` 地址。
+
+#### 推送远程同步
+
+我们可以把本地提交到远程，推送时要指定本地分支。
+
+```
+git push origin master
+git push origin dev
+```
+
+一般情况下，`master` 又称主分支 与 `dev` 又称开发分支都必须推送到远程同步。
+而 `bug` 分支，我们可以在本地进行BUG修复，然后合并到 `master` 上再进行推送，而不需要把该分支推送到远程同步。
+`feature` 分支，这个功能点是否推送远程同步这个要具体分析。
+
+#### 克隆项目并拉去分支
+
+```
+git clone git@vagrant:/srv/sample.git ./sample2
+Cloning into './sample2'...
+remote: Counting objects: 12, done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 12 (delta 1), reused 0 (delta 0)
+Receiving objects: 100% (12/12), 1014 bytes | 0 bytes/s, done.
+Resolving deltas: 100% (1/1), done.
+Checking connectivity... done.
+
+git branch
+* master
+
+git checkout -b dev origin/dev
+Branch dev set up to track remote branch dev from origin.
+Switched to a new branch 'dev'
+
+git branch
+* dev
+  master
+```
+
+当克隆仓库时，我们发现只有 `master` 分支，所以我们必须执行 `git checkout -b dev origin` 将远程 `dev` 分支拉取下来。
+当我们再次查看分支就能发现我们已经下载并切换到 `dev` 分支上了。
+这里我们新建一个新的本地仓库吧。
+
+```
+echo 'hello' > a.txt
+git add a.txt
+
+git commit -m 'no message.'
+[dev 92d7e7d] no message.
+ 1 file changed, 1 insertion(+)
+ create mode 100644 a.txt
+
+git push origin dev
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 264 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To git@vagrant:/srv/sample.git
+   99e74f0..92d7e7d  dev -> dev
+```
+
+这是正常的情况下，如果小伙伴们也提交了修改，那么我们应该先试图 `git pull` 拉去小伙伴们的修改
+此处我们把上面那部分看作是小伙伴们的提交，现在回到我们本身的仓库中。
+
+```
+echo 'world' > b.txt
+git add b.txt
+
+git commit -m 'no message.'
+[dev 9cdd3c8] no message.
+ 1 file changed, 1 insertion(+)
+ create mode 100644 b.txt
+
+git push origin dev
+To git@vagrant:/srv/sample.git
+ ! [rejected]        dev -> dev (fetch first)
+error: failed to push some refs to 'git@vagrant:/srv/sample.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+git pull
+Merge branch 'dev' of vagrant:/srv/sample into dev
+
+# Please enter a commit message to explain why this merge is necessary,
+# especially if it merges an updated upstream into a topic branch.
+#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.
+
+# 退出
+
+git push origin dev
+Counting objects: 8, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (5/5), 494 bytes | 0 bytes/s, done.
+Total 5 (delta 2), reused 0 (delta 0)
+To git@vagrant:/srv/sample.git
+   92d7e7d..1c574b2  dev -> dev
+```
+
+当小伙伴们提交远程同步，我们落后于最新版本，因此我们必须先 `git pull` 试图将版本换成小伙伴们提交同步的那个最新版本，然后再提交远程同步。
+但是一般来说都不会如你所愿，因为版本落后太多或各种原因而造成冲突，这时候 `git pull` 将会不能完成操作。
+
+我们可以先切换到 `sample2` 那个项目
+```
+echo 'make a confilt.' >> c.txt
+git add c.txt
+git commit -m 'no message.' c.txt
+[dev 8b36ede] no message.
+ 1 file changed, 1 insertion(+)
+ create mode 100644 c.txt
+
+git push origin dev
+Counting objects: 5, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 274 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To git@vagrant:/srv/sample.git
+   1c574b2..8b36ede  dev -> dev
+```
+
+然后我们再次切换到最早那个 `sample` 项目
+
+```
+echo 'i can make a big confilt.' >> c.txt
+git add c.txt
+git commit -m 'no message.' c.txt
+[dev 333c9ee] no message.
+ 1 file changed, 1 insertion(+)
+ create mode 100644 c.txt
+
+git push origin dev
+To git@vagrant:/srv/sample.git
+ ! [rejected]        dev -> dev (fetch first)
+error: failed to push some refs to 'git@vagrant:/srv/sample.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+git pull
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details
+
+    git pull <remote> <branch>
+
+If you wish to set tracking information for this branch you can do so with:
+
+    git branch --set-upstream-to=origin/<branch> dev
+```
+
+我们可以发现因为冲突导致，`git pull` 根本无法执行，因此我们要先解除冲突。
+
+```
+git pull origin dev
+From vagrant:/srv/sample
+ * branch            dev        -> FETCH_HEAD
+Auto-merging c.txt
+CONFLICT (add/add): Merge conflict in c.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+cat c.txt
+<<<<<<< HEAD
+i can make a big confilt.
+=======
+make a confilt
+>>>>>>> 8b36ede90b6ed9d486a5dfb9a1d9e6ae6329b3a6
+```
+
+很明显，`c.txt` 文件造成的冲突，那么我们先指定一个远程分支作为对比 `origin dev` 分支就是我们想对比的分支。
+现在我们把冲突解决下
+
+```
+echo 'i must resolve confilt.' > c.txt
+git add c.txt
+git commit -m 'resolve confilt.' c.txt
+[dev e460b6d] resolve confilt.
+
+git push origin dev
+Counting objects: 10, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 569 bytes | 0 bytes/s, done.
+Total 6 (delta 2), reused 0 (delta 0)
+To git@vagrant:/srv/sample.git
+   8b36ede..e460b6d  dev -> dev
+```
+
+我们终于可以提交远程同步了。
+
+总结一下，多人协助的情况下
+- 首先，可以试图用git push origin branch-name推送自己的修改；
+- 如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+- 如果合并有冲突，则解决冲突，并在本地提交；
+- 没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！
+
+如果 `git pull` 提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令 `git branch --set-upstream branch-name origin/branch-name`。
+
+### 标签管理
