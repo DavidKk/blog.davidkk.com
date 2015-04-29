@@ -1,6 +1,8 @@
-<!-- title: [backup] Git 服务器搭建 -->
-<!-- author: <David Jones qowera@qq.com> -->
-<!-- update: 2015年04月25日12:51:19 -->
+<!-- title: [backup] Git 服务器搭建-->
+<!-- author: <David Jones qowera@qq.com>-->
+<!-- date: 2015年04月25日12:51:19-->
+<!-- category: 多人开发-->
+<!-- tag: git,git服务器搭建-->
 
 # [backup] Git 服务器搭建
 

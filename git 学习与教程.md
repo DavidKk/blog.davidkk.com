@@ -1,15 +1,21 @@
-<!-- title: [backup] Git 学习/教程 -->
-<!-- author: <David Jones qowera@qq.com> -->
-<!-- update: 2015-04-26 14:26:23 -->
+<!-- title: [backup] Git 学习/教程-->
+<!-- author: <David Jones qowera@qq.com>-->
+<!-- date: 2015-04-26 14:26:23-->
+<!-- category: 多人开发-->
+<!-- tag: git,学习-->
 
 # [backup] Git 学习/教程
 
-建议安装 `source tree`，边用命令行边观察 `source tree` 版本的变化，更形象了解 git 的运作方式.
+Git 与 SVN 区别什么的，这里没有详细说，接受新事物很重要，有什么区别你用过就会知道，如果你有选择恐惧症，请 google/bing 一下大神们是如何解释的。
+
+建议安装 `source tree`，边用命令行边观察 `source tree` 版本，分支等的变化情况，这样能更形象了解 git 的运作方式。
 
 操作系统：OSX
-GIT服务器：Ubuntu in vritualbox
+Git 服务器：Ubuntu in vritualbox
 
 ### 安装 git
+
+无论是客户端还是服务器，都是直接安装 git 就可以了，搭建 `Git` 服务器再 `Git 服务器搭建` 一篇上有说明。
 
 ```
 sudo apt-get install git

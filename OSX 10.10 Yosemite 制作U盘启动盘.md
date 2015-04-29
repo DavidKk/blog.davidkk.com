@@ -1,6 +1,8 @@
-<!-- title: [backup]OSX 10.10 Yosemite 制作U盘安装盘 -->
-<!-- author: <David Jones qowera@qq.com> -->
-<!-- update: 2015-04-11 12:57:14 -->
+<!-- title: [backup]OSX 10.10 Yosemite 制作U盘安装盘-->
+<!-- author: <David Jones qowera@qq.com>-->
+<!-- date: 2015-04-11 12:57:14-->
+<!-- category: 系统-->
+<!-- tag: OSX,Yosemite,U盘-->
 
 # [backup]OSX 10.10 Yosemite 制作U盘安装盘
 

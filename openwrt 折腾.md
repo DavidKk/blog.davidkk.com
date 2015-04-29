@@ -1,6 +1,8 @@
-<!-- title: [backup] openwrt 折腾篇 -->
-<!-- author: <David Jones qowera@qq.com> -->
-<!-- update: 2015-04-11 12:57:14 -->
+<!-- title: [backup] openwrt 折腾篇-->
+<!-- author: <David Jones qowera@qq.com>-->
+<!-- date: 2015-04-11 12:57:14-->
+<!-- category: openwrt-->
+<!-- tag: openwrt,路由器-->
 
 # [backup] OpenWrt 折腾篇
 
