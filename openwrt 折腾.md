@@ -9,7 +9,7 @@
 本文说明个人 OpenWrt 折腾经历，一般都是智能路由需要完成的任务，以下分几个篇章进行记录折腾过程。
 
 
-<!-- 自动挂载扩容篇 START -->
+<!-- 自动挂载扩容篇 START-->
 
 ## 自动挂载硬盘/USB设备
 
@@ -76,10 +76,10 @@ config mount
 /etc/init.d/fstab enable
 ```
 
-<!-- 自动挂载扩容篇 END -->
+<!-- 自动挂载扩容篇 END-->
 
 
-<!-- 在USB或硬盘中安装应用篇 START -->
+<!-- 在USB或硬盘中安装应用篇 START-->
 
 ## 在扩展硬盘或USB设备中安装应用
 
@@ -113,11 +113,11 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/mnt/sdb/packages/usr/bin:/mnt/sdb/pac
 reboot
 ```
 
-<!-- 在USB或硬盘中安装应用篇 END -->
+<!-- 在USB或硬盘中安装应用篇 END-->
 
 
 
-<!-- OpenWrt 共享文档篇 START -->
+<!-- OpenWrt 共享文档篇 START-->
 
 ## OpenWrt 文件共享
 
@@ -254,10 +254,10 @@ Retype SMB password:
 ### 其他 samba 功能，详细请看
 - [samba 官方docs](https://www.samba.org/samba/docs/)
 
-<!-- OpenWrt 共享文档篇 END -->
+<!-- OpenWrt 共享文档篇 END-->
 
 
-<!-- OpenWrt 安装 goagent 篇 START -->
+<!-- OpenWrt 安装 goagent 篇 START-->
 
 ## 安装 goagent
 
@@ -291,7 +291,7 @@ bzcat OpenWrt-SDK-Linux-i686-1.tar.bz2 | tar -xvf -
 cd ~/OpenWrt-SDK-Linux-i686-1
 ```
 
-<!-- 未完待续 -->
+<!-- 未完待续-->
 
 ### 下载 goagent
 
@@ -344,10 +344,10 @@ WARNING - [Apr 10 10:25:02] please install *libnss3-tools* package to import GoA
 此处 warning 可以不了他，因为 Openwrt 并木有一套完整的证书系统。
 若浏览器出现 https/ssl 隐私问题，请自行导入 `goagent/local/CA.cert`  证书，所有选项均信任，证书对于安全的重要性请自行 google/bing。
 
-<!-- OpenWrt 安装 goagent 篇 END -->
+<!-- OpenWrt 安装 goagent 篇 END-->
 
 
-<!-- 防止DNS污染篇 START -->
+<!-- 防止DNS污染篇 START-->
 
 ## 使用 pdnsd 与 dnsmasq 解决 DNS 污染与创建本地DNS缓存强劲加速解析速度
 
@@ -492,31 +492,31 @@ dig google.com | grep "Query time"
 # 此时已经缓存了
 ```
 
-<!-- 防止DNS污染篇 END -->
+<!-- 防止DNS污染篇 END-->
 
 
 
 
-<!-- 自动修改 HOSTS 守护进程 START -->
+<!-- 自动修改 HOSTS 守护进程 START-->
 ## 自动修改 HOSTS 守护进程
 
 当你使用 goagent，但并不代表你就能擒墙，因为当 GAE IP 被封时，就无法连接服务器。因此随时随地获取可用HOSTS地址是恨必要的。
 这章节就拿获取可用 google hosts 为例子。
 
-<!-- 自动修改 HOSTS 守护进程 END -->
+<!-- 自动修改 HOSTS 守护进程 END-->
 
 
-<!-- IPv4 to IPv6 START -->
+<!-- IPv4 to IPv6 START-->
 ## IPv4 to IPv6
 
 IPv4 将在不久将来淘汰掉了，IPv6 才是王道，只有部分城市与教育网拥有IPv6的地址。
 我们通过 IPv6 隧道 来解决我们不拥有 IPv6 IP 的问题。
 
 
-<!-- IPv4 to IPv6 END -->
+<!-- IPv4 to IPv6 END-->
 
 
-<!-- OpenWrt 安装迅雷 START -->
+<!-- OpenWrt 安装迅雷 START-->
 ## OpenWrt 迅雷离线下载
 
 迅雷远程下载固件，正式更名为迅雷固件，代号为Xware
@@ -602,10 +602,10 @@ opkg install luci-app-xunlei_0.11-14_all.ipk
 
 通过 [http://yuancheng.xunlei.com/](http://yuancheng.xunlei.com/) 管理下载
 
-<!-- OpenWrt 安装迅雷 END -->
+<!-- OpenWrt 安装迅雷 END-->
 
 
-<!-- OpenWrt 安装 aria2 START -->
+<!-- OpenWrt 安装 aria2 START-->
 ## OpenWrt 安装 aria2
 
 - Aria2支持的下载种类更多，包括磁力链接（ MagnetLink ）和一些类似PT的源源
@@ -654,14 +654,14 @@ aria2 的速度比较慢，你也可以通过 迅雷离线 + Aria2 + YAAW 打造
 - [ThunderLixianExporter](https://github.com/binux/ThunderLixianExporter)
 - [YAAW](https://github.com/binux/yaaw)
 
-<!-- OpenWrt 安装 aria2 END -->
+<!-- OpenWrt 安装 aria2 END-->
 
 
-<!-- 工具篇 START -->
+<!-- 工具篇 START-->
 ## OpenWrt 实用工具
 
 - dig         `opkg install bind-dig`
 - svn         `opkg install subversion-client`  # 建议安装到硬盘
 - python      `opkg isntall python`             # 建议安装到硬盘
 
-<!-- 工具篇 END -->
+<!-- 工具篇 END-->
