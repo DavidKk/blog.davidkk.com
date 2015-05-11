@@ -49,28 +49,28 @@ Password for root changed by root
 下面的命令配置第一个NIC设置成动态获取IP地址(DHCP)
 
 ```
-uci delete network.lan.ipaddr
-uri delete network.lan.netmask
-uri delete network.lan.ip6assign
-uri set network.lan.proto=dhcp
-uri commit
-ifdown lan
-ifup lan
+$ uci delete network.lan.ipaddr
+$ uri delete network.lan.netmask
+$ uri delete network.lan.ip6assign
+$ uri set network.lan.proto=dhcp
+$ uri commit
+$ ifdown lan
+$ ifup lan
 ```
 
 此外，由于我们已经配置了第二个网卡，因此可以配置第二网卡为WAN。
 ```
-uci set network.wan=interface
-uci set network.wan.ifname=eth1
-uri set network.wan.proto=dhcp
-uci commit
-ifup wan
+$ uci set network.wan=interface
+$ uci set network.wan.ifname=eth1
+$ uri set network.wan.proto=dhcp
+$ uci commit
+$ ifup wan
 ```
 
 也可以直接进入配置文件
 ```
 # 编辑配置
-vim /etc/config/network
+$ vim /etc/config/network
 
 config  interface looppack
         option ifname   lo
@@ -88,12 +88,12 @@ config  interface wan
         option proto    dhcp
 
 # 修改完重启一下
-/etc/init.d/network restart
+$ /etc/init.d/network restart
 ```
 
 ## 安装webUI
 ```
-opkg install luci-ssl
+$ opkg install luci-ssl
 ```
 
 ## 只允许 https 访问
@@ -101,7 +101,7 @@ opkg install luci-ssl
 
 打开配置文件
 ```
-vim /etc/config/uhttpd
+$ vim /etc/config/uhttpd
 ```
 
 注释HTTP监听
@@ -116,7 +116,7 @@ list listen_https [::]:80
 
 ## 重启
 ```
-/etc/init.d/uhttpd reload
+$ /etc/init.d/uhttpd reload
 ```
 
 ## 连接
@@ -152,27 +152,27 @@ root@192.168.1.109's password:
 
 ```
 # 查看一下硬盘状态
-blkid
+$ blkid
 /dev/sda1: TYPE="ext2"
 /dev/sda2: UUID="90f1212b-f256-4fff-9d2b-05af7de0859e" TYPE="ext4"
 /dev/sdb: UUID="f2d177f1-ab1a-477f-a99c-366c7c1a822c" TYPE="ext4"
 
 # 下载格式化工具
-opkg update
-opkg install e2fsprogs
+$ opkg update
+$ opkg install e2fsprogs
 
 # 格式化硬盘
-mkfs.ext4 /dev/sdb        # ext4 格式
+$ mkfs.ext4 /dev/sdb        # ext4 格式
 # mkfs.ext3 /dev/sdb      # ext3 格式
 # mkfs.ext2 /dev/sdb      # ext2 格式
 
 
 # 挂载硬盘
-mkdir -p /mnt/sdb
-mount /dev/sdb /mnt/sdb
+$ mkdir -p /mnt/sdb
+$ mount /dev/sdb /mnt/sdb
 
 # 编辑 fstab
-vim /etc/config/fstab 
+$ vim /etc/config/fstab 
 
 # 添加以下
 config mount
@@ -182,7 +182,7 @@ config mount
         option enabled '1'
 
 # 查看挂载硬盘的信息
-df -m
+$ df -m
 Filesystem           1M-blocks      Used Available Use% Mounted on
 rootfs                      47        26        19  58% /
 /dev/root                   47        26        19  58% /
@@ -193,7 +193,7 @@ tmpfs                        1         0         1   0% /dev
 # /dev/sdb 就是刚才挂载的硬盘
 
 # 设置开启机动
-/etc/init.d/fstab enable
+$ /etc/init.d/fstab enable
 ```
 
 ## 最后
@@ -203,11 +203,11 @@ tmpfs                        1         0         1   0% /dev
 
 ### 安装主题
 ```
-#安装中文
-opkg install luci-i18n-chinese
+# 安装中文
+$ opkg install luci-i18n-chinese
 
-#安装主题
-opkg install luci-theme-bootstrap
+# 安装主题
+$ opkg install luci-theme-bootstrap
 ```
 
 然后到 webUI 上设置，依次选择系统 -》语言/主题 (System -> Lanuage and Style)
@@ -215,5 +215,5 @@ opkg install luci-theme-bootstrap
 ### 安装其他
 可以通过查找各种插件
 ```
-opkg serach "*bootstrap"
+$ opkg serach "*bootstrap"
 ```

@@ -23,15 +23,15 @@
 设置隐藏文件可见。
 
 ```
-defaults write com.apple.finder AppleShowAllFiles -bool YES
-killall Finder
+$ defaults write com.apple.finder AppleShowAllFiles -bool YES
+$ killall Finder
 ```
 
 恢复
 
 ```
-defaults write com.apple.finder AppleShowAllFiles -bool NO
-killall Finder
+$ defaults write com.apple.finder AppleShowAllFiles -bool NO
+$ killall Finder
 ```
 
 双击挂载 BaseSystem.dmg 文件。

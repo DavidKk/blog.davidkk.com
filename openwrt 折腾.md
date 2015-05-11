@@ -8,7 +8,6 @@
 
 本文说明个人 OpenWrt 折腾经历，一般都是智能路由需要完成的任务，以下分几个篇章进行记录折腾过程。
 
-
 <!-- 自动挂载扩容篇 START-->
 
 ## 自动挂载硬盘/USB设备
@@ -17,13 +16,13 @@
 
 #### 安装支持软件
 ```
-opkg update
-opkg install block-mount  kmod-usb-storage  kmod-fs-ext4  # 安装usb支持
+$ opkg update
+$ opkg install block-mount  kmod-usb-storage  kmod-fs-ext4  # 安装usb支持
 ```
 
 #### 查看硬盘状态
 ```
-blkid
+$ blkid
 /dev/sda1: TYPE="ext2"
 /dev/sda2: UUID="90f1212b-f256-4fff-9d2b-05af7de0859e" TYPE="ext4"
 /dev/sdb: UUID="f2d177f1-ab1a-477f-a99c-366c7c1a822c" TYPE="ext4"
@@ -31,24 +30,24 @@ blkid
 
 #### 格式化硬盘
 ```
-opkg update
-opkg install e2fsprogs    # 格式化工具
+$ opkg update
+$ opkg install e2fsprogs    # 格式化工具
 
-mkfs.ext4 /dev/sdb        # ext4 格式
+$ mkfs.ext4 /dev/sdb        # ext4 格式
 # mkfs.ext3 /dev/sdb      # ext3 格式
 # mkfs.ext2 /dev/sdb      # ext2 格式
 ```
 
 #### 挂载硬盘
 ```
-mkdir -p /mnt/sdb
-mount /dev/sdb /mnt/sdb
+$ mkdir -p /mnt/sdb
+$ mount /dev/sdb /mnt/sdb
 ```
 
 查看挂载硬盘的信息
 
 ```
-df -m
+$ df -m
 Filesystem  1M-blocks Used Available Use% Mounted on
 rootfs             47   26        19  58% /
 /dev/root          47   26        19  58% /
@@ -62,7 +61,7 @@ tmpfs               1    0         1   0% /dev
 ### 配置 `fstab` 挂载配置
 
 ```
-vim /etc/config/fstab
+$ vim /etc/config/fstab
 
 config mount
         option device '/dev/sdb'
@@ -73,7 +72,7 @@ config mount
 
 ### 设置开机自动挂载
 ```
-/etc/init.d/fstab enable
+$ /etc/init.d/fstab enable
 ```
 
 <!-- 自动挂载扩容篇 END-->
@@ -87,30 +86,30 @@ config mount
 
 ```
 # 给安装路径标记一个ID/NAME
-mkdir /mnt/sdb/packages/
-echo dest sdb /mnt/sdb/packages/ >> /etc/opkg.conf
+$ mkdir /mnt/sdb/packages/
+$ echo dest sdb /mnt/sdb/packages/ >> /etc/opkg.conf
 
 # 安装应用
-opkg --dest sdb install python # --dest sdb 是关键
+$ opkg --dest sdb install python # --dest sdb 是关键
 ```
 
 ### 编辑环境变量
 
 ```
-vim /etc/profile
+$ vim /etc/profile
 
 ...
 # 添加 lib 路径
-export LD_LIBRARY_PATH="/mnt/sdb/packages/usr/lib:/mnt/sdb/packages/lib"
+$ export LD_LIBRARY_PATH="/mnt/sdb/packages/usr/lib:/mnt/sdb/packages/lib"
 
 # 扩展 bin/sbin 路径
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/mnt/sdb/packages/usr/bin:/mnt/sdb/packages/usr/sbin
+$ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/mnt/sdb/packages/usr/bin:/mnt/sdb/packages/usr/sbin
 ...
 
 # 保存&退出
 
 # 重启
-reboot
+$ reboot
 ```
 
 <!-- 在USB或硬盘中安装应用篇 END-->
@@ -124,16 +123,16 @@ reboot
 ### 安装 samba
 
 ```
-opkg update
-opkg install samba36-server     # 一般已经安装
-opkg install luci-app-samba
+$ opkg update
+$ opkg install samba36-server     # 一般已经安装
+$ opkg install luci-app-samba
 ```
 
 ### 创建需要共享的文档
 ```
-mkdir /share
-chmod a+w /share
-chown nobody:nobody /share
+$ mkdir /share
+$ chmod a+w /share
+$ chown nobody:nobody /share
 ```
 
 ### 修改配置模板
@@ -141,7 +140,7 @@ chown nobody:nobody /share
 也可以通过 webUI 进行修改
 
 ```
-vi /etc/samba/smb.conf.template
+$ vi /etc/samba/smb.conf.template
 [global]
   netbios name = |NAME|
   display charset = |CHARSET|
@@ -182,7 +181,7 @@ vi /etc/samba/smb.conf.template
 也可以通过 webUI 进行修改
 
 ```
-vi /etc/config/samba
+$ vi /etc/config/samba
 
 config samba
         option name           'OpenWrt'
@@ -212,14 +211,14 @@ config sambashare
 #### 重启
 
 ```
-/etc/init.d/samba restart
-/etc/init.d/samba enable
+$ /etc/init.d/samba restart
+$ /etc/init.d/samba enable
 ```
 
 ### 设置密码
 
 ```
-smbpasswd root
+$ smbpasswd root
 New SMB password:
 Retype SMB password:
 ```
@@ -232,23 +231,23 @@ Retype SMB password:
 我们可以安装 `shadow-groupadd`, `shadow-useradd`
 
 ```
-opkg update
-opkg install shadow-groupadd shadow-useradd
+$ opkg update
+$ opkg install shadow-groupadd shadow-useradd
 ```
 
 现在我们可以使用 `useradd` 命令了
 
 ```
 # 创建用户
-useradd davidjones
+$ useradd davidjones
 
 # 添加 smbp 用户
-smbpasswd -a davidjones
+$ smbpasswd -a davidjones
 New SMB password:
 Retype SMB password:
 
 # 然后重启一下
-/etc/init.d/samba restart
+$ /etc/init.d/samba restart
 ```
 
 ### 其他 samba 功能，详细请看
@@ -266,8 +265,8 @@ Retype SMB password:
 ### 安装 `python`, `python-crypto`, `pyopenssl`, `python-openssl`
 
 ```
-opkg update
-opkg --dest extdisk install python python-crypto pyopenssl python-openssl
+$ opkg update
+$ opkg --dest extdisk install python python-crypto pyopenssl python-openssl
 ```
 python-mini
 
@@ -285,10 +284,10 @@ python-mini
 - [官方WIKI](http://wiki.openwrt.org/doc/howto/obtain.firmware.sdk)
 
 ```
-cd ~
-wget http://downloads.openwrt.org/whiterussian/newest/OpenWrt-SDK-Linux-i686-1.tar.bz
-bzcat OpenWrt-SDK-Linux-i686-1.tar.bz2 | tar -xvf -
-cd ~/OpenWrt-SDK-Linux-i686-1
+$ cd ~
+$ wget http://downloads.openwrt.org/whiterussian/newest/OpenWrt-SDK-Linux-i686-1.tar.bz
+$ bzcat OpenWrt-SDK-Linux-i686-1.tar.bz2 | tar -xvf -
+$ cd ~/OpenWrt-SDK-Linux-i686-1
 ```
 
 <!-- 未完待续-->
@@ -302,7 +301,7 @@ cd ~/OpenWrt-SDK-Linux-i686-1
 最好放到共享文档中使用编辑器修改，否则会出现很多 ^M
 
 ```
-vim goagent/local/proxy.ini
+$ vim goagent/local/proxy.ini
 
 [listen]
 ip = 0.0.0.0
@@ -373,14 +372,14 @@ pdnsd是一款高效灵活的DNS proxy服务器，它既可以充当一个DNS fo
 建议将此服务不要安装到USB或其他硬盘上，否则配置起来很麻烦。
 
 ```
-opkg update
-opkg install pdnsd
+$ opkg update
+$ opkg install pdnsd
 ```
 
 开始配置 `pdnsd.conf`
 
 ```
-vim /etc/pdnsd.conf
+$ vim /etc/pdnsd.conf
 
 global {
   # debug = on;             # 调试模式，日志会写入 /var/pdnsd/pdnsd.debug
@@ -429,7 +428,7 @@ rr {
 
 ```
 # 此处IP应改成路由的IP地址，一般为 `192.168.1.1`，端口为刚才改的 1053
-dig @192.168.1.250 -p 1053 www.google.com
+$ dig @192.168.1.250 -p 1053 www.google.com
 ```
 
 ### 安装 dnsmasq
@@ -437,25 +436,25 @@ dig @192.168.1.250 -p 1053 www.google.com
 一般情况下，openwrt 已经安装 dnsmasq，若未安装请直接安装。
 
 ```
-opkg install dnsmasq
+$ opkg install dnsmasq
 ```
 
 ### 创建需要的DNS与HOSTS配置文件
 
 ```
 # 创建 dnsmasq 专用配置路径，该路径下所有文件均为有效的配置文件
-mkdir /etc/dnsmasq.d
-cp /etc/resolv.conf /etc/resolv.dnsmasq.conf
-echo 'nameserver 127.0.0.1' > /etc/dnsmasq.d/resolv.dnsmasq.conf
+$ mkdir /etc/dnsmasq.d
+$ cp /etc/resolv.conf /etc/resolv.dnsmasq.conf
+$ echo 'nameserver 127.0.0.1' > /etc/dnsmasq.d/resolv.dnsmasq.conf
 
 # 创建 dnsmasq 专用HOSTS文件
-cp /etc/hosts /etc/dnsmasq.hosts
+$ cp /etc/hosts /etc/dnsmasq.hosts
 ```
 
 ### 编辑 dnsmasq 配置文件
 
 ```
-vim /etc/dnsmasq.conf
+$ vim /etc/dnsmasq.conf
 
 # resolv-file=/etc/resolv.dnsmasq.conf  # 配置文件路径
 conf-dir=/etc/dnsmasq.d                 # 导入所有文件作为 `resolv-file` 的配置
@@ -468,14 +467,14 @@ listen-address=127.0.0.1                # 本机使用，多个情况下可用�
 
 ### 重启 dnsmasq 服务
 ```
-/etc/init.d/dnsmasq restart
+$ /etc/init.d/dnsmasq restart
 ```
 
 ### 检查 dnsmasq 服务
 
 查看 53 端口
 ```
-netstat -tunlp|grep 53
+$ netstat -tunlp|grep 53
 tcp   0   0   0.0.0.0:53  0.0.0.0:*   LISTEN  16292/dnsmasq
 netstat: /proc/net/tcp6: No such file or directory
 udp   0   0   0.0.0.0:53  0.0.0.0:*           16292/dnsmasq
@@ -484,9 +483,9 @@ netstat: /proc/net/udp6: No such file or directory
 
 检测 DNS 速度
 ```
-dig google.com | grep "Query time"
+$ dig google.com | grep "Query time"
 ;; Query time: 385 msec
-dig google.com | grep "Query time"
+$ dig google.com | grep "Query time"
 ;; Query time: 0 msec
 
 # 此时已经缓存了
@@ -527,8 +526,8 @@ IPv4 将在不久将来淘汰掉了，IPv6 才是王道，只有部分城市与�
 进入 `http://luyou.xunlei.com/` 找到自己的固件并下载
 
 ```
-cp /mnt/sdb/share/xunlei /etc/xunlei
-./portal
+$ cp /mnt/sdb/share/xunlei /etc/xunlei
+$ ./portal
 
 initing...
 try stopping xunlei service first...
@@ -563,7 +562,7 @@ finished.
 这里要注意了，存储设备不能少于4G，否则 Xware 不会认你为存储设备，添加任务时会显示 "没有检测到外接存储设备"
 
 ```
-vim cfg/thunder_mounts.cfg
+$ vim cfg/thunder_mounts.cfg
 invalid_mounts
 {
   /dev/sdb /CacheVolume
@@ -577,8 +576,8 @@ invalid_mounts
 
 #### 开机启动 Xware
 ```
-ln -s /etc/init.d/xunlei /etc/xunlei/portal
-/etc/init.d/xunlei enable
+$ ln -s /etc/init.d/xunlei /etc/xunlei/portal
+$ /etc/init.d/xunlei enable
 ```
 
 ### 安装 Xware luci
@@ -591,7 +590,7 @@ google/bing 搜索 `Xware luci`
 [luci-app-xunlei_0.11-14_all.ipk](http://twin13009.sandai.net/g/forum.php?mod=viewthread&tid=1058&extra=&highlight=luci&page=11)
 
 ```
-opkg install luci-app-xunlei_0.11-14_all.ipk
+$ opkg install luci-app-xunlei_0.11-14_all.ipk
 ```
 
 设置可以通过 webUI 服务 -> 迅雷远程下载
@@ -616,8 +615,8 @@ opkg install luci-app-xunlei_0.11-14_all.ipk
 #### 安装 aria2
 
 ```
-opkg update
-opkg install aria2
+$ opkg update
+$ opkg install aria2
 ```
 
 #### 安装 aria2 webUI
@@ -626,7 +625,7 @@ opkg install aria2
 
 将它放到 `/www` 下
 ```
-mv /mnt/sdb/webui-aria2-master /www/aria2
+$ mv /mnt/sdb/webui-aria2-master /www/aria2
 ```
 
 现在你可以访问 `192.168.1.x/aria2` 管理 aria2 下载了，但是进入时很多报错提示。
@@ -634,7 +633,7 @@ mv /mnt/sdb/webui-aria2-master /www/aria2
 #### 启动并测试
 
 ```
-aria2c --enable-rpc --rpc-listen-all
+$ aria2c --enable-rpc --rpc-listen-all
 2015-04-19 06:07:53.828164 NOTICE - IPv4 RPC: listening to port 6800
 
 2015-04-19 06:07:53.829446 NOTICE - IPv6 RPC: listening to port 6800
