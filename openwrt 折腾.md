@@ -505,12 +505,21 @@ $ dig google.com | grep "Query time"
 <!-- 自动修改 HOSTS 守护进程 END-->
 
 
+<!-- Shadowsocks START -->
+## 安装 Shadowsocks 擒墙
+
+[依赖包](http://sourceforge.net/projects/openwrt-dist/)
+
+
+
+<!-- Shadowsocks END -->
+
+
 <!-- IPv4 to IPv6 START-->
 ## IPv4 to IPv6
 
 IPv4 将在不久将来淘汰掉了，IPv6 才是王道，只有部分城市与教育网拥有IPv6的地址。
 我们通过 IPv6 隧道 来解决我们不拥有 IPv6 IP 的问题。
-
 
 <!-- IPv4 to IPv6 END-->
 
