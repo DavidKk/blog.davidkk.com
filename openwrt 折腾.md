@@ -34,8 +34,8 @@ $ opkg update
 $ opkg install e2fsprogs    # 格式化工具
 
 $ mkfs.ext4 /dev/sdb        # ext4 格式
-# mkfs.ext3 /dev/sdb      # ext3 格式
-# mkfs.ext2 /dev/sdb      # ext2 格式
+# mkfs.ext3 /dev/sdb        # ext3 格式
+# mkfs.ext2 /dev/sdb        # ext2 格式
 ```
 
 #### 挂载硬盘
@@ -508,9 +508,58 @@ $ dig google.com | grep "Query time"
 <!-- Shadowsocks START -->
 ## 安装 Shadowsocks 擒墙
 
-[依赖包](http://sourceforge.net/projects/openwrt-dist/)
+### shadowsocks
 
+安装
 
+```
+$ sudo apt-get install python-pip
+$ pip install shadowsocks
+```
+
+运行
+
+```
+# 启动
+$ sudo ssserver -p 443 -k password -m rc4-md5
+
+# 后台运行
+$ sudo ssserver -p 443 -k password -m rc4-md5 --user nobody -d start
+
+# 停止
+$ sudo ssserver -d stop
+```
+
+### OpenWrt
+
+[依赖包](http://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/)
+
+安装
+
+```
+$ opkg install shadowsocks-libev-polarssl_2.2.1-1_x86.ipk
+```
+
+配置
+
+```
+$ vim /etc/shadowsocks/config.json
+
+{
+  "server": "[服务器IP]",
+  "server_port": [服务器端口],
+  "local_port": [本地端口],
+  "password": "[密码]",
+  "timeout": [超时时间 (ms)],
+  "method": "[加密方式]"
+}
+```
+
+运行
+
+```
+$ ss-redir -c /etc/shadowsocks/config.json
+```
 
 <!-- Shadowsocks END -->
 

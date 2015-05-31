@@ -4,11 +4,101 @@
 <!-- category: 前端-->
 <!-- tag: 基础知识-->
 
-# [backup] 前端知识
+# [backup] 前端基础知识
 
-### CSS兼容性问题
+## CSS 基础知识
 
-#### 垂直居中
+### CSS 选择器
+
+##### 基础的选择器
+
+- `*` 通用元素选择器 `* { margin: 0; padding: 0; }`
+- `E` 标签选择器 `p { color: #333; }`
+- `.` 类选择器 `.content { color: #333; }`
+- `#` ID选择器 `#caption { color: #000; }`
+
+##### 组合选择器
+
+- `E,E` 多元素选择器 `a,p { color: #333; }`
+- `E E` 后代元素选择器 `p a { color: #fff; }`
+- `E > E` 子元素选择器 `p > a { color: #000; }`
+- `E + E` 毗邻元素选择器 `p + p { color: #330; }`
+
+##### 属性选择器
+
+###### CSS 2.1
+
+- `E[attr]` 匹配属性存在 `a[href] { color: #fff; }`
+- `E[attr=val]` 匹配属性等于某值 `p[class="error"] { color: red; }`
+- `E[attr~=val]` 匹配属性中含有某值，用空格分开 `p[class~="error"] { color: red; }`
+- `E[attr|=val]` 匹配连字号分割 `p[lang|=en] { color: green; }`
+
+###### CSS 3
+
+- `E[attr^="val"]` 属性attr的值以val开头的元素 `a[class^="btn-"] { color: red; }`
+- `E[attr$="val"]` 属性attr的值以val结尾的元素 `a[class$="-red"] { color: red; }`
+- `E[attr*="val"]` 属性attr的值包含val的元素 `a[class*="btn"] { color: red; }`
+
+##### 伪类
+
+###### CSS 2.1
+
+- `E:first-child` 匹配父元素的第一个子元素 `p:first-child { color: #fff; }`
+- `E:link` 匹配所未被点击的链接元素 `a:link { color: #fff; }`
+- `E:visited` 匹配所有已被点击的链接元素 `a:visited { color: red; }`
+- `E:active` 匹配鼠标已按下但未被释放的元素 `a:active { color: red; }`
+- `E:hover` 匹配鼠标悬停的元素 `a:hover { color: red; }`
+- `E:focus` 匹配获得当前焦点元素 `a:focus { color: red; }`
+- `E:lang(c)` 匹配lang属性等于c的元素 `a:lang(sv) { quotes: “\201D” “\201D” “\2019″ “\2019″; }`
+
+###### CSS 3
+
+表现性伪类
+
+- `E:enabled` 匹配表单中激活的元素 `input:enabled { color: #000; }`
+- `E:disabled` 匹配表单中禁用的元素 `input:disabled { color: #999; }`
+- `E:checked` 匹配表单中被选中的单选框与复选框 `input[type="raido"]:checked { background-color: #fff; }`
+- `E::selection` 匹配用户当前选中的元素 `p::selection { color: #555; }`
+
+结构性伪类
+
+- `E:root` 匹配文档的根元素，对于HTML文档，就是HTML元素 `a:root { color: #fff; }`
+- `E:nth-child(n)` 匹配其父元素的第n个子元素，第一个编号为1 `p:nth-child(3) { color: #fff; }`
+- `E:nth-last-child(n)` 匹配其父元素的倒数第n个子元素，第一个编号为1 `p:nth-last-child(3) { color: #fff; }`
+- `E:nth-of-type(n)` 与:nth-child()作用类似，但是仅匹配使用同种标签的元素 `p:nth-of-type(3) { color: #fff; }`
+- `E:nth-last-of-type(n)` 与:nth-last-child() 作用类似，但是仅匹配使用同种标签的元素 `p:nth-last-of-type(n) { color: #fff; }`
+- `E:last-child` 匹配父元素的最后一个子元素，等同于:nth-last-child(1) `p:last-child { color: #fff; }`
+- `E:first-of-type` 匹配父元素下使用同种标签的第一个子元素，等同于:nth-of-type(1) `p:first-of-type { color: #fff; }`
+- `E:last-of-type` 匹配父元素下使用同种标签的最后一个子元素，等同于:nth-last-of-type(1) `p:last-of-type { color: #fff; }`
+- `E:only-child` 匹配父元素下仅有的一个子元素，等同于:first-child:last-child或 :nth-child(1):nth-last-child(1)
+- `E:only-of-type` 匹配父元素下使用同种标签的唯一一个子元素，等同于:first-of-type:last-of-type或 :nth-of-type(1):nth-last-of-type(1)
+- `E:empty` 匹配一个不包含任何子元素的元素，注意，文本节点也被看作子元素 `a:empty { color: #fff; }`
+- `E:not` 匹配不符合当前选择器的任何元素 `:not(p) { #fff; }`
+- `E:target` 匹配文档中特定”id”点击后的效果
+
+##### 伪元素
+
+- `E:first-line` 匹配E元素的第一行 `p:first-line { color: red; }`
+- `E:first-letter` 匹配E元素的第一个字母 `p:first-letter { color: red; }`
+- `E:before` 在E元素前插入生成的内容 `p:before { content: 'Hello'; }`
+- `E:after` 在E元素后插入生成的内容 `p:after { content: 'World'; }`
+
+##### 同级元素选择器
+
+- `E ~ F` 匹配任何在E元素之后的同级F元素 `p ~ ul { color: red; }`
+
+<p data-height="268" data-theme-id="0" data-slug-hash="gbwemE" data-default-tab="result" data-user="DavidKk" class='codepen'>See the Pen <a href='http://codepen.io/DavidKk/pen/gbwemE/'>gbwemE</a> by David Jones (<a href='http://codepen.io/DavidKk'>@DavidKk</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+
+### 优先级与权重
+
+id(#) > class(.) > 属性选择器 > 同级元素通用选择器 > 伪类选择器 > 伪元素选择器
+
+
+## PC CSS兼容性问题(包括旧版本)
+
+### 垂直居中
 
 ```
 # 将行距增加到和整个DIV一样高 line-height:200px;然后插入文字，就垂直居中了；缺点是要控制内容不要换行。
@@ -24,7 +114,7 @@ margin-top: auto;
 margin-bottom: auto;
 ```
 
-#### Double margin
+### Double margin
 
 设置为float的div在ie下设置的margin会加倍。将 div 设置成 display: inline; 能解决该问题
 ```
@@ -41,7 +131,7 @@ margin-right: 10px;
 display: table;
 ```
 
-#### ie6 `min-` 问题
+### ie6 `min-` 问题
 
 IE6 没有 `min-`，但是他本身 `width`，`height` 就支持这种特性。
 
@@ -54,7 +144,7 @@ IE6 没有 `min-`，但是他本身 `width`，`height` 就支持这种特性。
 # 它实际上通过Javascript的判断来实现最小宽度。
 ```
 
-#### div 浮动 ie 文本产生 3px 的 bug
+### div 浮动 ie 文本产生 3px 的 bug
 
 左边对象浮动，右边采用外补丁的左边距来定位，右边对象内的文本会离左边有3px的间距。
 ```
@@ -67,11 +157,24 @@ IE6 没有 `min-`，但是他本身 `width`，`height` 就支持这种特性。
 }
 ```
 
-#### ie 捉迷藏的问题
+### 清除浮动
+
+### IE6图片有空隙
+
+```
+img {
+  display: block;
+  # or
+  vertical-align: top|bottom|middle|text-bottom;
+}
+```
+
 
 
 
 
 ### HTML5
 
+
+## 浏览器运行原理
 
