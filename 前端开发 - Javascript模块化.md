@@ -4,17 +4,17 @@
 <!-- category: 前端 -->
 <!-- tag: 基础知识 -->
 
-# 前端开发 - Javascript模块化
+# 前端开发 - Javascript 模块化
 
-Javascript不是一种模块化编程语言，它不支持类`(class)`，更没有模块`(module)`。(正在制定中的 ECMAScript 标准第六版，将正式支持类和模块，但还需要很长时间才能投入实用。)
-Javascript只有本身的基础原生对象和类型，更多的对象和API都取决于宿主的提供，所以，我们可以看到JavaScript缺少这些功能：
+Javascript 不是一种模块化编程语言，它不支持类`(class)`，更没有模块`(module)`。(正在制定中的 ECMAScript 标准第六版，将正式支持类和模块，但还需要很长时间才能投入实用。)
+Javascript 只有本身的基础原生对象和类型，更多的对象和API都取决于宿主的提供，所以，我们可以看到JavaScript 缺少这些功能：
 
-- JavaScript没有模块系统，没有原生的支持密闭作用域或依赖管理。
-- JavaScript没有标准库，除了一些核心库外，没有文件系统的API，没有IO流API等。
-- JavaScript没有标准接口，没有如Web Server或者数据库的统一接口。
-- JavaScript没有包管理系统，不能自动加载和安装依赖。
+- JavaScript 没有模块系统，没有原生的支持密闭作用域或依赖管理。
+- JavaScript 没有标准库，除了一些核心库外，没有文件系统的API，没有IO流API等。
+- JavaScript 没有标准接口，没有如Web Server或者数据库的统一接口。
+- JavaScript 没有包管理系统，不能自动加载和安装依赖。
 
-因此Javascript代码越来越庞大的情况下，模块化已经成为迫切的需求了。
+因此 Javascript 代码越来越庞大的情况下，模块化已经成为迫切的需求了。
 
 
 ## 模块化
@@ -118,7 +118,7 @@ module.load(filename)
 
 当文件模块缓存中不存在，而且不是原生模块的时候，Node.js会解析require方法传入的参数，并从文件系统中加载实际的文件，加载过程中的包装和编译细节在前一节中已经介绍过，这里我们将详细描述查找文件模块的过程，其中，也有一些细节值得知晓。
 
-require方法接受以下几种参数的传递：
+require 方法接受以下几种参数的传递：
 
 - http、fs、path等，原生模块。
 - ./mod或../mod，相对路径的文件模块。
@@ -230,8 +230,6 @@ define(
   definition function // 用以初始化模塊或對象的函式
 );
 ```
-
-
 
 ## CMD
 
