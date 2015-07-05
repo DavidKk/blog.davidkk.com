@@ -162,7 +162,7 @@ $ opkg update
 $ opkg install e2fsprogs
 
 # 格式化硬盘
-$ mkfs.ext4 /dev/sdb        # ext4 格式
+$ mkfs.ext4 /dev/sdb      # ext4 格式
 # mkfs.ext3 /dev/sdb      # ext3 格式
 # mkfs.ext2 /dev/sdb      # ext2 格式
 
