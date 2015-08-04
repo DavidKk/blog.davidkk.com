@@ -177,20 +177,11 @@ config samba
 config sambashare
         option name           'share'       # 网络显示的共享目录名字
         option read_only      'no'          # 只读
-        option users          'daemon'      # 用户，OpenWrt 默认用户 root,daemon,network,nobody,diantokam
+        option users          'share'       # share 用户需要自行创建，下面会介绍
         option create_mask    '0777'        # 读写权限
         option dir_mask       '0777'        # 读写权限
         option path           '/share'      # 共享目录，记得设置目录为可写
-        option guest_ok       'yes'         # 匿名用户
-
-config sambashare
-        option name           'hidden$'
-        option users          'daemon'
-        option read_only      'no'
-        option create_mask    '0777'
-        option dir_mask       '0777'
-        option path           '/old'
-        option guest_ok       'yes'
+        option guest_ok       'no'          # 匿名用户
 
 # 重启
 $ /etc/init.d/samba restart
@@ -392,6 +383,7 @@ $ vi /var/dnsmasq.d/google.conf
 server=/.google.com/127.0.0.1#1153
 server=/.gstatic.com/127.0.0.1#1153
 server=/.googleusercontent.com/127.0.0.1#1153
+server=/.googlevideo.com/127.0.0.1#1153
 server=/.appspot.com/127.0.0.1#1153
 server=/.googlecode.com/127.0.0.1#1153
 server=/.googleapis.com/127.0.0.1#1153
@@ -703,15 +695,6 @@ WARNING - [Apr 10 10:25:02] please install *libnss3-tools* package to import GoA
 <!-- 屌丝擒墙篇 - Goagent in OpenWrt END -->
 
 
-<!-- IPv4 to IPv6 START -->
-## IPv4 to IPv6
-
-IPv4 将在不久将来淘汰掉了，IPv6 才是王道，只有部分城市与教育网拥有IPv6的地址。
-我们通过 IPv6 隧道 来解决我们不拥有 IPv6 IP 的问题。
-
-<!-- IPv4 to IPv6 END -->
-
-
 <!-- 离线下载之迅雷篇 - Xware START -->
 ## 离线下载之迅雷篇 - Xware
 
@@ -829,6 +812,58 @@ aria2 的速度比较慢，你也可以通过`迅雷离线 + Aria2 + YAAW`打造
 - [YAAW](https://github.com/binux/yaaw)
 
 <!-- 离线下载之 Aria2 END -->
+
+
+<!-- 离线下载之百度网盘 - Syncy START -->
+## 离线下载之百度网盘 - Syncy
+
+[官方网站](http://www.syncy.cn/index.php/tag/openwrt/)
+
+### 安装方法十分简单
+
+```
+$ opkg install SyncY-Python-luci_2.5.2-1_all.ipk
+```
+
+然后根据 WebUI 进行编辑配置就可以完成
+
+<!-- 离线下载之百度网盘 - Syncy END -->
+
+
+<!-- IPv4 to IPv6 START -->
+## IPv4 to IPv6
+
+IPv4 将在不久将来淘汰掉了，IPv6 才是王道，只有部分城市与教育网拥有IPv6的地址。
+我们通过 IPv6 隧道 来解决我们不拥有 IPv6 IP 的问题。
+
+### 配置
+
+首先允许来自外部的 ping 测试。
+
+```
+iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -D INPUT -p icmp --icmp-type echo-request -j ACCEPT
+iptables -D OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+
+
+iptables -nL INPUT | awk '{print NR-2 " " $0}' |sed -ne '/icmp/{/DROP/p}'
+
+# 66.220.2.74 为 tunnelbroker.net 中描述的服务器 IP，若配置这个可能会出现以下这个报错：
+# IP is not ICMP pingable. Please make sure ICMP is not blocked. If you are blocking ICMP, please allow 66.220.2.74 through your firewall.
+
+# 删除规则
+# iptables -D INPUT -p icmp --icmp-type echo-request -j ACCEPT
+# iptables -D OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+```
+
+现在我们可以进行 [https://tunnelbroker.net](https://tunnelbroker.net) 注册个账号并 `Create Regular Tunnel`。
+
+
+
+<!-- IPv4 to IPv6 END -->
 
 
 <!-- 疑难杂症篇 START -->

@@ -122,7 +122,7 @@ $ sudo shutdown -h now
 
 #### 简单的配置方式
 
-通过 virtualbox 邮件 vm 选择设置，选择共享文档共享文档列表，设置一个固定分配，默认已经拥有一个 双击编辑，共享文件夹路径与共享文件夹名称，名称设置为 `vagrant`；然后启动VM
+通过 virtualbox 右键 vm 选择设置，选择共享文档共享文档列表，设置一个固定分配，默认已经拥有一个 双击编辑，共享文件夹路径与共享文件夹名称，名称设置为 `vagrant`；然后启动VM
 
 ```
 $ sudo mkdir /vagrant
@@ -153,27 +153,14 @@ $ config.vm.synced_folder "vagrant", "/vagrant", :nfs => true
 
 ```
 $ sudo apt-get install -y openssh-server
-```
 
-修改 /etc/ssh/sshd-config
-```
-$ vim /etc/ssh/sshd-config
-```
-
-```
-# 开启
+$ vim /etc/ssh/sshd_config
 Port 22
 PubKeyAuthentication yes # 是否允许 Public Key
 AuthorizedKeysFile %h/.ssh/authorized_keys
 PermitEmptyPasswords no # 这个项目在是否允许以空的密码登入！
-# 保存并退出
-```
 
-开启/重启一下ssh server
-
-```
-$ sudo /etc/init.d/ssh start
-# or
+# 重启一下 ssh server
 $ sudo /etc/init.d/ssh restart
 ```
 
@@ -200,11 +187,7 @@ $ ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
 
 ```
 $ sudo visudo
-```
-
-添加找到相应行添加 `NOPASSWD`
-
-```
+# 添加找到相应行添加 `NOPASSWD`
 # Members of the admin group may gain root privileges
 %admin ALL=(ALL) NOPASSWD: ALL
 
@@ -234,15 +217,12 @@ $ vagrant box add vm_name box_file_name
 
 你还可以下载其他[一些boxes](http://www.vagrantbox.es)。
 
-查看 box list
-
 ```
+# 查看 box list
 $ vagrant box list
 lemp.ubuntu (virtualbox, 0)
-```
 
-添加 vagrantfile 配置和运行 box
-```
+# 添加 vagrantfile 配置和运行 box
 $ cd ~/web\ develop/
 $ vagrant init lemp.ubuntu
 $ vagrant up
@@ -256,36 +236,24 @@ ssh 链接
 $ vagrant ssh
 ```
 
-大功告成，只要你将BOX 分享给其他人就可以了。
+大功告成，只要你将 BOX 分享给其他人就可以了。
 
 ## 其他
 
 ### 修改默认 SSH 端口
 
-修改 Vagrantfile
-
 ```
-$ config.vm.network :forwarded_port, guest: 10022, host: 2255
-```
+$ vi Vagrantfile
+config.vm.network :forwarded_port, guest: 10022, host: 2255
 
-修改 vm ssh server 配置
-
-```
+# 修改 vm ssh server 配置
 $ sudo vim /etc/ssh/sshd_config
 
-```
-
-再次修改 Vagrantfile
-
-```
-# 添加
-config.ssh.port = 2255        # host
+# vi Vagrantfile
+config.ssh.port = 2255          # host
 config.ssh.guest_port = 10022   # vm
-```
 
-导出 box
-
-```
+# 导出 box
 $ vagrant package ubuntu --output ubuntu.box
 ```
 
@@ -294,14 +262,15 @@ $ vagrant package ubuntu --output ubuntu.box
 
 ### 需要启动 GUI
 
-配置 vagrantfile
 ```
+$ vi vagrantfile
 config.vm.provider "virtualbox" do |v|
 v.gui = true
 end
 ```
 
 ### 没有安装 ssh server
+
 ```
 $ vagrant up
 ...
@@ -354,17 +323,15 @@ $ ssh -o IdentitiesOnly=yes -i ~/.vagrant.d/insecure_private_key vagrant@127.0.0
 
 #### private_key 非 insecure_private_key(默认且非安全)或不正确
 
-编辑 Vagrantfile
 ```
+$ vi Vagrantfile
 config.ssh.insert_key = false
 config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key']
-```
-保存并重启
-```
+
+# 保存并重启
 $ vagrant halt
 $ vagrant up --provision
 ```
-
 
 #### 确定文件权限，具体看上面步骤
 - 0600 /.ssh/authorized_keys
