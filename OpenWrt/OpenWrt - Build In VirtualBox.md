@@ -1,10 +1,10 @@
-<!-- title: [backup]在 virtualbox 中安装 OpenWrt-->
-<!-- author: <David Jones qowera@qq.com>-->
-<!-- date: 2015-04-11 12:57:14-->
-<!-- category: openwrt,virtualbox-->
-<!-- tag: openwrt,路由器,virtualbox-->
+<!-- title: OpenWrt - 在 Virtualbox 安装 OpenWrt -->
+<!-- author: <David Jones qowera@qq.com> -->
+<!-- date: 2015-04-11 12:57:14 -->
+<!-- category: openwrt,virtualbox -->
+<!-- tag: openwrt,路由器,virtualbox -->
 
-# [backup]在 virtualbox 中安装 OpenWrt
+# OpenWrt - 在 Virtualbox 安装 OpenWrt
 
 本人是新手，所以在 virtualbox 折腾一下，否则砖头够建房了。
 

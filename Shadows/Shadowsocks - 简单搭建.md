@@ -1,4 +1,4 @@
-<!-- title: [backup] 搭建 shadowsocks 服务器 -->
+<!-- title: Shadowsocks - 搭建 -->
 <!-- author: <David Jones qowera@qq.com> -->
 <!-- date: 2015-05-17 18:58:20-->
 <!-- category: shadowsocks -->
