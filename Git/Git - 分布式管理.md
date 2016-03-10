@@ -1,8 +1,8 @@
-<!-- title: [转] 分布式 Git-->
-<!-- author: <David Jones qowera@qq.com>-->
-<!-- date: 2015-04-29 01:09:27-->
-<!-- category: 多人开发-->
-<!-- tag: git,多人协助开发-->
+<!-- title: [转] 分布式 Git -->
+<!-- author: <David Jones qowera@qq.com> -->
+<!-- date: 2015-04-29 01:09:27 -->
+<!-- category: 多人开发 -->
+<!-- tag: git,多人协助开发 -->
 
 # [转] 分布式 Git
 

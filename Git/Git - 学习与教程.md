@@ -1,8 +1,8 @@
-<!-- title: [backup] Git 学习/教程-->
-<!-- author: <David Jones qowera@qq.com>-->
-<!-- date: 2015-04-26 14:26:23-->
-<!-- category: 多人开发-->
-<!-- tag: git,学习-->
+<!-- title: [backup] Git 学习/教程 -->
+<!-- author: <David Jones qowera@qq.com> -->
+<!-- date: 2015-04-26 14:26:23 -->
+<!-- category: 多人开发 -->
+<!-- tag: git,学习 -->
 
 # [backup] Git 学习/教程
 

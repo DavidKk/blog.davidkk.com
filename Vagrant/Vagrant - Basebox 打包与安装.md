@@ -1,8 +1,8 @@
-<!-- title: Vagrant && VirtualBox 安装，打包和分享 Base Box-->
-<!-- author: <David Jones qowera@qq.com>-->
-<!-- date: 2015-04-11 12:57:14-->
-<!-- category: vagrant,virtualbox-->
-<!-- tag: vagrant,virtualbox,打包box-->
+<!-- title: Vagrant && VirtualBox 安装，打包和分享 Base Box -->
+<!-- author: <David Jones qowera@qq.com> -->
+<!-- date: 2015-04-11 12:57:14 -->
+<!-- category: vagrant,virtualbox -->
+<!-- tag: vagrant,virtualbox,打包box -->
 
 # Vagrant && VirtualBox 安装，打包和分享 Base Box
 

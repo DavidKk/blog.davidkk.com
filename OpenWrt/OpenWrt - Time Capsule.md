@@ -1,6 +1,6 @@
 <!-- title: OpenWrt - Time Capsule -->
 <!-- author: <David Jones qowera@qq.com> -->
-<!-- date: 2016年02月28日15:58:37 -->
+<!-- date: 2016-02-28 15:58:37 -->
 <!-- category: openwrt -->
 <!-- tag: openwrt,路由器,Time Capsule,Netatalk,Avahi -->
 

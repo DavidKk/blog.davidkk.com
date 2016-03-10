@@ -1,9 +1,9 @@
-<!-- title: [backup] Git 服务器搭建-->
-<!-- author: <David Jones qowera@qq.com>-->
-<!-- date: 2015-04-25 12:51:19-->
-<!-- update: 2015-05-06 10:53:22 -->
-<!-- category: 多人开发-->
-<!-- tag: git,git服务器搭建-->
+<!-- title: [backup] Git 服务器搭建 -->
+<!-- author: <David Jones qowera@qq.com> -->
+<!-- date: 2015-04-25 12:51:19 -->
+<!-- update: 2015-05-06 10:53:22  -->
+<!-- category: 多人开发 -->
+<!-- tag: git,git服务器搭建 -->
 
 # [backup] Git 服务器搭建
 
