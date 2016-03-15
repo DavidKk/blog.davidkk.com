@@ -4,8 +4,6 @@
 <!-- category: openwrt,virtualbox -->
 <!-- tag: openwrt,路由器,virtualbox -->
 
-# OpenWrt - 在 Virtualbox 安装 OpenWrt
-
 本人是新手，所以在 virtualbox 折腾一下，否则砖头够建房了。
 
 ## 下载

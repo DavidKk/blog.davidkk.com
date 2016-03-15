@@ -4,8 +4,6 @@
 <!-- category: shadowsocks -->
 <!-- tag: shadowsocks -->
 
-# 搭建 shadowsocks 服务器
-
 ## Server
 
 OS: Ubuntu

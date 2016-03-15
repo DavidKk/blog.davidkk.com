@@ -4,8 +4,6 @@
 <!-- category: vagrant,virtualbox -->
 <!-- tag: vagrant,virtualbox,打包box -->
 
-# Vagrant && VirtualBox 安装，打包和分享 Base Box
-
 ## 首先要准备的软件
 - [Vagrant](http://www.vagrantup.com) <br>
 - [VirtualBox](https://www.virtualbox.org/) <br>

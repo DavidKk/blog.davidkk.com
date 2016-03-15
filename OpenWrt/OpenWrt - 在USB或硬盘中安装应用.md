@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器,usb -->
 
-# OpenWrt - 在扩展硬盘或USB设备中安装应用
-
 ### 新建安装目录
 
 ```

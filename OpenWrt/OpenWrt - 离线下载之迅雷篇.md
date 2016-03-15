@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器,迅雷,Xware -->
 
-## OpenWrt - 离线下载之迅雷 Xware
-
 迅雷远程下载固件，正式更名为迅雷固件，代号为 Xware
 
 ### 安装 Xware

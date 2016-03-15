@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器 -->
 
-# OpenWrt - 扩容硬盘及移动设备
-
 此篇已经在 OpenWrt 安装到 virtualbox 中有说明。
 
 ### 挂载

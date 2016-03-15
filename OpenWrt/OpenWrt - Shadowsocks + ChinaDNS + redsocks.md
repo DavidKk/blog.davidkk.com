@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器,Shadowsocks,ChinaDNS,redsocks -->
 
-# OpenWrt - Shadowsocks + ChinaDNS + redsocks
-
 ### ChinaDNS
 
 防止 DNS 污染服务器已经好了，下面我们让 China DNS

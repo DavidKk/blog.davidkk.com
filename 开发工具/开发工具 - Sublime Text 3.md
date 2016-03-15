@@ -4,8 +4,6 @@
 <!-- category: 软件 -->
 <!-- tag: 开发工具 -->
 
-# 主要介绍部分比较有用的 ST2/3 插件
-
 ### 安装 Package Control
 
 ```

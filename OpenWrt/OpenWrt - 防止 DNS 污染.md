@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器,dns,pdnsd,dnsmasq -->
 
-# OpenWrt - pdnsd + dnsmasq
-
 使用 pdnsd 与 dnsmasq 能解决 DNS 污染与创建本地 DNS 缓存强劲加速解析速度，
 一般知名 DNS 服务器提供商，百度垃圾竟然玩劫持，这里严重吐槽，一下列出几个，国内没测试过有没劫持：
 

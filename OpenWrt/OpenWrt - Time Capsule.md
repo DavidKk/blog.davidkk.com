@@ -4,8 +4,6 @@
 <!-- category: openwrt -->
 <!-- tag: openwrt,路由器,Time Capsule,Netatalk,Avahi -->
 
-# OpenWrt - Time Capsule
-
 创建伪 Time Capsule 服务器，能给 Mac OSX Time Machine 做备份使用。
 
 ## 前期工程

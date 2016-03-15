@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器,百度网盘,Syncy -->
 
-## OpenWrt - 离线下载之百度网盘 Syncy
-
 [官方网站](http://www.syncy.cn/index.php/tag/openwrt/)
 
 ### 安装方法十分简单

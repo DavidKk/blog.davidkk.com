@@ -4,8 +4,6 @@
 <!-- category: 系统-->
 <!-- tag: OSX,Yosemite,U盘-->
 
-# [backup]OSX 10.10 Yosemite 制作U盘安装盘
-
 ### 下载 Yosemite 系统
 
 自己找下载地址，我也找不到较官方的下载地址。

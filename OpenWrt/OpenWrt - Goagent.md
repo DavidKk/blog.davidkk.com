@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器,Goagent -->
 
-# OpenWrt - Goagent
-
 具体 goagent 攻略请自行 google/bing，这里只说明具体 OpenWrt 中安装需注意事项。
 
 ### 安装 `python`, `python-crypto`, `pyopenssl`, `python-openssl`

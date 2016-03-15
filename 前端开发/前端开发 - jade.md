@@ -5,8 +5,6 @@
 <!-- category: Jade -->
 <!-- tag: 模板引擎,Jade -->
 
-# [backup] Jade 学习笔记
-
 [http://jade-lang.com/](http://jade-lang.com/)
 
 Jade官方的表述是：Jade 是一款 HTML 的模板引擎

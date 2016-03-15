@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器,DLNA -->
 
-# OpenWrt - DLNA 服务
-
 超级简单，可以直接利用 `minidlna` 就可以实现
 
 

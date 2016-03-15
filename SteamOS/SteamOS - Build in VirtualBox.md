@@ -4,8 +4,6 @@
 <!-- category: SteamOS,virtualbox -->
 <!-- tag: SteamOS,virtualbox -->
 
-# SteamOS - 在 Virtualbox 安装 SteamOS
-
 首先要准备的当然是安装包，可以到官网下载[SteamOS](http://store.steampowered.com/steamos/buildyourown)
 
 

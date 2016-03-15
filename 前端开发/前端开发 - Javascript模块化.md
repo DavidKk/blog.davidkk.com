@@ -4,8 +4,6 @@
 <!-- category: 前端 -->
 <!-- tag: 基础知识 -->
 
-# 前端开发 - Javascript 模块化
-
 Javascript 不是一种模块化编程语言，它不支持类`(class)`，更没有模块`(module)`。(正在制定中的 ECMAScript 标准第六版，将正式支持类和模块，但还需要很长时间才能投入实用。)
 Javascript 只有本身的基础原生对象和类型，更多的对象和API都取决于宿主的提供，所以，我们可以看到JavaScript 缺少这些功能：
 

@@ -4,8 +4,6 @@
 <!-- category: OpenWrt -->
 <!-- tag: OpenWrt,路由器 -->
 
-# OpenWrt - Samba
-
 ### 安装 samba
 
 若安装 `luci-app-samba` 以下一系列操作都可以通过 WebUI 进行配置。

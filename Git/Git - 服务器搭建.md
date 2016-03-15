@@ -5,8 +5,6 @@
 <!-- category: 多人开发 -->
 <!-- tag: git,git服务器搭建 -->
 
-# [backup] Git 服务器搭建
-
 服务器: ubuntu in virtualbox
 本机: osx
 
