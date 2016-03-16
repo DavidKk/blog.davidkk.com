@@ -124,4 +124,6 @@ mount -t afp "afp://192.168.1.1/TimeMachine" /Volumes/TimeMachine
 # 192.168.1.1 是 OpenWrt IP
 ```
 
-[参考文章 https://wiki.openwrt.org/doc/howto/timemachine](https://wiki.openwrt.org/doc/howto/timemachine)
+参考文章
+
+- [https://wiki.openwrt.org/doc/howto/timemachine](https://wiki.openwrt.org/doc/howto/timemachine)

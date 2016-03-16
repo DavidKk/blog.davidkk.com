@@ -51,4 +51,6 @@ $ /etc/init.d/minidlna start
 
 完成可以查看 `http://192.168.1.1:8200/` 来查看DLNA服务运行状况
 
-[参考文献: https://wiki.openwrt.org/doc/uci/minidlna](https://wiki.openwrt.org/doc/uci/minidlna)
+参考文章
+
+- [https://wiki.openwrt.org/doc/uci/minidlna](https://wiki.openwrt.org/doc/uci/minidlna)

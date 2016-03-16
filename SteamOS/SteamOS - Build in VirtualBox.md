@@ -87,7 +87,7 @@ $ reboot
 
 完成
 
-[参考文献]
-[http://news.softpedia.com/news/How-to-Install-SteamOS-in-VirtualBox-409363.shtml](http://news.softpedia.com/news/How-to-Install-SteamOS-in-VirtualBox-409363.shtml)
-[https://steamcommunity.com/groups/steamuniverse/discussions/1/648814395813782335/](https://steamcommunity.com/groups/steamuniverse/discussions/1/648814395813782335/)
-[https://steamcommunity.com/sharedfiles/filedetails/?l=spanish&id=204085700](https://steamcommunity.com/sharedfiles/filedetails/?l=spanish&id=204085700)
+参考文献
+- [http://news.softpedia.com/news/How-to-Install-SteamOS-in-VirtualBox-409363.shtml](http://news.softpedia.com/news/How-to-Install-SteamOS-in-VirtualBox-409363.shtml)
+- [https://steamcommunity.com/groups/steamuniverse/discussions/1/648814395813782335/](https://steamcommunity.com/groups/steamuniverse/discussions/1/648814395813782335/)
+- [https://steamcommunity.com/sharedfiles/filedetails/?l=spanish&id=204085700](https://steamcommunity.com/sharedfiles/filedetails/?l=spanish&id=204085700)

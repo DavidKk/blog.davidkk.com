@@ -145,7 +145,9 @@ $ /etc/init.d/samba restart
 ```
 
 参考文章
+
 - [How to create user without useradd command in OpenWrt](http://vladimir-ivanov.net/create-user-without-useradd-command-OpenWrt/)
 
 ### 其他 samba 功能，详细请看
+
 - [samba 官方docs](https://www.samba.org/samba/docs/)

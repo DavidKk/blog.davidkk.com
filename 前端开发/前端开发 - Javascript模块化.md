@@ -237,5 +237,5 @@ define(
 
 参考文章
 
-[CommonJS规范](http://javascript.ruanyifeng.com/nodejs/commonjs.html)
-[Node.js模块的实现](http://www.cnblogs.com/kudosharry/articles/2684850.html)
+- [CommonJS规范](http://javascript.ruanyifeng.com/nodejs/commonjs.html)
+- [Node.js模块的实现](http://www.cnblogs.com/kudosharry/articles/2684850.html)
