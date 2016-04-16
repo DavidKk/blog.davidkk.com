@@ -56,5 +56,5 @@ $ killall Finder
 
 -------------------
 
-新增方法二：
+### 新增方法二： 
 苹果官方方案：[为 OS X 创建可引导安装器](https://support.apple.com/zh-cn/HT201372) ，从 App Store 下载最新安装包进行打包安装盘。
