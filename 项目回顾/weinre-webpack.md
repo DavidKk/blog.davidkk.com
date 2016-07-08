@@ -6,6 +6,11 @@
 
 # 编写 weinre webpack 插件
 
+### 项目
+
+Github: https://github.com/DavidKk/weinre-webpack
+NPM: https://www.npmjs.com/package/weinre-webpack
+
 ### 起因
 
 webpack 插件中很容易就可以注入代码到HTML里面,
@@ -60,6 +65,10 @@ class Weinre {
 因为用户永远不知道某个端口是否被占用, 因此我在项目中自动查找空闲的端口, 当然也可以自定义相应的.
 
 ### 调用
+
+```
+npm i weinre-webpack --save-dev
+```
 
 ```
 import Weinre from 'weinre-webpack';
