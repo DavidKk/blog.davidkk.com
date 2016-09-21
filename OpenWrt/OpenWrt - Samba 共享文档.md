@@ -45,7 +45,7 @@ $ vi /etc/samba/smb.conf.template
   map to guest = Bad User
   max protocol = SMB2
   min receivefile size = 16384
-  null passwords = yes                        # 无需密码       
+  null passwords = yes                        # 无需密码
   obey pam restrictions = yes
   os level = 20
   passdb backend = smbpasswd
