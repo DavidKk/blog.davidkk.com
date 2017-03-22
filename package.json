@@ -1,5 +1,15 @@
 {
+  "name": "devbackup",
+  "version": "1.0.0",
+  "description": "该项目为 [http://blog.davidkk.com](http://blog.davidkk.com) 下的博客文章原文",
+  "scripts": {
+    "deploy": "bloke . --deploy"
+  },
+  "author": "David Jones",
+  "license": "ISC",
+  "homepage": "https://github.com/DavidKk/david-dev-backup#readme",
   "dependencies": {
+    "bloke": "^1.0.2",
     "bloke-theme-sharp": "^0.0.3"
   }
 }

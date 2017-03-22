@@ -12,6 +12,6 @@ module.exports = {
   },
   deploy: {
     email  : 'qowera@qq.com',
-    apikey : 'qwe',
+    apikey : 'd81735965fcb',
   },
 };
