@@ -10,4 +10,8 @@ module.exports = {
     config : {
     },
   },
+  deploy: {
+    email  : 'qowera@qq.com',
+    apikey : 'qwe',
+  },
 };
