@@ -15,6 +15,8 @@ if [ "$SOURCE_FOLDER" == "" -o "$ENCRYPTION_LABEL" == "" -o "$COMMIT_AUTHOR_EMAI
   exit 0
 fi
 
+echo "Start to deploy, please wait..."
+
 # Save some useful information
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
