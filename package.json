@@ -7,9 +7,9 @@
   },
   "author": "David Jones",
   "license": "ISC",
-  "homepage": "https://github.com/DavidKk/david-dev-backup#readme",
+  "homepage": "https://github.com/DavidKk/blog.davidkk.com#readme",
   "dependencies": {
-    "bloke": "^1.0.2",
+    "bloke": "^1.0.5",
     "bloke-theme-sharp": "^0.0.3"
   }
 }
