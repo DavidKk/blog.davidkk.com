@@ -10,6 +10,7 @@ before_script:
 script:
 - bloke . --deploy
 deploy:
+  provider: releases
   skip_cleanup: true
   script:
   - ./deploy.sh
