@@ -8,12 +8,12 @@ before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 script:
-- bloke . --deploy
+- bloke .
 deploy:
-  provider: releases
+  provider: pages
+  local_dir: blog
   skip_cleanup: true
-  script:
-  - ./deploy.sh
+  github_token:
+    secure: hNFpGJSeK5HMdQRfDTVUmJJhmCdiLAzeGOanZBBUVk0R6DVOfxp3SwB38MHqCKnRFBjYlV51yMrNQjPGJiyHkslwLGz5NKezn0WOzw1YDzCBYy+Oy8t/CYEUoK4zn+cjhFowZ3L6S3emflLgnfX24oerP1M7JYzGOG8KBZbOOVg=
   on:
     branch: master
-    repo: DavidKk/blog.davidkk.com
