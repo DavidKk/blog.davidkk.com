@@ -13,3 +13,6 @@ deploy:
   skip_cleanup: true
   script:
   - ./deploy.sh
+  on:
+    branch: master
+    repo: DavidKk/blog.davidkk.com
