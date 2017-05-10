@@ -1,6 +1,6 @@
 <!-- title: 前端开发 - JSON.parse 坑 -->
 <!-- author: <David Jones qowera@qq.com> -->
-<!-- date: 2017年05月10日11:08:45 -->
+<!-- date: 2017-05-10 11:55:40 -->
 <!-- category: 前端 -->
 <!-- tag: 基础知识 -->
 
