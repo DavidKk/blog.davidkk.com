@@ -14,6 +14,6 @@ deploy:
   local_dir: blog
   skip_cleanup: true
   github_token:
-    secure: hNFpGJSeK5HMdQRfDTVUmJJhmCdiLAzeGOanZBBUVk0R6DVOfxp3SwB38MHqCKnRFBjYlV51yMrNQjPGJiyHkslwLGz5NKezn0WOzw1YDzCBYy+Oy8t/CYEUoK4zn+cjhFowZ3L6S3emflLgnfX24oerP1M7JYzGOG8KBZbOOVg=
+    secure: aNJ2Irgu6R4NLtfb68Gi5YtN2S2CPB7OrCStFHE0hBwPyVBBzdCMjsNQuP1nQrdnpFpRuMkZl7to6T3H4jA4w7CA688BLuvTE8Zjnb4SqQ1ei7aloYfReR8PMhPE8qRrueY9de9vr6cLI0h4LX2Tnpo76R/36DPOcYb/OvlcfVs=
   on:
     branch: master
