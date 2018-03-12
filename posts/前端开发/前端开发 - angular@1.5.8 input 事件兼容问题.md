@@ -57,11 +57,7 @@ angular.js@1.5.8 line: 23994 中, $sniffer.hasEvent 判断浏览器支持 input 
   };
 ```
 
-键入第二个字符的时候, element.value 的值是
-
 当输入第二个值时, 而此时 $viewValue 的已经更新到第一次输入 element.value. 这个过程之后它会拿第一个值的 $viewValue 与 element.value 对比, 一次很容易发现 (line: 24048) 两个值是不同的, 这样 angular 就会重新赋值 `$element.val($viewValue)` 导致第二次的值会覆盖第一次的值, 而之后的情况不会.
-
-
 
 因为 input event 不规范导致, 具体原因不明
 但在系统默认浏览器下不会出现该问题
