@@ -30,11 +30,6 @@
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-#### 怪异模式 (Quirks mode) 与 标准模式 (Standards Mode)
-
-IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示网页, 如果文档正确定义了 DOCTYPE 浏览器则会进入标准模式（Standards Mode）, 否则浏览器会进入怪异模式或混杂模式（Quirks mode）
-在标准模式下, 浏览器会根据 W3C 的规范来渲染页面；而在怪异模式中, 页面将以 IE5 的渲染方式来渲染页面.
-
 IE盒模型：
 
 - 主要有 IE5, IE6(Q), IE7(Q)
@@ -55,18 +50,22 @@ W3C盒模型：
 }
 ```
 
-##### 设置标准模式
+### 怪异模式 (Quirks mode) 与 标准模式 (Standards Mode)
+
+IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示网页, 如果文档正确定义了 DOCTYPE 浏览器则会进入标准模式 (Standards Mode), 否则浏览器会进入怪异模式 (Quirks mode)
+在标准模式下, 浏览器会根据 W3C 的规范来渲染页面; 而在怪异模式中, 页面将以 IE5 的渲染方式来渲染页面.
+
+#### 设置标准模式
 
 [最详细](http://www.fantxi.com/blog/archives/browser-mode/)
 
 - 加 DOCTYPE 声明
-- 设置 X-UA-Compatible 触发.
+- 设置 X-UA-Compatible 触发
 
+#### 设置怪异模式
 
-##### 设置怪异模式
-
-- 无 doctype 声明、定义旧的HTML版本（HTML4以下, 例如3.2）
-- 加XML声明, 可在ie6下触发
+- 无 doctype 声明, 定义旧的HTML版本（HTML4以下, 例如3.2）
+- 加 XML 声明, 可在 ie6 下触发
 - 在 XML 声明和 XHTML 的 DOCTYPE 之间加入 HTML 注释, 可在ie7下触发
 - `<!-- keep IE7 in quirks mode -->` 放在 `<!DOCTYPE` 前面
 
@@ -105,7 +104,6 @@ W3C盒模型：
 - `E[attr=val]` 匹配属性等于某值 `p[class="error"] { color: red; }`
 - `E[attr~=val]` 匹配属性中含有某值, 用空格分开 `p[class~="error"] { color: red; }`
 - `E[attr|=val]` 匹配连字号分割, 若为 `class` 只能匹配到只有一个 `class`且拥有 `-` 的元素 p[lang|=en] { color: green; }`
-
 
 ###### CSS 3
 
@@ -178,7 +176,7 @@ W3C盒模型：
 
 #### 权重值的比较
 
-而在普遍的文章描述中, 经常会说到 ID 是100, Class 的权重是 10, 标签是 1；
+而在普遍的文章描述中, 经常会说到 ID 是100, Class 的权重是 10, 标签是 1;
 其实权重结算的结果并非如此, 而是将这些更像如此 ID,Class,E, ID永远比Class优先
 当出现这样的情况：
 
@@ -187,8 +185,8 @@ html body header nav ul li div p a span em { color: red; }
 .num { color: yellow; }
 ```
 
-此时样式色结果是 yellow, 若按Class 权重为10来看, 则明显应该是 red；所以我们可以确定此时权重应该是 0,0,11 0,1,0,
-当 class 权重一样的时候, 会根据次权重的即 E 权重的数值来比较, 若都一样会通过后者来确定优先级；
+此时样式色结果是 yellow, 若按Class 权重为10来看, 则明显应该是 red; 所以我们可以确定此时权重应该是 0,0,11 0,1,0,
+当 class 权重一样的时候, 会根据次权重的即 E 权重的数值来比较, 若都一样会通过后者来确定优先级;
 
 ##### 权重值的计算
 

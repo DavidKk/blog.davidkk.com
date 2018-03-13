@@ -11,7 +11,7 @@
 - SGML (Standard Generalized Markup Language, 标准通用标记语言) 是现时常用的超文本格式的最高层次标准, 是可以定义标记语言的元语言, 甚至可以定义不必采用< >的常规方式. HTML 是被用 SGML 描述的标记语言
 - HTML (HyperText Markup Language, 超文本标记语言), 是为 "网页创建和其它可在网页浏览器中看到的信息" 设计的一种标记语言, 适合 Web, 可是标记较少, 不支持其他领域的标记语言
 - XML (eXtensible Markup Language, 可扩展标记语言), 根据网上的理解, 使用来在网络传输中表示数据的结构的, 及我们可以通过 XML, 可以得到数据的真实结构, 与 HTML 对比理解, HTML 主要用于在网络上控制数据信息的布局, XML 则用于记录数据本身的结构, 包括保存数据. 前者侧重与表现, 后者侧重于记录
-- XHTML (eXtensible HyperText Markup Language, 可扩展超文本标记语言), 从继承关系上讲, HTML是一种基于标准通用标记语言（SGML）的应用, 是一种非常灵活的置标语言, 而XHTML则基于可扩展标记语言（XML）, XML 是 SGML的一个子集
+- XHTML (eXtensible HyperText Markup Language, 可扩展超文本标记语言), 从继承关系上讲, HTML 是一种基于标准通用标记语言（SGML）的应用, 是一种非常灵活的置标语言, 而 XHTML 则基于可扩展标记语言（XML, XML 是 SGML的一个子集
 
 ```
  ┏━━━━┓
@@ -30,7 +30,7 @@
 
 因此利用 SGML 创建了 HTML 参照和必须共同遵守的 DTD (document type definition, 文本类型定义), 你会经常在 HTML 页面的头部发现 `DOCTYPE` 属性, 用来定义用于解析目标 DTD
 
-```
+```html
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 ```
 
@@ -40,7 +40,7 @@ DOCTYPE 能告诉浏览器使用哪种 html 或者 xhtml 规范来解析文档, 
 另外 DOCTYPE 还会对浏览器的渲染模式产生影响, 不同的渲染模式会影响浏览器对 CSS, Javascript 脚本的解析方式
 
 - Transitional: 一种要求很不严格的DTD, 允许在页面中使用HTML 4.01 的标识
-- Strict: 一种要求严格的DTD, 不允许使用任何表现层标识和属性
+- Strict: 一种要求严格的 DTD, 不允许使用任何表现层标识和属性
 - Frameset: 一种专门针对框架页面所使用的DTD, 当页面中含有框架元素时候, 就要采用这种DTD
 
 ### SVG
@@ -67,7 +67,7 @@ HTML5 语法中同时定义了解析规则——包括异常的处理方式. 这
 
 下面是一个能够说明HTML语法的示例文档：
 
-```
+```html
 <!doctype html>
 <html>
   <head>
@@ -82,7 +82,7 @@ HTML5 语法中同时定义了解析规则——包括异常的处理方式. 这
 
 另外一个可以被用于 HTML 的语法是 XML.  XML 语法可兼容于 XHTML 文档或实现. 使用 XML 语法的文档需要配套 XML 文档的媒体类型如 application/xhtml+xml 或 application/xml 来使用, 同时元素需要遵循 XML 规则, 被放到 http://www.w3.org/1999/xhtml 命名空间中：
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -106,7 +106,7 @@ XML语法中, 开发需要按照XML标准来设置编码.
 
 ##### MathML 和 SVG
 
-HTML语法允许文档内嵌MathML和SVG元素.
+HTML 语法允许文档内嵌MathML和SVG元素.
 
 - math 和 svg 的开始标签将会导致HTML解析器转为特殊的插入模式, 以将元素和属性放入合适的命名空间, 并转化大小写, 并支持XML中的空元素语法
 - HTML中 的 math/svg 的相关元素及其属性依然是区分大小写的
@@ -114,7 +114,7 @@ HTML语法允许文档内嵌MathML和SVG元素.
 - 在这个特殊的插入模式里, 可以使用CDATA语法
 - 一些 MathML 和 SVG 元素可能导致解析器转回 HTML 解析模式, 比如 mtext 和 foreignObject, 在这些元素内部你可以使用HTML元素或者新的 math/svg 元素.
 
-```
+```html
 <!doctype html>
 <title>SVG in text/html</title>
 <p>
@@ -140,7 +140,6 @@ HTML语法允许文档内嵌MathML和SVG元素.
 - DOM0: 通过设置 `onclick=function () {}` 等绑定事件成为DOM0级事件; 删除可以通过 `onclick=null` 形式删除
 - DOM2: 通过 `addEventListener` 与 `removeEventListener` 方式去添加或删除事件, 其中我们可以设置 `冒泡` 或 `捕抓` 事件
 
-
 ### HTML5 新增标签元素
 
 #### 结构元素
@@ -157,7 +156,6 @@ HTML语法允许文档内嵌MathML和SVG元素.
 - figure - 用来包裹图片, 并配合 `figcaption` 标签给图片一个说明
 - [dialog](http://www.w3school.com.cn/tags/index.asp) - 用来表示人与人之间的交流互动, 默认设置了绝对定位居中
 - address - 是用来定义与HTML页面或页面一部分有关的作者、相关人员或组织的联系信息，通常位于页面底部或相关部分内
-
 
 #### 行内元素
 
@@ -438,17 +436,17 @@ else {
 
 #### 扩展 HTTP 实时性 Web
 
-- HTTP 轮询 (Polling)：个是最容易实现的而且对浏览器服务器没有特别要求, 就是通过不断的向服务器发ajax请求. 但这种方法会很浪费带宽和资源, 所以不太可取.
-- JSONP 轮询：跟http轮询类似, 只不过是 JSONP是可跨域的.
-- 捎带轮询 (Piggyback Polling)：所谓的 Piggyback 指的是如果后台有什么内容需要推送到前台（即调用页面的js方法）, 是要等到那个页面进行下一次ajax请求的时候, 将需要推送的内容附加在该次请求之后, 传回到页面.
-- Comet (长连接, 服务器推)：Comet 是一个 Web 应用模型, 就是客户端的请求被发送到服务器端后保持一个很长的存活期, 直到超时或是有服务器端事件发生. 这样服务器就可以在无需显式请求的情况下向客户端发送数据, 但这种长时间保持请求打开的功能需要服务器的支持. 实现Comet这种模式有2种方法：
-  - 流 (streaming)：流的实现也有两种方法：传说中的Forever Iframes 和多部分的 XMLHttpRequest
-    - Forever Iframe：这个之前就有听说, 就是通过隐藏的iframe的src指向返回服务器端事件的 servlet 路径, 每次在事件到达时, servlet 写入并刷新一个新的 script 标签, 该标签内部带有 JavaScript 代码, iframe 的内容被附加上这一 script 标签, 标签中的内容就会得到执行.  这种方式实现简单, 支持iframe的浏览器都可以, 但是连接和数据都是通过html标签, 不能追踪连接状态以及可靠的错误处理.
-    - 多部分的 XMLHttpRequest：是在 XHR 对象上使用某些浏览器（比如 Firefox）支持的 multi-part 标志, Ajax 请求被发送给服务器端并保持打开状态, 每次有事件到来时, 一个多部分的响应就会通过这同一连接来写入. 并非所有浏览器支持.
-  - 长轮询 (long-polling)：应该是指服务器端的技术可以保持连接保持打开状态, 有事件发生, 则响应给客户端, 关闭连接, 然后再打开一个新的连接. 也是有2种实现方式：script 标签 和 XMLHttpRequest 长轮询.
-    - script 标签：跟iframe类似, 也是返回script脚本执行, 可跨域, 与iframe有同样的缺点, 错误处理缺失, 以及连接的不可知不可干涉.
-    - XMLHttpRequest 长轮询：我的理解就是发送普通的ajax请求, 由服务器端挂起请求, 直到某个事件返回响应客户端, 客户端继续打开新的请求. 这也算是实现Comet的最佳实现了, 可以对超时等错误进行追踪, 对浏览器几乎没有要求, 只是服务器端需要挂起连接的功能.
-- FlashSockets：利用嵌入网页的flash程序中的 socket 跟服务器通信, javascript 在通过flash提供的接口获取到XML. 从而实现服务器推. 但flashsockets需要安装flash插件, 并需要843端口.
+- HTTP 轮询 (Polling): 个是最容易实现的而且对浏览器服务器没有特别要求, 就是通过不断的向服务器发ajax请求. 但这种方法会很浪费带宽和资源, 所以不太可取.
+- JSONP 轮询: 跟 http 轮询类似, 只不过是 JSONP 是可跨域的.
+- 捎带轮询 (Piggyback Polling): 所谓的 Piggyback 指的是如果后台有什么内容需要推送到前台（即调用页面的js方法）, 是要等到那个页面进行下一次 ajax 请求的时候, 将需要推送的内容附加在该次请求之后, 传回到页面.
+- Comet (长连接, 服务器推): Comet 是一个 Web 应用模型, 就是客户端的请求被发送到服务器端后保持一个很长的存活期, 直到超时或是有服务器端事件发生. 这样服务器就可以在无需显式请求的情况下向客户端发送数据, 但这种长时间保持请求打开的功能需要服务器的支持.
+  - 流 (streaming): 流的实现也有两种方法
+    - Forever Iframe: 就是通过隐藏的 iframe 的 src 指向返回服务器端事件的 servlet 路径, 每次在事件到达时, servlet 写入并刷新一个新的 script 标签, 该标签内部带有 JavaScript 代码, iframe 的内容被附加上这一 script 标签, 标签中的内容就会得到执行. 这种方式实现简单, 支持 iframe 的浏览器都可以, 但是连接和数据都是通过 html 标签, 不能追踪连接状态以及可靠的错误处理.
+    - AJAX multipart XHR: 是在 XHR 对象上使用某些浏览器（比如 Firefox）支持的 multi-part 标志, Ajax 请求被发送给服务器端并保持打开状态, 每次有事件到来时, 一个多部分的响应就会通过这同一连接来写入. 并非所有浏览器支持
+  - 长轮询 (long-polling): 应该是指服务器端的技术可以保持连接保持打开状态, 有事件发生, 则响应给客户端, 关闭连接, 然后再打开一个新的连接. 也是有2种实现方式: script 标签 和 XMLHttpRequest 长轮询.
+    - script 标签: 跟 iframe 类似, 也是返回 script 脚本执行, 可跨域, 与 iframe 有同样的缺点, 错误处理缺失, 以及连接的不可知不可干涉.
+    - XMLHttpRequest 长轮询: 我的理解就是发送普通的 ajax 请求, 由服务器端挂起请求, 直到某个事件返回响应客户端, 客户端继续打开新的请求. 这也算是实现 Comet 的最佳实现了, 可以对超时等错误进行追踪, 对浏览器几乎没有要求, 只是服务器端需要挂起连接的功能.
+- FlashSockets: 利用嵌入网页的 flash 程序中的 socket 跟服务器通信, javascript 在通过f lash 提供的接口获取到 XML. 从而实现服务器推. 但flashsockets需要安装flash插件, 并需要843端口.
 - WebSocket: 是 HTML5 开始提供的一种浏览器与服务器间进行全双工通讯的网络技术.
 
 参考资料

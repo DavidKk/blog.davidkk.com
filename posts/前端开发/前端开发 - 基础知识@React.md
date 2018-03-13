@@ -39,19 +39,20 @@
     - key 值不同, 则销毁元素然后创建一个新元素
   - 当没有定义 key 值时, 首先会报错提示, 然后会判断成所有元素都相同并进行更新元素
   - 普通元素不需要 key 值是因为 React 根据元素的位置进行更新前后的对比
-- diff 算法:
+- diff 算法: `tree diff` -> `component diff` -> `element diff`
   - tree diff: 只对树结构同层节点进行对比
-    - 主要利用 children 获取所有子节点并对这些子节点进行对比
     - 若出现跨层转移节点, 则会通过创建节点与所有拥有的子节点, 再通过删除直接加到位置中
+    - 主要利用 children 获取所有子节点并对这些子节点进行对比
     - 稳定的树结构可以有助于性能的体现, 可通过隐藏等方式代替节点跳级情况
-  - component diff: 比较是否为同一类型的组件
+  - component diff: 在 `tree diff` 的需要对比的两个组件的过程叫做 `component diff`
     - 不是同一类就替换此组件及所有其子节点
-    - 同一类就继续比较 Virtual DOM tree
-    - 若为同一类, 也有可能其 Virtual DOM 没有发生改变, 这是组件提供了 shouldComponentUpdate 方法让用户自行判断是否需要更新自身, 或使用 extends PureComponent 的方式表示该组件不接受根节点的更新
-  - element diff:
-    - INSERT_EXISTING: 新的节点类型不在旧的集合里面, 则创建一个全新的节点
-    - MOVE_EXISTING: 在老集合有新 component 类型, 且 element 是可更新的类型, generateComponentChildren 已调用 receiveComponent, 这种情况下 prevChild=nextChild, 就需要做移动操作, 可以复用以前的 DOM 节点
-    - REMOVE_EXISTING: 老 component 类型, 在新集合里也有, 但对应的 element 不同则不能直接复用和更新, 需要执行删除操作, 或者老 component 不在新集合里的, 也需要执行删除操作
+    - 如果不是同一类就需要更新, 通过删除旧组件再创建一个新组件插入到被删除组件的位置
+    - 如果类型相同, 暂时不更新, 往下进行 `element diff`
+    - 若为同一类, 也有可能其 Virtual DOM 没有发生改变, 这是组件提供了 `shouldComponentUpdate` 方法让用户自行判断是否需要更新自身, 或使用 `extends PureComponent` 的方式表示该组件不接受根节点的更新, 即不执行 `render` 方法
+  - element diff: 在类型相同的组件对比中, 需要再对内部元素进行对比的过程叫做 `element diff`
+    - INSERT_MARKUP (插入): 新的 `component` 类型不在老集合里, 需要对新节点执行插入操作
+    - MOVE_EXISTING (移动): 老的集合包含新的 `component` 类型, 就需要做移动操作, 可以复用以前的 DOM 节点
+    - REMOVE_NODE (删除): 老的 component 不在新集合里的, 需要执行删除操作 或者 老的 component 类型在新集合里也有, 但对应的 element 不同则不能直接复用和更新, 需要执行删除操作
   - 通过 key 标记需要更新的 Virtual DOM
 - 一致性比较 (reconciliation): Fiber (纤维)
   - Docs: https://github.com/facebook/react/tree/master/packages/react-reconciler
