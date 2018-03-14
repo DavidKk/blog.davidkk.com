@@ -23,6 +23,19 @@
   - Compile: 对每个元素节点进行扫描与解析, 根据指令模板替换数据, 以及绑定相应的更新函数.
   - Watcher: 作为连接 `Observer` 和 `Compile` 的桥梁, 当 `Compile` 解析指令时会生成一个 `Watcher` 并给它绑定一个 `update` 方法, 并添加到当前正在解析的指令所依赖的对象的 `Dep` 对象上. 在收到 `Dep` 的消息之后, `Watcher` 会通知 `Directive` (指令) 对 DOM 节点进行更新
     - 当 `update` 执行时大部分情况将自身压进队列中, 等待下一次更新.
+- Path 阶段:
+  - Diff 算法: 当发现需要更新/新增/删除的节点的时候, 是即时进行的, 而不是统一通过队列处理的 (React 是压入队列之中);
+    - 通过定义两个指针位置逐一对新旧树上的节点进行对比, 然后将结果直接反应到 `DOM tree` 上 (两树共四个位置, 这里标记为 `newStart`, `newEnd`, `oldStart`, `oldEnd`);
+    - 当两个指针指向两个新旧节点的时候
+      - 如果两个节点相同则只需要进行更新操作 (属性,内容等更新), 并标记 DOM, 然后将 `newStart` `oldStart` 同时向后移动一个位置;
+      - 如果两个节点不相同
+        - 则先查看 `oldStart` 是否在新树 (`newTree`) 中
+          - 如果不存在, 则删除该 DOM 节点, `oldStart` 往后移动一位
+          - 如果存在, 则移动该节点到该位置后, 并 `oldStart` 往后移动一位, 并标记 DOM 成已操作
+        - 然后再查看 `newStart` 是否存在旧树 (`oldTree`) 中
+          - 如果不存在, 则创建新 DOM 节点, `newStart` 往后移动一位
+          - 如果存在, 同上
+    - 重复以上操作, 并先后对 `oldStart`, `newStart`, `oldEnd`, `newEnd` 顺序去处理
 
 参考资料
 - [https://github.com/berwin/Blog/issues/11](https://github.com/berwin/Blog/issues/11)

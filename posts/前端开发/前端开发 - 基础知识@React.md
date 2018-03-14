@@ -16,7 +16,7 @@
   - 拥有 props.children 属性, 标记子 element, 通过此容易实现一些递归的需求
   - 当 props.children.type 标记为自定义组件时, 会递归执行 Component->render->createElement 过程, 并最终获得 element 对象为止
 - Instance: Component 实例化后的 this
-  - 实例化 Component 之后, Instance 拥有 props, stats 和对应的DOM节点与子组件的引用, 实例化通过 React 自身执行创建/销毁
+  - 实例化 Component 之后, Instance 拥有 props, stats 和对应的 DOM 节点与子组件的引用, 实例化通过 React 自身执行创建/销毁
 - ReactHostComponent: 该模块通过 `ReactHostComponentInjection`, `.injectGenericComponentClass(ReactDOMComponent)` 与 `.injectTextComponentClass(ReactTextComponent)` 注入到模块中并通过 `createInternalComponent` 和 `createInstanceForText` 来对 `ReactDOMComponent` 与 `ReactTextComponent` 进行属性加成 (Markup); 例如这两种组件都会增加了对应 DOM 节点的 node 属性.
 - PureComponent: 纯正的组件
   - 继承该组件的组件在 shouldComponentUpdate 的阶段会通过 shadowEqual 来判断新旧 props 和 state 的 key 值是否相同, 对应属性的引用是否一致 '===', 若相同则不做更新处理, 若不同则更新
@@ -24,7 +24,7 @@
   - 总之注意一下引用
 - Virtual DOM:
   - 减少重排/重绘次数, 把双缓冲的技术实现到DOM上面
-  - 将DOM抽象化, 同时自动化地管理DOM碎片, 开发者在无感知的情况下已经实现优化的过程
+  - 将 DOM 抽象化, 同时自动化地管理 DOM 碎片, 开发者在无感知的情况下已经实现优化的过程
   - 并不比手动优化处理DOM节点快, 利用最小的性能代价来更新DOM, 增加了代码可维护性
 - 生命周期 (React Lifecycle):
   - Hook 包括: `componenWillReceiveProps`, `componentWillMount`, `shouldComponentUpdate`, `componentWillUpdate`, `componentDidMount`. `componentDidUpdate`, `componentWillUnmount`

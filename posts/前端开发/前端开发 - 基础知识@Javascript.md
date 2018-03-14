@@ -56,14 +56,14 @@ console.log(a)    // 1
 把自己作为参数的函数称为自应用函数 (self-applicative function)；
 把自己作为返回值的函数称为自复制函数 (self-replicative function)
 
-```
+```Javascript
 # 高阶函数
-function q(funcVar) {
+function q (funcVar) {
   funcVar()
 }
 
 # 带函数值的函数
-function q() {
+function q () {
   return function() {}
 }
 
@@ -79,6 +79,7 @@ function q() {
 ```
 
 #### Funarg Problem - 泛函参数问题
+
 Funarg Problem 的一个子问题是 upward funarg problem (自下而上), 当一个函数作为另一个函数的返回值时, 并且使用了自由变量[free variable]的时候会发生. 即便它的父级上下文环境已经结束了, 它可以引用父级的变量. 这个内部函数在创建时就会将父级的作用域链保存在自己的作用域[[Scope]]中. 当函数运行时, 上下文环境的作用域量是由活跃变量[activation object]和它[[Scope]]属性组合而成.
 
 ```
@@ -87,7 +88,7 @@ Scope chain = Activation object + [[Scope]]
 
 请再次注意这个很重要的点 – 在函数创建期间[creation moment], 函数会将父级的作用域链保存起来, 因为随后调用这个函数的时候使用的已经保存的作用域链来搜寻变量.
 
-```
+```Javascript
 function foo() {
   var x = 10
   return function() {
@@ -103,7 +104,7 @@ foo()()  // 10, but not 20
 
 “funarg problem”的另一个类型就是自上而下[”downward funarg problem”].在这种情况下, 父级的上下会存在, 但是在判断一个变量值的时候会有多义性. 也就是, 这个变量究竟应该使用哪个作用域. 是在函数创建时的作用域呢, 还是在执行时的作用域呢？为了避免这种多义性, 可以采用闭包, 也就是使用静态作用域.
 
-```
+```Javascript
 var x = 10
 
 function foo() {
@@ -148,7 +149,7 @@ A closure is a combination of a code block (in ECMAScript this is a function) an
 
 #### 原型模型
 
-JavaScript 不包含传统的类继承模型, 而是使用 prototypal 原型模型. 在基于类的面向对象方式中, 对象（object）依靠类（class）来产生. 而在基于原型的面向对象方式中, 对象（object）则是依靠构造器（constructor）利用 原型（prototype）构造出来的. 在 JavaScript 中, "一切都是对象, 函数是第一类", `Function` 和 `Object` 都是函数的实例.
+JavaScript 不包含传统的类继承模型, 而是使用 prototypal 原型模型. 在基于类的面向对象方式中, 对象（object）依靠类（class）来产生. 而在基于原型的面向对象方式中, 对象（object）则是依靠构造器（constructor）利用原型（prototype）构造出来的. 在 JavaScript 中, "一切都是对象, 函数是第一类", `Function` 和 `Object` 都是函数的实例.
 
 #### 生成对象方式
 

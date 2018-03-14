@@ -39,13 +39,19 @@
 DOCTYPE 能告诉浏览器使用哪种 html 或者 xhtml 规范来解析文档, 其中引入的 dtd 文件包含了标记, attributes, properties, 约束规则, 浏览器根据此规范来解析 html 文档
 另外 DOCTYPE 还会对浏览器的渲染模式产生影响, 不同的渲染模式会影响浏览器对 CSS, Javascript 脚本的解析方式
 
-- Transitional: 一种要求很不严格的DTD, 允许在页面中使用HTML 4.01 的标识
+- Transitional: 一种要求很不严格的 DTD, 允许在页面中使用 HTML 4.01 的标识
 - Strict: 一种要求严格的 DTD, 不允许使用任何表现层标识和属性
-- Frameset: 一种专门针对框架页面所使用的DTD, 当页面中含有框架元素时候, 就要采用这种DTD
+- Frameset: 一种专门针对框架页面所使用的 DTD, 当页面中含有框架元素时候, 就要采用这种 DTD
+
+#### 设置怪异模式
+
+- 无 doctype 声明, 定义旧的HTML版本 (HTML4以下, 例如 3.2)
+- 加 XML 声明, 可在 ie6 下触发
+- 在 XML 声明和 XHTML 的 DOCTYPE 之间加入 HTML 注释, 可在 ie7 下触发
+- `<!-- keep IE7 in quirks mode -->` 放在 `<!DOCTYPE` 前面
 
 ### SVG
 SVG（Scalable Vector Graphics 可缩放矢量图形）表示可缩放矢量图形. 他是基于文本的图形语言, 使用文本, 线条, 点等来进行图像绘制
-
 
 ## HTML5
 
@@ -102,13 +108,13 @@ HTML标准中要求开发声明编码方式, 有这些方式可以做到：
 - 在文档头部放置对应使用的编码的 BOM
 - 使用有 charset 的 meta 元素 `<meta charset="UTF-8">` 代替 `<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">` (仍可继续使用)
 
-XML语法中, 开发需要按照XML标准来设置编码.
+XML 语法中, 开发需要按照 XML 标准来设置编码.
 
 ##### MathML 和 SVG
 
-HTML 语法允许文档内嵌MathML和SVG元素.
+HTML 语法允许文档内嵌 MathML 和 SVG 元素.
 
-- math 和 svg 的开始标签将会导致HTML解析器转为特殊的插入模式, 以将元素和属性放入合适的命名空间, 并转化大小写, 并支持XML中的空元素语法
+- math 和 svg 的开始标签将会导致 HTML 解析器转为特殊的插入模式, 以将元素和属性放入合适的命名空间, 并转化大小写, 并支持 XML 中的空元素语法
 - HTML中 的 math/svg 的相关元素及其属性依然是区分大小写的
 - 可以省略namespace（svg 的 namespace 可以省略 xmlns="http://www.w3.org/2000/svg"）
 - 在这个特殊的插入模式里, 可以使用CDATA语法
@@ -126,21 +132,21 @@ HTML 语法允许文档内嵌MathML和SVG元素.
 ### DOM 与 BOM
 
 - DOM (Document Object Model): DOM (文档对象模型) 是 HTML 和 XML 的应用程序接口 (API)
-- BOM (Browser Object Model): BOM (浏览器对象模型) 是 浏览器应用接口 (API); 其核心是 window, 而 window 对象又具有双重角色，它既是通过js访问浏览器窗口的一个接口，又是一个Global（全局）对象
+- BOM (Browser Object Model): BOM (浏览器对象模型) 是 浏览器应用接口 (API); 其核心是 window, 而 window 对象又具有双重角色，它既是通过js访问浏览器窗口的一个接口，又是一个 Global（全局）对象
 
 #### DOM 发展
 
 - DOM0: JavaScript在早期版本中提供了查询和操作Web文档的内容API
 - DOM1: DOM1级主要定义了HTML和XML文档的底层结构, 统一了标准化, W3C标准
 - DOM2: 在DOM1的基础上DOM2引入了更多的交互能力，也支持了更高级的XML特性
-- DOM3: 进一步扩展了DOM，引入了以统一方式加载和保存文档的方法，它在DOM Load And Save这个模块中定义；同时新增了验证文档的方法，是在DOM Validation这个模块中定义的
+- DOM3: 进一步扩展了DOM，引入了以统一方式加载和保存文档的方法，它在DOM Load And Save这个模块中定义；同时新增了验证文档的方法，是在 DOM Validation这个模块中定义的
 
 #### DOM0 与 DOM2 的事件处理
 
 - DOM0: 通过设置 `onclick=function () {}` 等绑定事件成为DOM0级事件; 删除可以通过 `onclick=null` 形式删除
 - DOM2: 通过 `addEventListener` 与 `removeEventListener` 方式去添加或删除事件, 其中我们可以设置 `冒泡` 或 `捕抓` 事件
 
-### HTML5 新增标签元素
+### HTML 标签
 
 #### 结构元素
 
@@ -151,20 +157,55 @@ HTML 语法允许文档内嵌MathML和SVG元素.
 - footer - 页面底部
 
 #### 块级元素
-
-- aside - 用于表示侧栏、贴士、摘要等
-- figure - 用来包裹图片, 并配合 `figcaption` 标签给图片一个说明
-- [dialog](http://www.w3school.com.cn/tags/index.asp) - 用来表示人与人之间的交流互动, 默认设置了绝对定位居中
-- address - 是用来定义与HTML页面或页面一部分有关的作者、相关人员或组织的联系信息，通常位于页面底部或相关部分内
+- HTML4  (不包含HTML5废除的)
+  - div
+  - form - 表单
+  - fieldset - form 控制组
+  - ol - 排序列表
+  - ul - 无需列表
+  - h1,...,h6 - 各种标题
+  - p - 段落
+  - blockquote - 引用
+  - pre - 格式化文本
+  - table, thead, tbody, tfoot, tr, td, th - 表格
+  - noscript - 可选脚本内容
+- HTML5
+  - aside - 用于表示侧栏、贴士、摘要等
+  - figure - 用来包裹图片, 并配合 `figcaption` 标签给图片一个说明
+  - [dialog](http://www.w3school.com.cn/tags/index.asp) - 用来表示人与人之间的交流互动, 默认设置了绝对定位居中
+  - address - 是用来定义与HTML页面或页面一部分有关的作者、相关人员或组织的联系信息，通常位于页面底部或相关部分内
 
 #### 行内元素
-
-- mark - 定义有记号的文本
-- [time](http://www.w3school.com.cn/tags/tag_time.asp) - 时间格式, 会在标签内给它一个datetime的属性, 属性值为电脑可识别的时间格式 - `<time datetime="2008-02-14">情人节</time>`
-- [meter](http://www.w3school.com.cn/tags/tag_meter.asp) - 标签定义度量衡, 它拥有6个属性value, min, max, low, high, optimum, 分别表示当前、最小、最大、低区、高区、最佳
-- [progress](http://www.w3school.com.cn/tags/tag_progress.asp) - 用来表示进度条, value, max, 按照 value/max 来确定进度, IE9或以下不支持
+- HTML4 (不包含HTML5废除的)
+  - a - 锚点
+  - span - 常用内联容器，定义文本内区块
+  - label - 表格标签
+  - input - 输入框
+  - select - 项目选择
+  - textarea - 多行文本输入框
+  - img - 图片
+  - i - 斜体
+  - em - 强调
+  - b - 粗体
+  - strong - 粗体强调
+  - small - 小字体文本
+  - br - 换行
+  - sub - 下标
+  - sup - 上标
+  - u - 下划线
+  - abbr - 缩写
+  - acronym - 首字
+  - code - 计算机代码
+  - var - 定义变量
+  - dfn - 定义字段
+- HTML5
+  - mark - 定义有记号的文本
+  - [time](http://www.w3school.com.cn/tags/tag_time.asp) - 时间格式, 会在标签内给它一个datetime的属性, 属性值为电脑可识别的时间格式 - `<time datetime="2008-02-14">情人节</time>`
+  - [meter](http://www.w3school.com.cn/tags/tag_meter.asp) - 标签定义度量衡, 它拥有6个属性value, min, max, low, high, optimum, 分别表示当前、最小、最大、低区、高区、最佳
+  - [progress](http://www.w3school.com.cn/tags/tag_progress.asp) - 用来表示进度条, value, max, 按照 value/max 来确定进度, IE9 或以下不支持
 
 #### 多媒体元素
+
 - canvas - 定义图形
 - [video](http://www.w3school.com.cn/tags/tag_video.asp) - HTML5 视频标签 - `<video src="movie.ogg" controls="controls"></video>`
 - [audio](http://www.w3school.com.cn/tags/tag_audio.asp) - HTML 5 音频标签 - `<audio src="a.wav"></audio>`
@@ -232,7 +273,7 @@ HTML 语法允许文档内嵌MathML和SVG元素.
 - isindex - 被废弃是因为使用表单控件代替
 - dir - 被废弃是因为使用ul代替
 
-最后, noscript元素只能在HTML里使用, 而不能在XML里使用.
+最后, noscript 元素只能在 HTML 里使用, 而不能在XML里使用.
 
 #### 废弃的属性
 
@@ -307,8 +348,8 @@ Worker 线程, 我们也是通过 `postMessage()` 来给外部发送消息
 若想关闭 Worker 行为, 我们则使用 `close()` 方法
 `importScripts()` Worker 线程动态加载外部脚本, 该方法会冻结 Worker 线程, 直到动态加载脚本加载完毕或执行完毕(浏览器差异)
   - `importScripts()` 支持同时加载多个脚本
-  - 同时加载多个脚本在各个浏览器中均为并行加载 (前提是HTTP连接数够用)
-  - 但执行顺序是严格按照参数顺序进行的, 无论哪个先加载完 (FF有差异)
+  - 同时加载多个脚本在各个浏览器中均为并行加载 (前提是 HTTP 连接数够用)
+  - 但执行顺序是严格按照参数顺序进行的, 无论哪个先加载完 (FF 有差异)
   - 通过 `importScripts()` 加载的脚本的作用域是指向 GlobalScope 就是说若在某函数中通过 `importScript()` 加载脚本, 在脚本并不会查找该函数作用域中的值, 而是会去查找全局作用域的值
 
 参考资料
@@ -323,7 +364,7 @@ Opera 中, 一旦发生一个语法错误或运行时错误, 有时候会多抛�
 Opera 中, 一般的语法错误或执行期异常(如调用未定义变量, throw new Error(s)除外) 总是无法给出准确的错误信息且 lineno 总是
 Chrome、Safari中,  `onerror` 并不捕获加载失败的404异常
 
-##### 关于worker引入文件的缓存问题
+##### 关于 worker 引入文件的缓存问题
 Opera中, 一但脚本被缓存起来那么即使右键-重新载入, 也会直接去读 cache
 
 ##### 调用 `close()` 方法后的差异
@@ -364,7 +405,7 @@ Server-Sent 事件指的是网页自动获取来自服务器的更新. 以前也
 通过 `new EventSource()` 创建的事件并对其进行监听 `onmessage`
 
 ```Javascript
-let es = new EventSource()
+let es = new EventSource('/xx.php')
 es.onmessage = function () {...}
 ```
 

@@ -30,17 +30,14 @@
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-IE盒模型：
-
-- 主要有 IE5, IE6(Q), IE7(Q)
-- width = content + padding left/right + border left/right
-- box width = width + margin left/right
-
-W3C盒模型：
-
-- 主要由 IE6(S), IE7(S), W3C标准浏览器
-- width = content 宽度
-- box width = width + padding left/right + border left/right + margin left/right
+- IE盒模型:
+  - 主要有 IE5, IE6(Q), IE7(Q)
+  - width = content + padding left/right + border left/right
+  - box width = width + margin left/right
+- W3C盒模型:
+  - 主要由 IE6(S), IE7(S), W3C 标准浏览器
+  - width = content 宽度
+  - box width = width + padding left/right + border left/right + margin left/right
 
 因为IE盒模型更为合理, [事例](http://blog.csdn.net/ncode/article/details/7428746), 因此在 CSS3 中引入了 `box-sizing`, 因此我们可以设置使用IE盒模型的渲染模式, IE8也支持.
 
@@ -61,13 +58,6 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 
 - 加 DOCTYPE 声明
 - 设置 X-UA-Compatible 触发
-
-#### 设置怪异模式
-
-- 无 doctype 声明, 定义旧的HTML版本（HTML4以下, 例如3.2）
-- 加 XML 声明, 可在 ie6 下触发
-- 在 XML 声明和 XHTML 的 DOCTYPE 之间加入 HTML 注释, 可在ie7下触发
-- `<!-- keep IE7 in quirks mode -->` 放在 `<!DOCTYPE` 前面
 
 ### Flex 布局
 
@@ -95,6 +85,10 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - `E E` 后代元素选择器 `p a { color: #fff; }`
 - `E > F` 子元素选择器 `p > a { color: #000; }`
 - `E + F` 毗邻元素选择器 `p + p { color: #330; }`
+
+##### 同级元素选择器
+
+- `E ~ F` 匹配任何在E元素之后的同级F元素 `p ~ ul { color: red; }`
 
 ##### 属性选择器
 
@@ -162,10 +156,6 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - `E::before` 在E元素前插入生成的内容 `p:before { content: 'Hello'; }`
 - `E::after` 在E元素后插入生成的内容 `p:after { content: 'World'; }`
 
-##### 同级元素选择器
-
-- `E ~ F` 匹配任何在E元素之后的同级F元素 `p ~ ul { color: red; }`
-
 ### 优先级与权重
 
 一般我们描述CSS的优先级是这样：
@@ -176,7 +166,7 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 
 #### 权重值的比较
 
-而在普遍的文章描述中, 经常会说到 ID 是100, Class 的权重是 10, 标签是 1;
+而在普遍的文章描述中, 经常会说到 ID 是 100, Class 的权重是 10, 标签是 1;
 其实权重结算的结果并非如此, 而是将这些更像如此 ID,Class,E, ID永远比Class优先
 当出现这样的情况：
 
