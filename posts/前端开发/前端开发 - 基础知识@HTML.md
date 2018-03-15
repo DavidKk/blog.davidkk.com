@@ -11,7 +11,7 @@
 - SGML (Standard Generalized Markup Language, 标准通用标记语言) 是现时常用的超文本格式的最高层次标准, 是可以定义标记语言的元语言, 甚至可以定义不必采用< >的常规方式. HTML 是被用 SGML 描述的标记语言
 - HTML (HyperText Markup Language, 超文本标记语言), 是为 "网页创建和其它可在网页浏览器中看到的信息" 设计的一种标记语言, 适合 Web, 可是标记较少, 不支持其他领域的标记语言
 - XML (eXtensible Markup Language, 可扩展标记语言), 根据网上的理解, 使用来在网络传输中表示数据的结构的, 及我们可以通过 XML, 可以得到数据的真实结构, 与 HTML 对比理解, HTML 主要用于在网络上控制数据信息的布局, XML 则用于记录数据本身的结构, 包括保存数据. 前者侧重与表现, 后者侧重于记录
-- XHTML (eXtensible HyperText Markup Language, 可扩展超文本标记语言), 从继承关系上讲, HTML 是一种基于标准通用标记语言（SGML）的应用, 是一种非常灵活的置标语言, 而 XHTML 则基于可扩展标记语言（XML, XML 是 SGML的一个子集
+- XHTML (eXtensible HyperText Markup Language, 可扩展超文本标记语言), 从继承关系上讲, HTML 是一种基于标准通用标记语言（SGML）的应用, 是一种非常灵活的置标语言, 而 XHTML 则基于可扩展标记语言 (XML), XML 是 SGML的一个子集
 
 ```
  ┏━━━━┓
@@ -57,6 +57,27 @@ SVG（Scalable Vector Graphics 可缩放矢量图形）表示可缩放矢量图�
 
 HTML5 是最新的 HTML 标准, 他的主要目标是提供所有内容而不需要任何的像 flash, silverlight 等的额外插件, 这些内容来自动画, 视频, 富 GUI 等；HTML5 是万维网联盟（W3C）和网络超文本应用技术工作组（WHATWG）之间合作输出的.
 
+### HTML5 新特性
+
+- 新增选择器 - `document.querySelector`, `document.querySelectorAll`
+- 拖拽释放 - `ondrag`, `ondragstart`, `ondragend`, `ondragover`, `ondragenter`, `ondragleave`
+- 媒体播放的 - `video`, `audio`
+- 本地存储 - `localStorage`, `sessionStorage`
+- 离线应用 - `manifest`
+- 桌面通知 - `Notifications`
+- 语意化标签 - `article`, `footer`, `header`, `nav`, `section`
+- 增强表单控件 - `date`, `time`, `email`, `url`, `search`
+- 地理位置 - `GeoLocation (navigator.geolocation)`
+- 多任务 - `WebWorker (window.Worker)`
+- 全双工通信协议 - `WebSocket`
+- 历史管理 - `History`
+- 跨域资源共享 - `(CORS) Access-Control-Allow-Origin`
+- 页面可见性改变事件 - `document.visibilityState`, `document.onvisibilitychange`
+- 跨窗口通信 - `PostMessage`
+- 绘画 - `canvas`
+- API - `FormData`
+- 数据转换方法 - `atb`, `btoa`
+
 ### HTML5 与 HTML4 的区别
 
 #### 文档范围
@@ -86,7 +107,7 @@ HTML5 语法中同时定义了解析规则——包括异常的处理方式. 这
 </html>
 ```
 
-另外一个可以被用于 HTML 的语法是 XML.  XML 语法可兼容于 XHTML 文档或实现. 使用 XML 语法的文档需要配套 XML 文档的媒体类型如 application/xhtml+xml 或 application/xml 来使用, 同时元素需要遵循 XML 规则, 被放到 http://www.w3.org/1999/xhtml 命名空间中：
+另外一个可以被用于 HTML 的语法是 XML. XML 语法可兼容于 XHTML 文档或实现. 使用 XML 语法的文档需要配套 XML 文档的媒体类型如 application/xhtml+xml 或 application/xml 来使用, 同时元素需要遵循 XML 规则, 被放到 http://www.w3.org/1999/xhtml 命名空间中：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -136,15 +157,16 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素.
 
 #### DOM 发展
 
-- DOM0: JavaScript在早期版本中提供了查询和操作Web文档的内容API
-- DOM1: DOM1级主要定义了HTML和XML文档的底层结构, 统一了标准化, W3C标准
+- DOM0: JavaScript 在早期版本中提供了查询和操作 Web 文档的内容 API
+- DOM1: DOM1 级主要定义了 HTML 和 XML 文档的底层结构, 统一了标准化, W3C 标准
 - DOM2: 在DOM1的基础上DOM2引入了更多的交互能力，也支持了更高级的XML特性
-- DOM3: 进一步扩展了DOM，引入了以统一方式加载和保存文档的方法，它在DOM Load And Save这个模块中定义；同时新增了验证文档的方法，是在 DOM Validation这个模块中定义的
+- DOM3: 进一步扩展了DOM，引入了以统一方式加载和保存文档的方法，它在 DOM Load And Save 这个模块中定义; 同时新增了验证文档的方法，是在 DOM Validation这个模块中定义的
 
 #### DOM0 与 DOM2 的事件处理
 
 - DOM0: 通过设置 `onclick=function () {}` 等绑定事件成为DOM0级事件; 删除可以通过 `onclick=null` 形式删除
 - DOM2: 通过 `addEventListener` 与 `removeEventListener` 方式去添加或删除事件, 其中我们可以设置 `冒泡` 或 `捕抓` 事件
+- DOM3: DOM3 级事件模块在 DOM2 级事件的基础上重新定义了这些事件, 也添加了一些新事件
 
 ### HTML 标签
 
@@ -162,7 +184,7 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素.
   - form - 表单
   - fieldset - form 控制组
   - ol - 排序列表
-  - ul - 无需列表
+  - ul - 无序列表
   - h1,...,h6 - 各种标题
   - p - 段落
   - blockquote - 引用
@@ -508,7 +530,7 @@ SessionStorage 与 LocalStorage 的接口类似, 但保存数据的生命周期�
 Web Storage 的概念和 Cookie 相似, 区别是它是为了更大容量存储设计的. Cookie 的大小是受限的, 并且每次你请求一个新的页面的时候Cookie都会被发送过去, 这样无形中浪费了带宽, 另外cookie还需要指定作用域, 不可以跨域调用.
 除此之外, Web Storage 拥有 setItem, getItem, removeItem, clear 等方法, 不像 Cookie 需要前端开发者自己封装 setCookie, getCookie
 Cookie 确实非常小, 它的大小限制为4KB左右. Cookie 的作用是与服务器进行交互, 作为HTTP规范的一部分而存在, 而 Web Storage 仅仅是为了在本地存储数据而生
-Cookie 可以设置失效时间；LocalStorage 除非被清除, 否则永久保存；SessionStorage 仅在当前会话下有效, 关闭页面或浏览器后被清除, 在多个 Tab 浏览器中,  Tab 关闭后重新打开, 该会话也会存在
+Cookie 可以设置失效时间; LocalStorage 除非被清除, 否则永久保存；SessionStorage 仅在当前会话下有效, 关闭页面或浏览器后被清除, 在多个 Tab 浏览器中,  Tab 关闭后重新打开, 该会话也会存在
 Cookie 的缺陷
 - Cookie 的大小被限制在4KB
 - Cookie 是随HTTP事务一起发送的, 因此会浪费一部分发送 Cookie 时所使用的带宽
@@ -679,7 +701,7 @@ Application Cache的使用要做两方面的工作：
 - 浏览器上只需要一个简单的设置即可
 
 ```HTML
-<html manifest="mainfest.appcache">
+<html manifest="manifest.appcache">
 ```
 
 manifest 文件可分为三个部分：
@@ -688,7 +710,13 @@ manifest 文件可分为三个部分：
 - NETWORK - 在此标题下列出的文件需要与服务器的连接, 且不会被缓存
 - FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
 
+服务器必须设置:
+
+```header
+MIME-type: text/cache-manifest
 ```
+
+```manifest.appcache
 # MIME-type: text/cache-manifest (必须设置)
 CACHE MANIFEST
 
@@ -718,9 +746,23 @@ Application Cache 的尺寸限制统一在 5M, 即是当一个文件超过 5M �
 - manifest 文件被修改
 - 由程序来更新应用缓存
 
+##### applicationCache API
+
+- window.applicationCache.UNCACHED === 0      // 未缓存, 比如一个页面没有制定缓存清单, 其状态就是 UNCACHED
+- window.applicationCache.IDLE === 1          // 空闲, 缓存清单指定的文件已经全部被页面缓存, 此时状态就是 IDLE
+- window.applicationCache.CHECKING === 2      // 页面正在检查当前离线缓存是否需要更新
+- window.applicationCache.DOWNLOADING === 3   // 页面正在下载需要更新的缓存文件
+- window.applicationCache.UPDATEREADY === 4   // 页面缓存更新完毕
+- window.applicationCache.OBSOLETE === 5      // 缓存过期, 比如页面检查缓存是否过期时, 发现服务器上的 `.manifest` 文件被删掉了
+
+
 ```Javascript
-window.applicationCache.addEventListener('updateready', function() {
-  applicationCache.swapCache()
+// update 方法调用时, 页面会主动与服务器通信, 检查页面当前的缓存是否为最新的, 如不是, 则下载更新后的资源
+window.applicationCache.update()
+
+window.applicationCache.addEventListener('updateready', function () {
+  // updateready 后, 更新到最新的应用缓存
+  window.applicationCache.swapCache()
   window.location.reload()
 })
 ```

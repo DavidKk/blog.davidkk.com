@@ -8,7 +8,8 @@
 
 ### 作用域
 
-作用域（scope, 或译作有效范围）是名字（name）与实体（entity）的绑定（binding）保持有效的那部分计算机程序.
+作用域就是一个区域, 包含了其中变量, 常量, 函数等等定义信息和赋值信息, 以及这个区域内代码书写的结构信息
+作用域（scope, 或译作有效范围）是名字（name）与实体（entity）的绑定（binding）保持有效的那部分计算机程序
 若出现同名变量, 作用域中的变量会比全局变量的优先级高. 而且改变作用域下的变量, 全局变量不会受到任何影响.
 Javascript 并没有块状作用域, 因此在相同作用域下不同的块状中定义变量, 他们均是该作用域变量, 作用域下都能引用.
 
@@ -272,6 +273,56 @@ ES6 通过 `寄生组合继承` 的方式去实现继承, 它通过创建一个�
 
 - [深入理解javascript原型继承](http://www.jianshu.com/p/d2742610ec30)
 - [深入理解JavaScript系列（5）：强大的原型和原型链](http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html)
+
+### Javascript 数据类型
+
+- 基本数据类型: `undefined`, `null`, `boolean`, `number`, `string`, `symbol`
+- 引用数据类型: `object`, `array`, `function`
+
+两种类型的值存放的位置不同
+
+- 引用数据类型存储在堆 (heap) 中的对象, 占据空间大, 大小不固定, 如果存储在栈中, 将会影响程序运行的性能
+- 引用数据类型在栈中存储了指针, 该指针指向堆中该实体的起始地址
+- 当解释器寻找引用值时, 会首先检索其在栈中的地址, 取得地址后从堆中获得实体
+
+## Javascript 内置对象
+
+- 数据封装类对象: `Object`, `Array`, `Boolean`, `Number`, `String`
+- 其他对象: `Function`, `Math`, `Date`, `RegExp`, `Error`
+- ES6新增对象: `Symbol`, `Map`, `Set`, `Promises`, `Proxy`, `Reflect`
+
+### Proxy 代理
+
+```Javascript
+let pQ = new Proxy({ q: 1 }, {
+  get (target, name) {
+    return name
+  }
+})
+
+console.log(pQ.q === 'q') // true
+```
+
+### Reflect
+
+将一些关键的方法抽离出来赋值给此变量, 用单一的全局变量去存储这些方法,
+
+```Javascript
+Reflect.apply
+Reflect.construct
+Reflect.defineProperty
+Reflect.deleteProperty
+Reflect.enumerate // 废弃的
+Reflect.get
+Reflect.getOwnPropertyDescriptor
+Reflect.getPrototypeOf
+Reflect.has
+Reflect.isExtensible
+Reflect.ownKeys
+Reflect.preventExtensions
+Reflect.set
+Reflect.setPrototypeOf
+```
 
 ### Ajax
 
