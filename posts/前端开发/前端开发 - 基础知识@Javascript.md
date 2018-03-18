@@ -4,21 +4,21 @@
 <!-- category: 前端 -->
 <!-- tag: 基础知识 -->
 
-## Javascript
+# Javascript
 
-### 作用域
+## 作用域
 
 作用域就是一个区域, 包含了其中变量, 常量, 函数等等定义信息和赋值信息, 以及这个区域内代码书写的结构信息
 作用域 (scope, 或译作有效范围) 是名字 (name) 与实体 (entity) 的绑定 (binding) 保持有效的那部分计算机程序
 若出现同名变量, 作用域中的变量会比全局变量的优先级高. 而且改变作用域下的变量, 全局变量不会受到任何影响.
 Javascript 并没有块状作用域, 因此在相同作用域下不同的块状中定义变量, 他们均是该作用域变量, 作用域下都能引用.
 
-#### Scope Chain - 作用域链
+### Scope Chain - 作用域链
 
 作用域链就是包含了函數被創建的作用域中對象的集合. 它決定了哪些數據能被函數訪問.
 这个原理和原型链很类似, 如果这个变量在自己的作用域中没有, 那么它会寻找父级的, 直到最顶层.
 
-#### Hoisting - 声明提升
+### Hoisting - 声明提升
 
 当定义一个变量时, 定义的声明会在程序运行时优先执行定义(非赋值)
 
@@ -30,13 +30,13 @@ console.log(a)    // 1
 
 但他并不适用于 `let`
 
-#### Window Scope
+### Window Scope
 
 基于浏览器的 Javascript 定义一个全局变量可以通过给 Window 对象添加属性.
 同时, 没有经过 `var` 定义的变量均被定义为全局变量 (此情况是没有标志 `use strict` 的情况下)
 当函数内部调用一个从未被定义的值, 它会指向 Window, 若通过 'use strict' 标志了该作用域, 则会报错
 
-#### 静态作用域 与 动态作用域
+### 静态作用域 与 动态作用域
 
 静态作用域 (Static/Lexical Scope) 又叫做词法作用域, 采用词法作用域的变量叫词法变量. 词法变量有一个在编译时静态确定的作用域. 词法变量的作用域可以是一个函数或一段代码, 该变量在这段代码区域内可见 (visibility); 在这段区域以外该变量不可见(或无法访问). 词法作用域里, 取变量的值时, 会检查函数定义时的文本环境, 捕捉函数定义时对该变量的绑定.
 
@@ -49,24 +49,24 @@ console.log(a)    // 1
 - [作用域](https://zh.wikipedia.org/wiki/%E4%BD%9C%E7%94%A8%E5%9F%9F#.E9.9D.99.E6.80.81.E4.BD.9C.E7.94.A8.E5.9F.9F.E4.B8.8E.E5.8A.A8.E6.80.81.E4.BD.9C.E7.94.A8.E5.9F.9F)
 
 
-### Closure - 闭包
+## Closure - 闭包
 
-#### 闭包的定义
+### 闭包的定义
 
 闭包 (Closure) 是词法闭包 (Lexical Closure) 的简称, 是引用了自由变量的函数, 也可以说闭包是由函数和与其相关的引用环境组合而成的实体.
 
-#### 闭包的特征
+### 闭包的特征
 
 - 函数
 - 可以引用外部自由变量
 - 作用域
 
-#### 闭包的应用
+### 闭包的应用
 
 - 读取函数内部变量
 - 让变量常驻内存
 
-#### 闭包拓展
+### 闭包拓展
 
 首先我们了解一下函数编程的一些基本定义, 函数式语言中, 函数即是数据, 则我们可以把函数作为参数传递, 也可以返回一个函数, 然而在 ECMAScript 中也一样.
 这些接受函数式参数的函数称为高阶函数 (HOF - high-order function)；
@@ -96,7 +96,7 @@ function q() {
 }
 ```
 
-#### Funarg Problem - 泛函参数问题
+### Funarg Problem - 泛函参数问题
 
 Funarg Problem 的一个子问题是 upward funarg problem (自下而上), 当一个函数作为另一个函数的返回值时, 并且使用了自由变量[free variable]的时候会发生. 即便它的父级上下文环境已经结束了, 它可以引用父级的变量. 这个内部函数在创建时就会将父级的作用域链保存在自己的作用域[[Scope]]中. 当函数运行时, 上下文环境的作用域量是由活跃变量[activation object]和它[[Scope]]属性组合而成.
 
@@ -159,13 +159,13 @@ A closure is a combination of a code block (in ECMAScript this is a function) an
 - [执行上下文其三：闭包 Closures](http://www.nowamagic.net/librarys/veda/detail/1646)
 
 
-### 原型与继承
+## 原型与继承
 
-#### 原型模型
+### 原型模型
 
 JavaScript 不包含传统的类继承模型, 而是使用 prototypal 原型模型. 在基于类的面向对象方式中, 对象(object)依靠类(class)来产生. 而在基于原型的面向对象方式中, 对象(object)则是依靠构造器(constructor)利用原型(prototype)构造出来的. 在 JavaScript 中, "一切都是对象, 函数是第一类", `Function` 和 `Object` 都是函数的实例.
 
-#### new 与 Object.create
+### new 与 Object.create
 
 `new` 的实现过程
 
@@ -193,7 +193,7 @@ NewFuc.prototype = object
 return new NewFuc()
 ```
 
-#### 生成对象方式
+### 生成对象方式
 
 ```Javascript
 var obj = {
@@ -221,7 +221,7 @@ var personB = Object.create({
 console.log(personB.gender) // male
 ```
 
-#### prototype chain - 原型链
+### prototype chain - 原型链
 
 JavaScript 可以采用构造器(constructor) 生成一个新的对象, 每个构造器都拥有一个 prototype 属性, 而每个通过此构造器生成的对象都有一个指向该构造器原型 (prototype) 的内部私有的链接 (proto), 而这个 prototype 因为是个对象, 它也拥有自己的原型, 这么一级一级直到原型为null, 这就构成了原型链.
 
@@ -283,11 +283,11 @@ console.log(Mammal.prototype.__proto__ === Animal.prototype) // true
 - 标准性差：proto 不是一个标准用法, 甚至是一个不赞成使用的用法. 同时原生态的 Object.create 和道爷写的原版也不尽相同.
 - 优化性差：不论是原生的还是自定义的 Object.create , 其性能都远没有 new 的优化程度高, 前者要比后者慢高达10倍.
 
-##### 属性查找
+#### 属性查找
 
 当查找一个对象的属性时, JavaScript 会向上遍历原型链, 直到找到给定名称的属性为止, 到查找到达原型链的顶部 - 也就是 Object.prototype - 但是仍然没有找到指定的属性, 就会返回 undefined
 
-##### hasOwnProperty
+#### hasOwnProperty
 
 hasOwnProperty是Object.prototype的一个方法, 它可是个好东西, 他能判断一个对象是否包含自定义属性而不是原型链上的属性, 因为hasOwnProperty 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数.
 
@@ -305,7 +305,7 @@ foo.hasOwnProperty('bar') // false
 foo.hasOwnProperty('goo') // true
 ```
 
-##### 继承
+#### 继承
 
 在 Javascript 中并没有类的概念, 所以只能通过原型链实现继承.
 ES6 通过 `寄生组合继承` 的方式去实现继承, 它通过创建一个对象 (Object.create(superClass.prototype)) 的方式得到一个原型对象, 这个对象的构造函数必须等于该子类的构造函数, 否则实例就无法找到该类了. 然后通过赋值给子类原型链的方式就可以实现继承; 最后还要确保构造函数调用时必须执行父类的构造函数且不能在构造函数之前修改或定义任何新属性, 否则会影响父类构造函数的执行结果
@@ -315,7 +315,7 @@ ES6 通过 `寄生组合继承` 的方式去实现继承, 它通过创建一个�
 - [深入理解javascript原型继承](http://www.jianshu.com/p/d2742610ec30)
 - [深入理解JavaScript系列(5)：强大的原型和原型链](http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html)
 
-### Javascript 数据类型
+## Javascript 数据类型
 
 - 基本数据类型: `undefined`, `null`, `boolean`, `number`, `string`, `symbol`
 - 引用数据类型: `object`, `array`, `function`
@@ -326,7 +326,7 @@ ES6 通过 `寄生组合继承` 的方式去实现继承, 它通过创建一个�
 - 引用数据类型在栈中存储了指针, 该指针指向堆中该实体的起始地址
 - 当解释器寻找引用值时, 会首先检索其在栈中的地址, 取得地址后从堆中获得实体
 
-## Javascript 内置对象
+### Javascript 内置对象
 
 - 数据封装类对象: `Object`, `Array`, `Boolean`, `Number`, `String`
 - 其他对象: `Function`, `Math`, `Date`, `RegExp`, `Error`
@@ -365,23 +365,23 @@ Reflect.set
 Reflect.setPrototypeOf
 ```
 
-### Ajax
+## Ajax
 
 Ajax 的全称是 Asynchronous JavaScript and XML, 其中, Asynchronous 是异步的意思, 它有别于传统 web 开发中采用的同步的方式.
 
-#### 理解同步异步
+### 理解同步异步
 
 同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)
 - 同步, 就是在发出一个请求时, 在没有得到结果之前, 该请求就不返回
 - 异步, 请求在发出之后, 这个请求就直接返回了, 所以没有返回结果; 必须通过`状态`和`通知`来让请求者处理回调
 
-#### 理解阻塞与非阻塞
+### 理解阻塞与非阻塞
 
 阻塞和非阻塞关注的是程序在等待调用结果(消息, 返回值)时的状态
 - 阻塞调用是指调用结果返回之前, 当前线程会被挂起, 调用线程只有在得到结果之后才会返回
 - 非阻塞调用指在不能立刻得到结果之前, 该调用不会阻塞当前线程
 
-#### Ajax 原理
+### Ajax 原理
 
 Ajax 的原理简单来说通过 XmlHttpRequest 对象来向服务器发异步请求, 从服务器获得数据. 也就是 Javascript 可以及时向服务器提出请求和处理响应, 且不阻塞用户
 
@@ -399,7 +399,7 @@ Ajax 的原理简单来说通过 XmlHttpRequest 对象来向服务器发异步�
   - 3 (数据传送中) 已接收部分数据, 因为响应及 http 头不全, 这时通过 responseBody 和 responseText 获取部分数据会出现错误
   - 4 (完成) 数据接收完毕, 此时可以通过通过 responseXml 和 responseText 获取完整的回应数据
 
-```
+```Javascript
 var xmlhttp
 if (window.XmlHttpRequest) {
   xmlhttp = new XmlHttpRequest()
@@ -434,11 +434,11 @@ xmlhttp.send(null)
 - [逐渐深入地理解Ajax](http://www.cnblogs.com/tugenhua0707/p/4524877.html)
 - [Ajax工作原理](http://www.cnblogs.com/mingmingruyuedlut/archive/2011/10/18/2216553.html)
 
-### Cross Domain - 跨域
+## Cross Domain - 跨域
 
-#### AJAX 跨域请求问题
+### AJAX 跨域请求问题
 
-##### 服务器设置头
+#### 服务器设置头
 
 ```Conf
 # Nginx Conf
@@ -457,21 +457,21 @@ xhr.withCredentials = true                  // 开启, 自动发送 cookie
 xhr.send(null)
 ```
 
-##### jsonp
+#### jsonp
 
 jsonp 原理就是利用 javascript 脚本引用可以跨域. 首先客户端会注册一个 callback, 然后把 callback 传递给服务器. 服务器生成 JSON 数据并且通过 javascript 语法方式生成一个 function, function 的名字就是 jsonp 传递上来的名字. 最后将 json 数据直接以入参的方式, 放置到 function 中, 这样就生成了一段 js 语法的文档, 返回给客户端. 客户端浏览器, 解析 script 标签, 并执行返回的 javascript 文档, 此时数据作为参数, 传入到了客户端预先定义好的 callback 函数里.(动态执行回调函数)
 
-```
+```Javascript
 var sc = document.createElement(script)
 sc.src = 'http://example2.com/getinfo.php?callback=jsonpcallback'
 document.getElementsByTagName('head')[0].appendChild(sc)
 ```
 
-##### 设置 document.domain
+#### 设置 document.domain
 
 浏览器都有一个同源策略, 其限制之一就是第一种方法中我们说的不能通过 ajax 的方法去请求不同源中的文档. 它的第二个限制是浏览器中不同域的框架之间是不能进行 js 的交互操作的. 但是我们却可以在相同的主域下将不同的子域设置成一样的 domain.
 
-```
+```Javascript
 # a.example.com
 document.domain = 'example.com'
 
@@ -481,7 +481,7 @@ document.doamin = 'example.com'
 
 这样就可以操作子页面的 Javascript 脚本了, 这些我们都可以通过创建 iframe 来实现. 最后通过调用这个 iframe 的 AJAX 请求相应的数据并返回给主页面达到跨域的效果
 
-##### 通过 window.name
+#### 通过 window.name
 
 window 对象有个 name 属性, 该属性有个特征：即在一个窗口(window)的生命周期内, 窗口载入的所有的页面都是共享一个 window.name 的, 每个页面对window.name都有读写的权限, window.name 是持久存在一个窗口载入过的所有页面中的, 并不会因新页面的载入而进行重置
 
@@ -502,7 +502,7 @@ console.log(window.name) // something...
 - 若两页处于不同的域中, 该方式也适用
 - 若要使用在 iframe 下, 必须确保 iframe 必须可以跨域, 就是 window 必须可以控制 iframe.contentWindow
 
-##### HTML5 window.postMessage
+#### HTML5 window.postMessage
 
 `window.postMessage(message, targetOrigin)` 方法是html5新引进的特性, 可以使用它来向其它的 window 对象发送消息, 无论这个 window 对象是属于同源或不同源, 目前 IE8+, FireFox, Chrome, Opera 等浏览器都已经支持 `window.postMessage` 方法.
 
@@ -523,7 +523,7 @@ window.onmessage = function(evt) {
 
 我们可以通过嵌套 iframe 指向目标域, 并监听 `onmessage` 去接受需要请求的数据并换转化成请求, 然后通过请求返回的数据通过 `postMessage` 传回给页面来实现跨域请求
 
-##### FLASH 跨域请求
+#### FLASH 跨域请求
 
 使用 flash 插件设置 `crossdoamin.xml`, 该文件放在根目录下
 
@@ -535,7 +535,7 @@ window.onmessage = function(evt) {
 </cross-domain-policy>
 ```
 
-##### 服务器代理
+#### 服务器代理
 
 设置一个同域的域名, 该页面会发出跨域请求, 并返回信息. 这样就可以通过服务器作为中转进行跨域请求了
 
@@ -544,7 +544,7 @@ window.onmessage = function(evt) {
 - 当页面的域与 iframe 页面的域不相同时, window 不能并不能控制 iframe 若获取 `iframe.contentWindow` 则会报错
 - 如果主域相同, 二级域名不同, 则可以通过两个页面同时将 `document.domain` 设置成主域名就可以实现相互访问
 
-##### HTML5 部分元素可以设置成必须跨域才能使用外部资源
+### HTML5 部分元素可以设置成必须跨域才能使用外部资源
 
 - `<script>`, `<img>`, `<audio>`, `<video>` 等可以设置 `crossOrigin = 'anonymous'` 或者任意不等于 `use-credentials` 的值就可以访问跨域资源
 
@@ -581,8 +581,20 @@ DOM 标准事件流的触发的先后顺序为: `先捕获再冒泡`
   - window -> document -> documentElement -> body -> ...
 - 事件冒泡: 事件冒泡顺序是由内到外进行事件传播，直到根节点
 
-### 阻止事件
+## 阻止事件
 
 - `preventDefault` - 阻止节点默认事件
 - `stopPropagation` - 阻止冒泡
 - `stopImmeidatePropagation` - 阻止冒泡并阻止该节点上的其他该类型事件触发
+
+## for in 及原型链查询索引顺序
+
+所有的方法都会用相同的方法读取原型链中的值
+
+- 首先根据数组索引进行查找
+- 然后根据初始值进行查找, 先进先出
+  - 这里面的排序是根据ANSI码进行排序
+- 查找所有标点符号, 先进先出
+
+参考资料
+- [http://stackoverflow.com/questions/5467129/sort-javascript-object-by-key/31102605#31102605](http://stackoverflow.com/questions/5467129/sort-javascript-object-by-key/31102605#31102605)
