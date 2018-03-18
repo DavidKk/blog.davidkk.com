@@ -60,17 +60,6 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - 加 DOCTYPE 声明
 - 设置 X-UA-Compatible 触发
 
-### Flex 布局
-
-- 主轴 (main axis): 通过这个伸缩盒子特性, 可以很好的管理伸缩项目在伸缩盒子中的布局方向. 这个方向可以是从左到右, 从上到下, 从下到上, 从右到左. 这个主轴的方向可以通过 `flex-direction` 属性来定义值分别为 row, row-reverse, column, column-reverse
-- 主轴起点 (main start) 和终点 (main end): 伸缩项目从主轴起点开始布局到终点结束. 属性 `justify-content` 就是根据主轴的起点和终点赋予 start, center, end 等值来布局的
-- 主轴长度 (main size): 伸缩项目在主轴方向上的宽度或者高度就是项目的主轴长度
-- 侧轴 (cross axis): 与主轴垂直的轴是侧轴, 所以说, 侧轴的方向是由主轴决定的
-- 侧轴的起点 (cross start) 和终点 (cross end): 伸缩项目充满伸缩行, 并且伸缩行从侧轴起点开始布局容器到侧轴终点结束
-- 侧轴长度 (cross size): 伸缩项目在侧轴方向上的宽度或者高度就是项目的侧轴长度
-
-设为 Flex 布局以后, 子元素的 float, clear 和 vertical-align 属性将失效
-
 ### CSS 选择器
 
 ##### 基础的选择器
@@ -82,7 +71,7 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 
 ##### 组合选择器
 
-- `E,E` 多元素选择器 `a,p { color: #333; }`
+- `E, E` 多元素选择器 `a,p { color: #333; }`
 - `E E` 后代元素选择器 `p a { color: #fff; }`
 - `E > F` 子元素选择器 `p > a { color: #000; }`
 - `E + F` 毗邻元素选择器 `p + p { color: #330; }`
@@ -106,7 +95,7 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - `E[attr$="val"]` 属性attr的值以val结尾的元素 `a[class$="-red"] { color: red; }`
 - `E[attr*="val"]` 属性attr的值包含val的元素 `a[class*="btn"] { color: red; }`
 
-##### 伪类
+##### 伪类选择器
 
 ###### CSS 2.1
 
@@ -116,14 +105,14 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - `E:active` 匹配鼠标已按下但未被释放的元素 `a:active { color: red; }`
 - `E:hover` 匹配鼠标悬停的元素 `a:hover { color: red; }`
 - `E:focus` 匹配获得当前焦点元素 `a:focus { color: red; }`
-- [`E:in-range`](http://www.w3schools.com/cssref/sel_in-range.asp) 匹配 `type="number"` 并且在有效范围内的input元素 `input:in-range { color: red; }` IE 不支持
-- [`E:out-of-range`](http://www.w3schools.com/cssref/sel_out-of-range.asp) 匹配 `type="number"` 并且不在有效范围内的input元素 `input:out-of-range { color: red; }` IE 不支持
-- [`E:valid`](http://www.w3schools.com/cssref/sel_valid.asp) 匹配所有有效的input元素 `input:valid {}`
-- [`E:invalid`](http://www.w3schools.com/cssref/sel_invalid.asp) 匹配所有无效的input元素 `input:invalid { color:red; }`
-- [`E:optional`](http://www.w3schools.com/cssref/sel_optional.asp) 匹配所有没有 `required` 的input元素 `input:optional { color: red; }` IE 9以上才支持
-- [`E:read-only`](http://www.w3schools.com/cssref/sel_read-only.asp) 匹配所有拥有 `readonly` 的input元素 `input:read-only {}`, `input:-moz-read-only {}`
-- [`E:read-write`](http://www.w3schools.com/cssref/sel_read-write.asp) 匹配所有不拥有 `readonly` 的input元素 `input:read-write {}`, `input:-moz-read-write {}`
-- [`E:lang(c)`](http://www.w3schools.com/cssref/sel_lang.asp) 匹配lang属性等于c的元素 `a:lang(sv) { quotes: “\201D” “\201D” “\2019″ “\2019″; }`
+- `[E:in-range]`(http://www.w3schools.com/cssref/sel_in-range.asp) 匹配 `type="number"` 并且在有效范围内的input元素 `input:in-range { color: red; }` IE 不支持
+- `[E:out-of-range]`(http://www.w3schools.com/cssref/sel_out-of-range.asp) 匹配 `type="number"` 并且不在有效范围内的input元素 `input:out-of-range { color: red; }` IE 不支持
+- `[E:valid]`(http://www.w3schools.com/cssref/sel_valid.asp) 匹配所有有效的input元素 `input:valid {}`
+- `[E:invalid]`(http://www.w3schools.com/cssref/sel_invalid.asp) 匹配所有无效的input元素 `input:invalid { color:red; }`
+- `[E:optional]`(http://www.w3schools.com/cssref/sel_optional.asp) 匹配所有没有 `required` 的input元素 `input:optional { color: red; }` IE 9以上才支持
+- `[E:read-only]`(http://www.w3schools.com/cssref/sel_read-only.asp) 匹配所有拥有 `readonly` 的input元素 `input:read-only {}`, `input:-moz-read-only {}`
+- `[E:read-write]`(http://www.w3schools.com/cssref/sel_read-write.asp) 匹配所有不拥有 `readonly` 的input元素 `input:read-write {}`, `input:-moz-read-write {}`
+- `[E:lang(c)]`(http://www.w3schools.com/cssref/sel_lang.asp) 匹配lang属性等于c的元素 `a:lang(sv) { quotes: “\201D” “\201D” “\2019″ “\2019″; }`
 
 ###### CSS 3
 
@@ -136,26 +125,26 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 
 结构性伪类
 
-- `:root` 匹配文档的根元素, 对于HTML文档, 就是HTML元素, 权重大于 `html{}` `:root { color: #fff; }`
+- `E:last-child` 匹配父元素的最后一个子元素, 等同于:nth-last-child(1) `p:last-child { color: #fff; }`
+- `E:first-of-type` 匹配父元素下使用同种标签的第一个子元素, 等同于:nth-of-type(1) `p:first-of-type { color: #fff; }`
+- `E:last-of-type` 匹配父元素下使用同种标签的最后一个子元素, 等同于:nth-last-of-type(1) `p:last-of-type { color: #fff; }`
 - `E:nth-child(n)` 匹配其父元素的第n个子元素, 第一个编号为1,  `p:nth-child(3) { color: #fff; }`, n由0开始 `p:nth-child(2n) {}`
 - `E:nth-last-child(n)` 匹配其父元素的倒数第n个子元素, 第一个编号为1 `p:nth-last-child(3) { color: #fff; }`
 - `E:nth-of-type(n)` 与:nth-child()作用类似, 但是仅匹配使用同种标签的元素 `p:nth-of-type(3) { color: #fff; }`
 - `E:nth-last-of-type(n)` 与:nth-last-child() 作用类似, 但是仅匹配使用同种标签的元素 `p:nth-last-of-type(n) { color: #fff; }`
-- `E:last-child` 匹配父元素的最后一个子元素, 等同于:nth-last-child(1) `p:last-child { color: #fff; }`
-- `E:first-of-type` 匹配父元素下使用同种标签的第一个子元素, 等同于:nth-of-type(1) `p:first-of-type { color: #fff; }`
-- `E:last-of-type` 匹配父元素下使用同种标签的最后一个子元素, 等同于:nth-last-of-type(1) `p:last-of-type { color: #fff; }`
-- `E:only-child` 匹配父元素下仅有的一个子元素, 等同于:first-child:last-child或 :nth-child(1):nth-last-child(1)
-- `E:only-of-type` 匹配父元素下使用同种标签的唯一一个子元素, 等同于:first-of-type:last-of-type或 :nth-of-type(1):nth-last-of-type(1)
+- `E:only-child` 匹配父元素下仅有的一个子元素, 等同于 `:first-child:last-child` 或 `:nth-child(1):nth-last-child(1)`
+- `E:only-of-type` 匹配父元素下使用同种标签的唯一一个子元素, 等同于 `:first-of-type:last-of-type` 或 `:nth-of-type(1)`:nth-last-of-type(1)
+- `:root` 匹配文档的根元素, 对于HTML文档, 就是 HTML 元素, 权重大于 `html {}` `:root { color: #fff; }`
 - `E:empty` 匹配一个不包含任何子元素的元素, 注意, 文本节点也被看作子元素 `a:empty { display:block;width:100px;height:100px;background:#ff0; }`
 - `E:not` 匹配不符合当前选择器的任何元素 `:not(p) { #fff; }`
-- [`E:target`](http://www.w3schools.com/cssref/css3_pr_target.asp) 匹配文档中特定”id”点击后的效果, 暂时主流浏览器都均不支持
+- `[E:target]`(http://www.w3schools.com/cssref/css3_pr_target.asp) 匹配文档中特定 ID 点击后的效果, 暂时主流浏览器都均不支持
 
 ##### 伪元素
 
-- [`E::first-line`](https://developer.mozilla.org/en-US/docs/Web/CSS/::first-line) 匹配E元素的第一行 `p:first-line { color: red; }` 此时设置 `text-transform: uppercase;` 在 `webkit` 中无效.
-- `E::first-letter` 匹配E元素的第一个字母 `p:first-letter { color: red; }`
 - `E::before` 在E元素前插入生成的内容 `p:before { content: 'Hello'; }`
 - `E::after` 在E元素后插入生成的内容 `p:after { content: 'World'; }`
+- `[E::first-line]`(https://developer.mozilla.org/en-US/docs/Web/CSS/::first-line) 匹配E元素的第一行 `p:first-line { color: red; }` 此时设置 `text-transform: uppercase;` 在 `webkit` 中无效.
+- `E::first-letter` 匹配E元素的第一个字母 `p:first-letter { color: red; }`
 
 ### 优先级与权重
 
@@ -203,15 +192,40 @@ html body header nav ul li div p a span em { color: red; }
 
 :not 否定伪类在优先级计算中不会被看作是伪类. 事实上, 在计算选择器数量时还是会把其中的选择器当做普通选择器进行计数.
 
+参考文章
+
+- [优先级](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Specificity)
+- [重新认识CSS的权重](http://www.cssforest.org/blog/index.php?id=185)
+
 ##### 关于 `inherit`
 
 除了直接指定到元素上的样式规则以外, 每个属性值还有一个可能为 inherit(继承) 的值. 表示元素的该样式属性继承自父级元素, 与父级元素的定义一致.
 继承而来的属性值, 权重永远低于明确指定到元素的定义.
 
-参考文章
+###### 默认继承的属性
 
-- [优先级](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Specificity)
-- [重新认识CSS的权重](http://www.cssforest.org/blog/index.php?id=185)
+- 字体:
+  - `color`
+  - `font-family`, `font-size`, `font-style`, `font-variant`, `font-weight`, `font`
+- 段落:
+  - `letter-spacing`, `word-spacing`, `line-height`
+  - `text-align`, `text-decoration`, `text-indent`, `text-transform`, `text-shadow`, `white-space`
+  - `quotes`, `direction`
+- 表格: `border-collapse`, `border-spacing`, `empty-cells`
+- 列表: `list-style-image`, `list-style-position`, `list-style-type`, `list-style`
+- 声音:
+  - `azimuth`
+  - `volume`, `voice-family`
+  - `speak-header`, `speak-numeral`, `speak-punctuation`, `speak`,
+  - `stress`, `richness`, `speech-rate`, `elevation`
+  - `pitch-range`, `pitch`
+- 打印: `orphans`, `widows`
+- 可见: `visibility`
+- 其他: `cursor`
+
+参考
+
+- https://www.w3.org/TR/CSS21/propidx.html
 
 
 ## FC (Formatting Context) - 格式化上下文
@@ -352,6 +366,67 @@ IFC (Inline Formatting Context) - 行内格式化上下文, 表示盒子从左�
 - 多栏布局 (column-*) 在 Flexbox 中也是失效的, 就是说我们不能使用多栏布局在 Flexbox 排列其下的子元素
 - Flexbox 下的子元素不会继承父级容器的宽
 
+### 浮动与清除浮动
+
+浮动元素碰到包含它的边框或者浮动元素的边框停留. 由于浮动元素不在文档流中, 所以文档流的块框表现得就像浮动框不存在一样. 浮动元素会漂浮在文档流的块框上.
+
+#### 浮动带来的问题与解决方法
+
+- 父元素的高度无法被撑开, 影响与父元素同级的元素
+  - 最后一个浮动元素后加个标签并添加样式 `clear:both;` `display:table;` `overflow:hidden|auto;`
+- 与浮动元素同级的非浮动元素 (内联元素) 会跟随其后
+  - 为了保持排列顺序, 之前所有元素都必须 `float:left;`
+
+### Flex 布局
+
+- 主轴 (main axis): 通过这个伸缩盒子特性, 可以很好的管理伸缩项目在伸缩盒子中的布局方向. 这个方向可以是从左到右, 从上到下, 从下到上, 从右到左. 这个主轴的方向可以通过 `flex-direction` 属性来定义值分别为 `row`, `row-reverse`, `column`, `column-reverse`
+- 主轴起点 (main start) 和终点 (main end): 伸缩项目从主轴起点开始布局到终点结束. 属性 `justify-content` 就是根据主轴的起点和终点赋予 start, center, end 等值来布局的
+- 主轴长度 (main size): 伸缩项目在主轴方向上的宽度或者高度就是项目的主轴长度
+- 侧轴 (cross axis): 与主轴垂直的轴是侧轴, 所以说, 侧轴的方向是由主轴决定的
+- 侧轴的起点 (cross start) 和终点 (cross end): 伸缩项目充满伸缩行, 并且伸缩行从侧轴起点开始布局容器到侧轴终点结束
+- 侧轴长度 (cross size): 伸缩项目在侧轴方向上的宽度或者高度就是项目的侧轴长度
+
+设为 Flex 布局以后, 子元素的 `float`, `clear` 和 `vertical-align` 属性将失效
+
+#### Flex 属性
+
+`flex` 是 `flex-grow` `flex-shrink` `flex-basic` 的缩写
+
+```CSS
+div {
+  flex: [flex-grow] [flex-shrink] [flex-basis];
+}
+```
+
+- flex-grow - 子元素分配父元素的剩余空间量; 当父元素的宽度大于所有子元素的宽度的和时 (即父元素会有剩余空间)
+  - 默认值为 0, 不索取
+  - 若多个子节点同时索取父元素剩余空间, 则将其除以个元素索求数的总和, 并按百分比进行分配
+- flex-shrink - 当父元素的宽度小于所有子元素的宽度的和时 (即子元素会超出父元素), 子元素如何缩小自己的宽度的
+  - 默认值为 1, 若超过则缩小; 若为 0 表示不缩小
+  - 若多个子节点同时缩小, 则各元素最终大小值为 `容器超出大小` * (`自身大小` * `缩小系数` / ((`各元素大小` * `各元素缩小系数` + `...`)))
+- flex-basic - 该属性来设置该元素的宽度
+  - `width` 也可以用来设置元素宽度. 如果元素上同时设置了 `width` 和 `flex-basis`, 那么 `flex-basis` 会覆盖 `width` 的值
+
 ### 栅格 - Grid
 
 栅格可以方便排版设计, 通过设定 `最小栅格大小`, `屏幕总宽度`, `栅格的列宽`, `栅格的列数`, `栅格之间的距离 (水槽 Gutter)`, `栅格的安全边距` 来可以建立一套栅格系统
+
+### 样式性能优化
+
+- 加载性能 - 从减少文件体积, 减少阻塞加载, 提高并发方面入手的
+  - css 中不使用 `@import`, `@import` 非异步加载且会阻塞渲染; 使用普通 `link` 标签代替
+  - 样式放到最前面, 避免浏览器出现白屏或者无样式, 提高用户体验
+  - 减少不必要代码书写量
+    - Color 缩写 `#fff`
+    - 浮点数缩写 `.1`
+  - 压缩 CSS 代码, 压缩方式会抽取共同公共样式并进行代码压缩
+- 选择器性能
+  - 减少选择器层级; 例如 `html body img` -> `img`
+  - 减少复用选择器; 例如 `ul#id` `ul.class` `.parent.self.child` -> `#id` `.class` `.parent-self-child`
+  - 不要`子元素选择器`或`后代选择器`中使用`通配符选择器`; 例如 `#id *` -> `*`
+- 渲染性能
+
+
+参考资料
+
+- [GitHub's CSS Performance](https://speakerdeck.com/jonrohan/githubs-css-performance)
