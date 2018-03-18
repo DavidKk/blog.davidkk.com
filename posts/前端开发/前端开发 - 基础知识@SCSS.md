@@ -1,8 +1,10 @@
-<!-- title: 前端开发 - SCSS 无效数值 -->
+<!-- title: 前端开发 - 基础知识@SCSS -->
 <!-- author: <David Jones qowera@qq.com> -->
-<!-- date: 2016年12月20日13:02:09 -->
+<!-- date: 2018-03-19 01:08:25 -->
 <!-- category: 前端 -->
 <!-- tag: 基础知识 -->
+
+# SCSS
 
 SCSS 中 NaN Infinity 与 JS 的 NaN Infinity 类似.
 JS 两者都属于 number 类型, 但是 scss 中 不属于 number 类型 (很多都不属于)
@@ -12,7 +14,7 @@ NaN      : 无意义的数, IEEE754 标准规定的双精度浮点小数类型�
 Infinity : 正无穷大, 超过最大数值也会变成该值
 ```
 
-```
+```SCSS
 @debug '1111111-----------------------';
 @debug 1 / 0;              // 1/0
 @debug 1 / 0 == NaN;       // false
@@ -90,7 +92,7 @@ $m: 0 / 0;
 ```
 
 
-```
+```SCSS
 // 因此可以发现, 并且可以发现与单位无任何关系
 
 @debug 0 / 0 == NaN;            // true

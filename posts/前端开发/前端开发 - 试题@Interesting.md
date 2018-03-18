@@ -4,6 +4,8 @@
 <!-- category: 前端 -->
 <!-- tag: 试题 -->
 
+# 试题
+
 ## 使等式成立并执行打印
 
 ```Javascript
@@ -81,6 +83,7 @@ fn(a, 10, 20, 30)
 
 - this.length === 4: `arguments[0]()` 等同于 `arguments.a()`, this 会指向 `arguments`
 - this.callee.length === 1: callees 是 arguments 中指向源执行函数的执行参数数量 `fn(d)` 只定义了一个参数
+
 
 ## 写出打印结果
 

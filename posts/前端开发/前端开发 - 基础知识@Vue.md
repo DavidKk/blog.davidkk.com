@@ -2,9 +2,9 @@
 <!-- author: <David Jones qowera@qq.com> -->
 <!-- date: 2018-03-09 15:18:13 -->
 <!-- category: 前端 -->
-<!-- tag: 框架 -->
+<!-- tag: 基础知识 -->
 
-## Vue
+# Vue
 
 - 生命周期
   - Hook 包括: `beforeCreate`, `created`, `beforeMount`, `mounted`, `beforeUpdate`, `updated`, `beforeDestroy`, `destroyed`

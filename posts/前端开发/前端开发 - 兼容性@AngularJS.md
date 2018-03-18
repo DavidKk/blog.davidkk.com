@@ -1,8 +1,8 @@
-<!-- title: 前端开发 - angular@1.5.8 input 事件兼容问题 -->
+<!-- title: 前端开发 - 兼容性@AngularJS -->
 <!-- author: <David Jones qowera@qq.com> -->
 <!-- date: 2016-09-14 13:16:53 -->
 <!-- category: 前端 -->
-<!-- tag: AngularJS, 兼容性 -->
+<!-- tag: 兼容性 -->
 
 <!-- # 前言
 

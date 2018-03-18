@@ -2,7 +2,7 @@
 <!-- author: <David Jones qowera@qq.com> -->
 <!-- date: 2018-03-09 15:18:13 -->
 <!-- category: 前端 -->
-<!-- tag: 工具 -->
+<!-- tag: 基础知识 -->
 
 # Webpack
 
