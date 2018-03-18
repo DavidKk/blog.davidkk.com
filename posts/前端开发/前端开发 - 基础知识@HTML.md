@@ -55,7 +55,7 @@ SVG（Scalable Vector Graphics 可缩放矢量图形）表示可缩放矢量图�
 
 ## HTML5
 
-HTML5 是最新的 HTML 标准, 他的主要目标是提供所有内容而不需要任何的像 flash, silverlight 等的额外插件, 这些内容来自动画, 视频, 富 GUI 等；HTML5 是万维网联盟（W3C）和网络超文本应用技术工作组（WHATWG）之间合作输出的.
+HTML5 是最新的 HTML 标准, 他的主要目标是提供所有内容而不需要任何的像 flash, silverlight 等的额外插件, 这些内容来自动画, 视频, 富 GUI 等；HTML5 是万维网联盟 (W3C) 和网络超文本应用技术工作组 (WHATWG) 之间合作输出的.
 
 ### HTML5 新特性
 
@@ -71,12 +71,12 @@ HTML5 是最新的 HTML 标准, 他的主要目标是提供所有内容而不需
 - 多任务 - `WebWorker (window.Worker)`
 - 全双工通信协议 - `WebSocket`
 - 历史管理 - `History`
-- 跨域资源共享 - `(CORS) Access-Control-Allow-Origin`
+- 跨域资源共享 - `(CORS - Cross-Origin Resource Sharing) Access-Control-Allow-Origin`
 - 页面可见性改变事件 - `document.visibilityState`, `document.onvisibilitychange`
 - 跨窗口通信 - `PostMessage`
 - 绘画 - `canvas`
 - API - `FormData`
-- 数据转换方法 - `atb`, `btoa`
+- 数据转换方法 - `atob`, `btoa`
 
 ### HTML5 与 HTML4 的区别
 
@@ -265,12 +265,6 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素.
 - b 与 strong, b 无强调, 只是普通加粗. strong 着重内容并加粗
 - i 与 em, i 无强调, 只是普通斜体. em 着重内容并斜体
 
-#### <script> 元素的属性 async 与 defer
-
-- async: 异步与后续文档并行加载并在加载完立即执行
-- defer: 异步与后续文档并行加载但不会被立即执行, 当所有元素都被解析后才被执行, 但先于 DOMContentLoaded 事件
-
-
 #### HTML5 废弃的元素
 
 下面的元素被废弃的原因是用CSS处理可以更好地替代他们：
@@ -343,6 +337,103 @@ HTML5的规范里有对这些属性的代替方案, [点击访问](http://www.wh
 
 [废弃的元素（Element）](http://www.cnblogs.com/TomXu/archive/2011/12/17/2269168.html)
 
+#### HTML5 新标签新特性
+
+##### Meta 标签
+
+###### DNS 预解析
+
+通过设置 `meta` 标签 `http-equiv="x-dns-prefetch-control"` 与 `content="on"` 开启
+
+```HTML
+<meta http-equiv="x-dns-prefetch-control" content="on" />
+<link rel="dns-prefetch" href="https://cdn.xxx.com" />
+<link rel="dns-prefetch" href="https://api.xxx.com" />
+<link rel="dns-prefetch" href="https://cdn.thirdparty.com" />
+```
+
+##### Script 标签
+
+###### async 与 defer
+
+```HTML
+<!-- 异步加载, 不阻塞, 加载完按执行顺序执行 -->
+<script src="..." defer></script>
+<!-- 异步加载, 不阻塞, 加载完立即执行 -->
+<script src="..." async></script>
+```
+
+- async: 异步与后续文档并行加载并在加载完立即执行
+- defer: 异步与后续文档并行加载但不会被立即执行, 当所有元素都被解析后才被执行, 但先于 DOMContentLoaded 事件
+- 动态添加 script: 异步加载, 默认拥有 `async` 属性, 加载完之后立即执行. 可以通过设置 `scriptNode.async = false` 使之按顺序执行
+
+```Javascript
+let script = document.createElement('script')
+script.async = false // 按执行顺序执行
+document.head.appendChild(script)
+script.src = '...'
+```
+
+###### module script
+
+把 Javascript 资源当做模块来加载
+
+```HTML
+<script type="module" src="..."></script>
+```
+
+- 不受 `defer` 和 `charset` 影响
+- 异步加载依赖脚本
+- 加载时不会阻塞浏览器解析 HTML
+
+```HTML
+<!-- 同步加载, 阻塞, 加载自动执行 -->
+<script src="..."></script>
+<!-- 异步加载, 不阻塞, 加载完仍然按执行顺序执行 -->
+<script src="..." defer></script>
+<!-- 异步加载, 不阻塞, 加载完立即执行 -->
+<script src="..." async></script>
+<!-- 自身及其依赖均为异步加载, 不阻塞, 加载完仍然按执行顺序执行 -->
+<script src="..." type="module"></script>
+<!-- 自身及其依赖均为异步加载, 不阻塞, 加载完立马执行 -->
+<script src="..." type="module" async></script>
+```
+
+兼容写法
+
+```HTML
+<!-- 支不支持都按浏览器自身标准来执行 -->
+<script src="app.js" type="module"></script>
+<!-- 若支持则不执行, 若不支持则按浏览器自身标准来执行 -->
+<script src="bundle.js" nomodule></script>
+```
+
+###### intergrity 属性
+
+`integrity` 属性是资源完整性规范的一部分, 它允许你为 script 提供一个 hash, 用来进行验签, 检验加载的 JavaScript 文件是否完整
+
+启用 SRI 策略后, 浏览器会对资源进行 CORS (Cross-Origin Resource Sharing) 校验, 这就要求被请求的资源必须同域, 或者配置了 Access-Control-Allow-Origin 响应头
+
+```HTML
+<script src="..." intergrity="sha256-xxxx"></script>
+```
+
+- 减少由托管在 CDN 的资源被篡改而引入的 XSS 风险
+- 减少通信过程资源被篡改而引入的XSS风险 (最好加上 HTTPS, 旧浏览器并不支持该属性)
+
+###### crossorigin 属性
+
+`crossorigin` 属性包含两个值 `anonymous`, `use-credentials`. 默认值为 `anonymous`, 若不写或错误都会变成默认值.
+
+```HTML
+<script src="..." crossorigin="anonymous"></script>
+<script src="..." crossorigin="use-credentials"></script>
+```
+
+- `crossorigin` 会让浏览器启用 CORS 访问检查，检查 http 相应头的 `Access-Control-Allow-Origin`
+- 对于 module script, 控制用于跨域请求的凭据模式
+- 对于传统 script 需要跨域获取的 Jvascript 资源, 控制暴露出其报错的详细信息
+  - 跨域的 JS 只会显示 `error: script error` 部分错误
 
 #### HTML5 新增 API
 
@@ -779,15 +870,24 @@ window.applicationCache.addEventListener('updateready', function () {
 
 #### 网页性能优化
 
-- 减少 DOM 节点
-- 减少 HTTP 请求
-- 使用 CDN
-- 合并图片使用精灵图
-- GZIP 压缩传输
 - 使用 HTTP2.0
-- 减少 CDN - 域名少一点, 浏览器会缓存
+- 使用 CDN
+- 使用 GZIP 压缩传输
+- 减少 HTTP 请求
+- 使用 DNS 预解析
+- 减少 DNS 解析 - 域名少一点, 浏览器会缓存
+- 减少 DOM 节点
 - 减少 DOM 节点的操作
-- 图片延迟加载
-- 图片无损压缩
+  - 必要时可以先缓存, 减少不必要的查找
+  - 通过 `document.createDocumentFragment` 创建临时存放空间, 进行操作再一次性修改
 - 避免重定向
-- 尽量避免使用 iframe
+- 尽量避免使用 iframe - 阻塞 onload, 共享连接数, 共享线程
+  - 使用时最好通过异步插入, 否则会阻塞 onload 事件
+- 图片无损压缩
+- 图片使用精灵图 - 合并图片, 减少连接数
+- 图片延迟加载
+- 图片使用 webP
+  - 既支持 Alpha 透明
+  - 具有更优的图像数据压缩算法, 而且拥有肉眼识别无差异的图像质量
+- 代码压缩
+- 减少代码量, 提取共有代码模块

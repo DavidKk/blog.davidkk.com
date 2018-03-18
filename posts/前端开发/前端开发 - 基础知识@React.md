@@ -4,7 +4,7 @@
 <!-- category: 前端 -->
 <!-- tag: 框架 -->
 
-## React
+# React
 
 - ReactComponent: 组件
   - ReactEmptyComponent (空组件): return null/false
@@ -23,9 +23,9 @@
   - 这里主要 onChange={this.udpate.bind(this)} 会导致 props.onChange 引用改变, 导致 render, 所以建议使用 onChange={this.update} 或在 constructor 中使用 bind
   - 总之注意一下引用
 - Virtual DOM:
-  - 减少重排/重绘次数, 把双缓冲的技术实现到DOM上面
+  - 减少重排/重绘次数, 把双缓冲的技术实现到 DOM 上面
   - 将 DOM 抽象化, 同时自动化地管理 DOM 碎片, 开发者在无感知的情况下已经实现优化的过程
-  - 并不比手动优化处理DOM节点快, 利用最小的性能代价来更新DOM, 增加了代码可维护性
+  - 并不比手动优化处理 DOM 节点快, 利用最小的性能代价来更新 DOM, 增加了代码可维护性
 - 生命周期 (React Lifecycle):
   - Hook 包括: `componenWillReceiveProps`, `componentWillMount`, `shouldComponentUpdate`, `componentWillUpdate`, `componentDidMount`. `componentDidUpdate`, `componentWillUnmount`
   - 初始化时 `getDefaultProps`, `getInitialState`, `componentWillMount`, `render`, `componentDidMount`

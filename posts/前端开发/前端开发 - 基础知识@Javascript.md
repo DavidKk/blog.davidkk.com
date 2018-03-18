@@ -9,7 +9,7 @@
 ### 作用域
 
 作用域就是一个区域, 包含了其中变量, 常量, 函数等等定义信息和赋值信息, 以及这个区域内代码书写的结构信息
-作用域（scope, 或译作有效范围）是名字（name）与实体（entity）的绑定（binding）保持有效的那部分计算机程序
+作用域 (scope, 或译作有效范围) 是名字 (name) 与实体 (entity) 的绑定 (binding) 保持有效的那部分计算机程序
 若出现同名变量, 作用域中的变量会比全局变量的优先级高. 而且改变作用域下的变量, 全局变量不会受到任何影响.
 Javascript 并没有块状作用域, 因此在相同作用域下不同的块状中定义变量, 他们均是该作用域变量, 作用域下都能引用.
 
@@ -38,7 +38,7 @@ console.log(a)    // 1
 
 #### 静态作用域 与 动态作用域
 
-静态作用域 (Static/Lexical Scope) 又叫做词法作用域, 采用词法作用域的变量叫词法变量. 词法变量有一个在编译时静态确定的作用域. 词法变量的作用域可以是一个函数或一段代码, 该变量在这段代码区域内可见（visibility）；在这段区域以外该变量不可见（或无法访问）. 词法作用域里, 取变量的值时, 会检查函数定义时的文本环境, 捕捉函数定义时对该变量的绑定.
+静态作用域 (Static/Lexical Scope) 又叫做词法作用域, 采用词法作用域的变量叫词法变量. 词法变量有一个在编译时静态确定的作用域. 词法变量的作用域可以是一个函数或一段代码, 该变量在这段代码区域内可见 (visibility); 在这段区域以外该变量不可见(或无法访问). 词法作用域里, 取变量的值时, 会检查函数定义时的文本环境, 捕捉函数定义时对该变量的绑定.
 
 动态作用域 (Dynamic Scope) 的变量叫做动态变量. 只要程序正在执行定义了动态变量的代码段, 那么在这段时间内, 该变量一直存在；代码段执行结束, 该变量便消失. 动态作用域里, 取变量的值时, 会由内向外逐层检查函数的调用链, 并打印第一次遇到的那个绑定的值.
 
@@ -50,6 +50,23 @@ console.log(a)    // 1
 
 
 ### Closure - 闭包
+
+#### 闭包的定义
+
+闭包 (Closure) 是词法闭包 (Lexical Closure) 的简称, 是引用了自由变量的函数, 也可以说闭包是由函数和与其相关的引用环境组合而成的实体.
+
+#### 闭包的特征
+
+- 函数
+- 可以引用外部自由变量
+- 作用域
+
+#### 闭包的应用
+
+- 读取函数内部变量
+- 让变量常驻内存
+
+#### 闭包拓展
 
 首先我们了解一下函数编程的一些基本定义, 函数式语言中, 函数即是数据, 则我们可以把函数作为参数传递, 也可以返回一个函数, 然而在 ECMAScript 中也一样.
 这些接受函数式参数的函数称为高阶函数 (HOF - high-order function)；
@@ -132,17 +149,13 @@ function foo() {
 A closure is a combination of a code block (in ECMAScript this is a function) and statically/lexically saved all parent scopes.Thus, via these saved scopes a function may easily refer free variables.
 ```
 
-闭包是一系列代码块（在ECMAScript中是函数）, 并且静态保存所有父级的作用域. 通过这些保存的作用域来搜寻到函数中的自由变量.
+闭包是一系列代码块(在ECMAScript中是函数), 并且静态保存所有父级的作用域. 通过这些保存的作用域来搜寻到函数中的自由变量.
 
-几个函数可能含有相同的父级作用域（这是一个很普遍的情况, 例如有好几个内部或者全局的函数）. 在这种情况下, 在[[Scope]]中存在的变量是会共享的. 一个闭包中变量的变化, 也会影响另一个闭包的.
-
-#### 闭包的定义
-
-闭包（Closure）是词法闭包（Lexical Closure）的简称, 是引用了自由变量的函数, 也可以说闭包是由函数和与其相关的引用环境组合而成的实体.
+几个函数可能含有相同的父级作用域(这是一个很普遍的情况, 例如有好几个内部或者全局的函数). 在这种情况下, 在[[Scope]]中存在的变量是会共享的. 一个闭包中变量的变化, 也会影响另一个闭包的.
 
 参考文章
 
-- [深入理解JavaScript系列（16）：闭包（Closures）](http://www.cnblogs.com/tomxu/archive/2012/01/31/2330252.html)
+- [深入理解JavaScript系列(16)：闭包(Closures)](http://www.cnblogs.com/tomxu/archive/2012/01/31/2330252.html)
 - [执行上下文其三：闭包 Closures](http://www.nowamagic.net/librarys/veda/detail/1646)
 
 
@@ -150,11 +163,39 @@ A closure is a combination of a code block (in ECMAScript this is a function) an
 
 #### 原型模型
 
-JavaScript 不包含传统的类继承模型, 而是使用 prototypal 原型模型. 在基于类的面向对象方式中, 对象（object）依靠类（class）来产生. 而在基于原型的面向对象方式中, 对象（object）则是依靠构造器（constructor）利用原型（prototype）构造出来的. 在 JavaScript 中, "一切都是对象, 函数是第一类", `Function` 和 `Object` 都是函数的实例.
+JavaScript 不包含传统的类继承模型, 而是使用 prototypal 原型模型. 在基于类的面向对象方式中, 对象(object)依靠类(class)来产生. 而在基于原型的面向对象方式中, 对象(object)则是依靠构造器(constructor)利用原型(prototype)构造出来的. 在 JavaScript 中, "一切都是对象, 函数是第一类", `Function` 和 `Object` 都是函数的实例.
+
+#### new 与 Object.create
+
+`new` 的实现过程
+
+- 创建一个以这个函数为原型的空对象
+- 将函数的 `prototype` 赋值给对象的 `__proto__` 属性
+- 将对象作为函数的 `this` 传进去
+  - 如果 `return` 中含有`函数`或`对象`且`有效`的情况下将返回该值, 否则返回创建的对象
+
+```Javascript
+let instance = {}
+instance.__props__ = InputFunc.prototype
+let result = InputFunc.call(instance, ...arguments)
+return typeof result === 'function' && typeof result === 'object' && result ? instance : result
+```
+
+`Object.create` 的实现过程
+
+- 创建一个新的空函数
+- 将传入对象作为该函数 `prototype` 属性
+- 通过 `new` 创建一个新对象并返回
+
+```Javascript
+let NewFuc = function () {}
+NewFuc.prototype = object
+return new NewFuc()
+```
 
 #### 生成对象方式
 
-```
+```Javascript
 var obj = {
   name: 'david'
 }
@@ -166,7 +207,7 @@ var Foo = function(name) {
 Foo.prototype.do = function() {}
 var personA = new Foo('David')
 
-# ECMAScript 5 引入, 相当于
+// ECMAScript 5 引入, 相当于
 Object.create = function(parent) {
   function Foo() {}
   Foo.prototype = parent;
@@ -235,9 +276,9 @@ console.log(Horse.prototype.__proto__ === Mammal.prototype) // true
 console.log(Mammal.prototype.__proto__ === Animal.prototype) // true
 ```
 
-在 ECMAScript 中, 每个由构造器创建的对象拥有一个指向构造器 prototype 属性值的隐式引用（implicit reference）, 这个引用称之为原型（prototype）. 进一步, 每个原型可以拥有指向自己原型的 隐式引用（即该原型的原型）, 如此下去, 这就是所谓的原型链（prototype chain）
+在 ECMAScript 中, 每个由构造器创建的对象拥有一个指向构造器 prototype 属性值的隐式引用(implicit reference), 这个引用称之为原型(prototype). 进一步, 每个原型可以拥有指向自己原型的 隐式引用(即该原型的原型), 如此下去, 这就是所谓的原型链(prototype chain)
 
-当前的原型继承（如 Object.create 以及 proto）还是存在以下缺点
+当前的原型继承(如 Object.create 以及 proto)还是存在以下缺点
 
 - 标准性差：proto 不是一个标准用法, 甚至是一个不赞成使用的用法. 同时原生态的 Object.create 和道爷写的原版也不尽相同.
 - 优化性差：不论是原生的还是自定义的 Object.create , 其性能都远没有 new 的优化程度高, 前者要比后者慢高达10倍.
@@ -272,7 +313,7 @@ ES6 通过 `寄生组合继承` 的方式去实现继承, 它通过创建一个�
 参考文章
 
 - [深入理解javascript原型继承](http://www.jianshu.com/p/d2742610ec30)
-- [深入理解JavaScript系列（5）：强大的原型和原型链](http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html)
+- [深入理解JavaScript系列(5)：强大的原型和原型链](http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html)
 
 ### Javascript 数据类型
 
@@ -336,7 +377,7 @@ Ajax 的全称是 Asynchronous JavaScript and XML, 其中, Asynchronous 是异�
 
 #### 理解阻塞与非阻塞
 
-阻塞和非阻塞关注的是程序在等待调用结果（消息, 返回值）时的状态
+阻塞和非阻塞关注的是程序在等待调用结果(消息, 返回值)时的状态
 - 阻塞调用是指调用结果返回之前, 当前线程会被挂起, 调用线程只有在得到结果之后才会返回
 - 非阻塞调用指在不能立刻得到结果之前, 该调用不会阻塞当前线程
 
@@ -418,7 +459,7 @@ xhr.send(null)
 
 ##### jsonp
 
-jsonp 原理就是利用 javascript 脚本引用可以跨域. 首先客户端会注册一个 callback, 然后把 callback 传递给服务器. 服务器生成 JSON 数据并且通过 javascript 语法方式生成一个 function, function 的名字就是 jsonp 传递上来的名字. 最后将 json 数据直接以入参的方式, 放置到 function 中, 这样就生成了一段 js 语法的文档, 返回给客户端. 客户端浏览器, 解析 script 标签, 并执行返回的 javascript 文档, 此时数据作为参数, 传入到了客户端预先定义好的 callback 函数里.（动态执行回调函数）
+jsonp 原理就是利用 javascript 脚本引用可以跨域. 首先客户端会注册一个 callback, 然后把 callback 传递给服务器. 服务器生成 JSON 数据并且通过 javascript 语法方式生成一个 function, function 的名字就是 jsonp 传递上来的名字. 最后将 json 数据直接以入参的方式, 放置到 function 中, 这样就生成了一段 js 语法的文档, 返回给客户端. 客户端浏览器, 解析 script 标签, 并执行返回的 javascript 文档, 此时数据作为参数, 传入到了客户端预先定义好的 callback 函数里.(动态执行回调函数)
 
 ```
 var sc = document.createElement(script)
@@ -510,7 +551,7 @@ window.onmessage = function(evt) {
 ## Set 与 Map
 
 Set 唯一没有重复值, 可以通过 `Array.from(new Set([]))` 达到快速去重
-Map 本质上是键值对的集合, 但是 Hash 的范围不限于字符串, 各种类型的值（包括对象）都可以当作键
+Map 本质上是键值对的集合, 但是 Hash 的范围不限于字符串, 各种类型的值(包括对象)都可以当作键
 
 ## WeakMap
 
@@ -533,5 +574,15 @@ Map 本质上是键值对的集合, 但是 Hash 的范围不限于字符串, 各
 
 ## 捕获与冒泡
 
+DOM 事件流 (event flow) 存在三个阶段: `事件捕获阶段`, `处于目标阶段`, `事件冒泡阶段`
+DOM 标准事件流的触发的先后顺序为: `先捕获再冒泡`
+
 - 事件捕获: 从根节点开始由外到内进行事件传播
+  - window -> document -> documentElement -> body -> ...
 - 事件冒泡: 事件冒泡顺序是由内到外进行事件传播，直到根节点
+
+### 阻止事件
+
+- `preventDefault` - 阻止节点默认事件
+- `stopPropagation` - 阻止冒泡
+- `stopImmeidatePropagation` - 阻止冒泡并阻止该节点上的其他该类型事件触发
