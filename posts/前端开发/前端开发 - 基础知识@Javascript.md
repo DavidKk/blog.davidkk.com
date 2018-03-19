@@ -634,3 +634,48 @@ function throttle (fn, delay) {
   }
 }
 ```
+
+### Javscript 严格模式
+
+- 消除 Javascript 语法的一些不合理和不严谨之处, 减少一些怪异行为
+- 消除代码运行的一些不安全之处, 保证代码运行的安全
+- 提高编译器效率, 增加运行速度
+- 为未来新版本的 Javascript 做好铺垫
+
+#### 严格模式的规范
+
+- 不允许创建全局变量, 否则会抛出异常 ReferenceError
+- 不能使用 `delete` 删除变量, 否则会抛出异常 ReferenceError
+- 不能以标识符作为变量名或函数名, 否则抛出语法错误
+  - `implements`, `interface`, `let`, `package`, `private`, `protected`, `public`, `static`, `yield`
+  - `eval`, `arguments`, 严格模式下这两个也被定义为标识符
+- 不能赋值给只读属性, 否则抛出异常 TypeError
+- 不能使用 `delete` 删除不可配置的属性 (nonconfigurable attributes)
+  - `Object.defineProperty(o, 'a', { configurable: false })`
+- 不能对不可扩展的对象 (nonextensible object) 添加属性, 否则会抛出异常 TypeError
+  - `Object.preventExtensions({})` 不可扩展对象
+  - `Object.seal({})` 密封对象是不可扩展对象
+  - `Object.freeze({})` 冻结对象是不可扩展对象
+- 使用对象字面量定义对象时, 属性名必须唯一, 否则抛出语法错误
+  - `var q = {a:1,a:1}`
+- 函数的参数必须唯一, 否则抛出语法错误
+  - `(a, a) => {}`
+- 函数中, 修改参数值不会导致 arguments 对应的值也改变, 两个值是独立的
+  - 在非严格模式下, 两者是一致的
+- 不能访问 `arguments.callee` 和 `arguments.caller`, 否则会抛出异常 TypeError
+  - 在非严格模式下, `arguments.callee` 和 `arguments.caller` 指向函数本身
+- `eval()` 不会通过上下文创建变量或函数
+  - 例如 eval('var q = 1'); console.log(q), 严格模式下会报错, 非严格模式 q === 1
+- `eval()` 中声明变量和函数, 但这些变量或函数只能在被求值的特殊作用域中有效, 随后就将被销毁
+  - 例如 var q = eval(var a = 1;), 变量 a 将被销毁
+- 执行 `apply()` 或 `call()` 的时候, 传入任何值, `this` 都会指向该值
+  - 非严格模式下调用 `null` 或 `undefined`, `this` 会指向全局变量
+- 不能使用 `with`
+- 不能使用八进制赋值
+  - `var q = 010;` 或者 `var q = '\047'`
+  - `parseInt()` 传入八进制数字的时候, 会当成十进制
+    - `parseInt(010)`, 严格模式下输出 10, 非严格模式下输出 8
+
+参考资料
+- [向严格模式过渡](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode/Transitioning_to_strict_mode)
+- [JavaScript 中的 严格模式](https://juejin.im/post/5a8fb8c35188257a865d84b3)
