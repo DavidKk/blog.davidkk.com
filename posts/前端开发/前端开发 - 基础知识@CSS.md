@@ -105,14 +105,14 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - `E:active` 匹配鼠标已按下但未被释放的元素 `a:active { color: red; }`
 - `E:hover` 匹配鼠标悬停的元素 `a:hover { color: red; }`
 - `E:focus` 匹配获得当前焦点元素 `a:focus { color: red; }`
-- `[E:in-range]`(http://www.w3schools.com/cssref/sel_in-range.asp) 匹配 `type="number"` 并且在有效范围内的input元素 `input:in-range { color: red; }` IE 不支持
-- `[E:out-of-range]`(http://www.w3schools.com/cssref/sel_out-of-range.asp) 匹配 `type="number"` 并且不在有效范围内的input元素 `input:out-of-range { color: red; }` IE 不支持
-- `[E:valid]`(http://www.w3schools.com/cssref/sel_valid.asp) 匹配所有有效的input元素 `input:valid {}`
-- `[E:invalid]`(http://www.w3schools.com/cssref/sel_invalid.asp) 匹配所有无效的input元素 `input:invalid { color:red; }`
-- `[E:optional]`(http://www.w3schools.com/cssref/sel_optional.asp) 匹配所有没有 `required` 的input元素 `input:optional { color: red; }` IE 9以上才支持
-- `[E:read-only]`(http://www.w3schools.com/cssref/sel_read-only.asp) 匹配所有拥有 `readonly` 的input元素 `input:read-only {}`, `input:-moz-read-only {}`
-- `[E:read-write]`(http://www.w3schools.com/cssref/sel_read-write.asp) 匹配所有不拥有 `readonly` 的input元素 `input:read-write {}`, `input:-moz-read-write {}`
-- `[E:lang(c)]`(http://www.w3schools.com/cssref/sel_lang.asp) 匹配lang属性等于c的元素 `a:lang(sv) { quotes: “\201D” “\201D” “\2019″ “\2019″; }`
+- `[E:in-range](http://www.w3schools.com/cssref/sel_in-range.asp)` 匹配 `type="number"` 并且在有效范围内的input元素 `input:in-range { color: red; }` IE 不支持
+- `[E:out-of-range](http://www.w3schools.com/cssref/sel_out-of-range.asp)` 匹配 `type="number"` 并且不在有效范围内的input元素 `input:out-of-range { color: red; }` IE 不支持
+- `[E:valid](http://www.w3schools.com/cssref/sel_valid.asp)` 匹配所有有效的input元素 `input:valid {}`
+- `[E:invalid](http://www.w3schools.com/cssref/sel_invalid.asp)` 匹配所有无效的input元素 `input:invalid { color:red; }`
+- `[E:optional](http://www.w3schools.com/cssref/sel_optional.asp)` 匹配所有没有 `required` 的input元素 `input:optional { color: red; }` IE 9以上才支持
+- `[E:read-only](http://www.w3schools.com/cssref/sel_read-only.asp)` 匹配所有拥有 `readonly` 的input元素 `input:read-only {}`, `input:-moz-read-only {}`
+- `[E:read-write](http://www.w3schools.com/cssref/sel_read-write.asp)` 匹配所有不拥有 `readonly` 的input元素 `input:read-write {}`, `input:-moz-read-write {}`
+- `[E:lang(c)](http://www.w3schools.com/cssref/sel_lang.asp)` 匹配lang属性等于c的元素 `a:lang(sv) { quotes: “\201D” “\201D” “\2019″ “\2019″; }`
 
 ###### CSS 3
 
@@ -137,13 +137,13 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - `:root` 匹配文档的根元素, 对于HTML文档, 就是 HTML 元素, 权重大于 `html {}` `:root { color: #fff; }`
 - `E:empty` 匹配一个不包含任何子元素的元素, 注意, 文本节点也被看作子元素 `a:empty { display:block;width:100px;height:100px;background:#ff0; }`
 - `E:not` 匹配不符合当前选择器的任何元素 `:not(p) { #fff; }`
-- `[E:target]`(http://www.w3schools.com/cssref/css3_pr_target.asp) 匹配文档中特定 ID 点击后的效果, 暂时主流浏览器都均不支持
+- `[E:target](http://www.w3schools.com/cssref/css3_pr_target.asp)` 匹配文档中特定 ID 点击后的效果, 暂时主流浏览器都均不支持
 
 ##### 伪元素
 
 - `E::before` 在E元素前插入生成的内容 `p:before { content: 'Hello'; }`
 - `E::after` 在E元素后插入生成的内容 `p:after { content: 'World'; }`
-- `[E::first-line]`(https://developer.mozilla.org/en-US/docs/Web/CSS/::first-line) 匹配E元素的第一行 `p:first-line { color: red; }` 此时设置 `text-transform: uppercase;` 在 `webkit` 中无效.
+- `[E::first-line](https://developer.mozilla.org/en-US/docs/Web/CSS/::first-line)` 匹配E元素的第一行 `p:first-line { color: red; }` 此时设置 `text-transform: uppercase;` 在 `webkit` 中无效.
 - `E::first-letter` 匹配E元素的第一个字母 `p:first-letter { color: red; }`
 
 ### 优先级与权重
@@ -430,3 +430,28 @@ div {
 参考资料
 
 - [GitHub's CSS Performance](https://speakerdeck.com/jonrohan/githubs-css-performance)
+
+### 横屏与竖屏
+
+```CSS
+/** 竖屏 */
+@media screen and (orientation: portrait) {}
+/** 横屏 */
+@media screen and (orientation: landscape) {}
+```
+
+```HTML
+<!-- 横屏 -->
+<link rel="stylesheet" media="all and (orientation: portrait)" href="portrait.css">
+<!-- 竖屏 -->
+<link rel="stylesheet" media="all and (orientation: landscape)" href="portrait.css">
+```
+
+```Javascript
+window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', function () {
+  // 横屏
+  if (window.orientation === 180 || window.orientation === 0) {}
+  // 竖屏
+  if (window.orientation === 90 || window.orientation === -90 ) {}
+}, false)
+```

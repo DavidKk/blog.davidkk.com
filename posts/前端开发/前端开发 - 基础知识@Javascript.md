@@ -598,3 +598,39 @@ DOM 标准事件流的触发的先后顺序为: `先捕获再冒泡`
 
 参考资料
 - [http://stackoverflow.com/questions/5467129/sort-javascript-object-by-key/31102605#31102605](http://stackoverflow.com/questions/5467129/sort-javascript-object-by-key/31102605#31102605)
+
+## 函数防抖与函数节流
+
+### debounce - 函数防抖
+
+函数在单位时间后执行, 若在该单位时间内再次执行, 则重新计算单位时间, 函数延迟执行
+
+```Javascript
+function debounce (fn, delay) {
+  let timeoutId
+
+  return function () {
+    timeoutId && clearTimeout(timeoutId)
+    timeoutId = setTimeout(fn, delay)
+  }
+}
+```
+
+### throttle - 函数节流
+
+函数立即执行, 在单位时间内不能再次执行. 必须等待该单位时间已过期后才能再次执行
+
+```Javascript
+function throttle (fn, delay) {
+  let flag = false
+  return function () {
+    if (flag === true) {
+      return
+    }
+
+    flag = true
+    fn()
+    setTimeout(() => flag = false, delay)
+  }
+}
+```
