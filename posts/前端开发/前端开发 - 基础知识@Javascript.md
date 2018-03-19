@@ -660,7 +660,7 @@ function throttle (fn, delay) {
   - `var q = {a:1,a:1}`
 - 函数的参数必须唯一, 否则抛出语法错误
   - `(a, a) => {}`
-- 函数中, 修改参数值不会导致 arguments 对应的值也改变, 两个值是独立的
+- 函数中, 修改参数值不会导致 `arguments` 对应的值也改变, 两个值是独立的
   - 在非严格模式下, 两者是一致的
 - 不能访问 `arguments.callee` 和 `arguments.caller`, 否则会抛出异常 TypeError
   - 在非严格模式下, `arguments.callee` 和 `arguments.caller` 指向函数本身
