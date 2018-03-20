@@ -227,7 +227,7 @@ JavaScript 可以采用构造器(constructor) 生成一个新的对象, 每个�
 
 在 Javascript 中有一个隐藏的属性 `__proto__` (proto 是一个不应在你代码中出现的非正规的用法, 这里仅仅用它来解释JavaScript原型继承的工作原理. )
 
-```
+```Javascript
 var Foo = function() {}
 Foo.prototype.say = 'hello'
 
@@ -241,7 +241,7 @@ console.log(a.__proto__.__proto__) // null --> Object.__proto__
 
 更复杂一点的原型链继承结构
 
-```
+```Javascript
 function Animal(name) {
   this.name = name
 }
@@ -291,7 +291,7 @@ console.log(Mammal.prototype.__proto__ === Animal.prototype) // true
 
 hasOwnProperty是Object.prototype的一个方法, 它可是个好东西, 他能判断一个对象是否包含自定义属性而不是原型链上的属性, 因为hasOwnProperty 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数.
 
-```
+```Javascript
 Object.prototype.bar = 1
 
 var foo = {
@@ -487,7 +487,7 @@ window 对象有个 name 属性, 该属性有个特征：即在一个窗口(wind
 
 因此当我们通过跳转页面而达到传输数据的效果
 
-```
+```Javascript
 # a.html
 window.name = 'something...'
 setTimeout(function() {
@@ -510,11 +510,11 @@ console.log(window.name) // something...
 
 需要接收消息的 window 对象, 可是通过监听自身的 message 事件来获取传过来的消息, 消息内容储存在该事件对象的 data 属性中.
 
-```
-# a.html
+```Javascript
+// a.html
 window.postMessage('message...', '*')
 
-# b.html
+// b.html
 window.onmessage = function(evt) {
   evt = evt || event
   console.log(evt.message) // message...
@@ -527,7 +527,7 @@ window.onmessage = function(evt) {
 
 使用 flash 插件设置 `crossdoamin.xml`, 该文件放在根目录下
 
-```
+```xml
 <!-- crossdoamin.xml -->
 <?xml version="1.0"?>
 <cross-domain-policy>
@@ -593,7 +593,7 @@ DOM 标准事件流的触发的先后顺序为: `先捕获再冒泡`
 
 - 首先根据数组索引进行查找
 - 然后根据初始值进行查找, 先进先出
-  - 这里面的排序是根据ANSI码进行排序
+  - 这里面的排序是根据 ANSI 码进行排序
 - 查找所有标点符号, 先进先出
 
 参考资料
@@ -635,14 +635,39 @@ function throttle (fn, delay) {
 }
 ```
 
-### Javscript 严格模式
+## Promise
+
+### then 转 catch
+
+```Javascript
+promise.then(() => {
+  return Promise.reject(new Error(''))
+})
+
+promise.then(() => {
+  throw new Error('')
+})
+```
+
+## catch 转 then
+
+```Javascript
+promise.catch((rejection) => {
+  return rejection
+})
+.then(() => {
+
+})
+```
+
+## Javscript 严格模式
 
 - 消除 Javascript 语法的一些不合理和不严谨之处, 减少一些怪异行为
 - 消除代码运行的一些不安全之处, 保证代码运行的安全
 - 提高编译器效率, 增加运行速度
 - 为未来新版本的 Javascript 做好铺垫
 
-#### 严格模式的规范
+### 严格模式的规范
 
 - 不允许创建全局变量, 否则会抛出异常 ReferenceError
 - 不能使用 `delete` 删除变量, 否则会抛出异常 ReferenceError
