@@ -107,7 +107,7 @@ HTML5 语法中同时定义了解析规则——包括异常的处理方式. 这
 </html>
 ```
 
-另外一个可以被用于 HTML 的语法是 XML. XML 语法可兼容于 XHTML 文档或实现. 使用 XML 语法的文档需要配套 XML 文档的媒体类型如 application/xhtml+xml 或 application/xml 来使用, 同时元素需要遵循 XML 规则, 被放到 http://www.w3.org/1999/xhtml 命名空间中：
+另外一个可以被用于 HTML 的语法是 XML. XML 语法可兼容于 XHTML 文档或实现. 使用 XML 语法的文档需要配套 XML 文档的媒体类型如 application/xhtml+xml 或 application/xml 来使用, 同时元素需要遵循 XML 规则, 被放到 http://www.w3.org/1999/xhtml 命名空间中:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -123,17 +123,17 @@ HTML5 语法中同时定义了解析规则——包括异常的处理方式. 这
 
 ##### 符号编码
 
-HTML标准中要求开发声明编码方式, 有这些方式可以做到：
+HTML标准中要求开发声明编码方式, 有这些方式可以做到
 
 - 传输层, 可以用 HTTP 头部的 Content-Type
 - 在文档头部放置对应使用的编码的 BOM
 - 使用有 charset 的 meta 元素 `<meta charset="UTF-8">` 代替 `<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">` (仍可继续使用)
 
-XML 语法中, 开发需要按照 XML 标准来设置编码.
+XML 语法中, 开发需要按照 XML 标准来设置编码
 
 ##### MathML 和 SVG
 
-HTML 语法允许文档内嵌 MathML 和 SVG 元素.
+HTML 语法允许文档内嵌 MathML 和 SVG 元素
 
 - math 和 svg 的开始标签将会导致 HTML 解析器转为特殊的插入模式, 以将元素和属性放入合适的命名空间, 并转化大小写, 并支持 XML 中的空元素语法
 - HTML中 的 math/svg 的相关元素及其属性依然是区分大小写的
@@ -145,22 +145,22 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素.
 <!doctype html>
 <title>SVG in text/html</title>
 <p>
- A green circle:
- <svg><circle r="50" cx="50" cy="50" fill="green"/></svg>
+  A green circle:
+  <svg><circle r="50" cx="50" cy="50" fill="green"/></svg>
 </p>
 ```
 
 ### DOM 与 BOM
 
 - DOM (Document Object Model): DOM (文档对象模型) 是 HTML 和 XML 的应用程序接口 (API)
-- BOM (Browser Object Model): BOM (浏览器对象模型) 是 浏览器应用接口 (API); 其核心是 window, 而 window 对象又具有双重角色，它既是通过js访问浏览器窗口的一个接口，又是一个 Global（全局）对象
+- BOM (Browser Object Model): BOM (浏览器对象模型) 是 浏览器应用接口 (API); 其核心是 window, 而 window 对象又具有双重角色, 它既是通过 js 访问浏览器窗口的一个接口, 又是一个 Global（全局）对象
 
 #### DOM 发展
 
 - DOM0: JavaScript 在早期版本中提供了查询和操作 Web 文档的内容 API
 - DOM1: DOM1 级主要定义了 HTML 和 XML 文档的底层结构, 统一了标准化, W3C 标准
-- DOM2: 在DOM1的基础上DOM2引入了更多的交互能力，也支持了更高级的XML特性
-- DOM3: 进一步扩展了DOM，引入了以统一方式加载和保存文档的方法，它在 DOM Load And Save 这个模块中定义; 同时新增了验证文档的方法，是在 DOM Validation这个模块中定义的
+- DOM2: 在DOM1的基础上DOM2引入了更多的交互能力, 也支持了更高级的XML特性
+- DOM3: 进一步扩展了DOM, 引入了以统一方式加载和保存文档的方法, 它在 DOM Load And Save 这个模块中定义; 同时新增了验证文档的方法, 是在 DOM Validation这个模块中定义的
 
 #### DOM0 与 DOM2 的事件处理
 
@@ -192,15 +192,15 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素.
   - table, thead, tbody, tfoot, tr, td, th - 表格
   - noscript - 可选脚本内容
 - HTML5
-  - aside - 用于表示侧栏、贴士、摘要等
+  - aside - 用于表示侧栏, 贴士, 摘要等
   - figure - 用来包裹图片, 并配合 `figcaption` 标签给图片一个说明
   - [dialog](http://www.w3school.com.cn/tags/index.asp) - 用来表示人与人之间的交流互动, 默认设置了绝对定位居中
-  - address - 是用来定义与HTML页面或页面一部分有关的作者、相关人员或组织的联系信息，通常位于页面底部或相关部分内
+  - address - 是用来定义与HTML页面或页面一部分有关的作者, 相关人员或组织的联系信息, 通常位于页面底部或相关部分内
 
 #### 行内元素
 - HTML4 (不包含HTML5废除的)
   - a - 锚点
-  - span - 常用内联容器，定义文本内区块
+  - span - 常用内联容器, 定义文本内区块
   - label - 表格标签
   - input - 输入框
   - select - 项目选择
@@ -223,7 +223,7 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素.
 - HTML5
   - mark - 定义有记号的文本
   - [time](http://www.w3school.com.cn/tags/tag_time.asp) - 时间格式, 会在标签内给它一个datetime的属性, 属性值为电脑可识别的时间格式 - `<time datetime="2008-02-14">情人节</time>`
-  - [meter](http://www.w3school.com.cn/tags/tag_meter.asp) - 标签定义度量衡, 它拥有6个属性value, min, max, low, high, optimum, 分别表示当前、最小、最大、低区、高区、最佳
+  - [meter](http://www.w3school.com.cn/tags/tag_meter.asp) - 标签定义度量衡, 它拥有6个属性 value, min, max, low, high, optimum, 分别表示当前, 最小, 最大, 低区, 高区, 最佳
   - [progress](http://www.w3school.com.cn/tags/tag_progress.asp) - 用来表示进度条, value, max, 按照 value/max 来确定进度, IE9 或以下不支持
 
 #### 多媒体元素
@@ -341,6 +341,34 @@ HTML5的规范里有对这些属性的代替方案, [点击访问](http://www.wh
 
 ##### Meta 标签
 
+元素可提供有关页面的元信息 (meta-information)
+
+###### name 属性
+
+name 属性的定义是属于document-level metadata，不能和以下属性同时设置： itemprop, http-equiv 或 charset。
+该元数据名称与content属性包含的值相关联
+
+- application-name 定义在网页中运行的应用程序的名称
+-
+
+
+```HTML
+<!-- 声明字符编码 -->
+<meta charset="utf-8">
+<!-- 两秒后重定向到 URL 地址 -->
+<meta http-equiv="refresh" content="2;URL=http://x.com">
+<!-- expires 用于设定网页的到期时间, 过期后网页必须到服务器上重新传输 -->
+<meta http-equiv="expires" content="Sunday 22 July 2016 16:30 GMT">
+<!-- catch-control 用于指定所有缓存机制在整个请求/响应链中必须服从的指令 -->
+<meta http-equiv="cache-control" content="no-cache">
+```
+
+###### viewport
+
+```HTML
+<meta name="viewport" content="width=device-with,initial-scale=1,maximun-scale=1,minimum-scale=1,user-scalable=no">
+```
+
 ###### DNS 预解析
 
 通过设置 `meta` 标签 `http-equiv="x-dns-prefetch-control"` 与 `content="on"` 开启
@@ -430,19 +458,19 @@ script.src = '...'
 <script src="..." crossorigin="use-credentials"></script>
 ```
 
-- `crossorigin` 会让浏览器启用 CORS 访问检查，检查 http 相应头的 `Access-Control-Allow-Origin`
+- `crossorigin` 会让浏览器启用 CORS 访问检查, 检查 http 相应头的 `Access-Control-Allow-Origin`
 - 对于 module script, 控制用于跨域请求的凭据模式
 - 对于传统 script 需要跨域获取的 Jvascript 资源, 控制暴露出其报错的详细信息
   - 跨域的 JS 只会显示 `error: script error` 部分错误
 
 #### HTML5 新增 API
 
-- 媒体标签 video 和 audio 的播放流程控制、同步多个媒体标签、字幕等接口
+- 媒体标签 video 和 audio 的播放流程控制, 同步多个媒体标签, 字幕等接口
 - 表单限制验证接口 - `setCustomValidity()`
 - 引入应用缓存机制, 允许 Web App 离线的 API
 - 允许 Web App 注册为对应协议或媒体类型的处理应用的 APP 的 API - `registerProtocolHandler()`, `registerContentHandler()`
 - 引入 contenteditable 属性, 允许编辑任意元素的接口
-- 暴露会话历史、允许使用脚本无刷新更新页面 URL - `History`
+- 暴露会话历史, 允许使用脚本无刷新更新页面 URL - `History`
 - base64 转换 API - `atob()`, `btoa()`
 - 处理搜索服务提供方的接口 - `AddSearchProvider()`, `IsSearchProviderInstalled()`
 - 打印文档的接口 - `print()`
@@ -475,14 +503,14 @@ Worker 线程, 我们也是通过 `postMessage()` 来给外部发送消息
 ##### 异常
 Opera 中, 一旦发生一个语法错误或运行时错误, 有时候会多抛出一个 Internal error 并且 lineno 总是 0
 Opera 中, 一般的语法错误或执行期异常(如调用未定义变量, throw new Error(s)除外) 总是无法给出准确的错误信息且 lineno 总是
-Chrome、Safari中,  `onerror` 并不捕获加载失败的404异常
+Chrome, Safari中,  `onerror` 并不捕获加载失败的404异常
 
 ##### 关于 worker 引入文件的缓存问题
 Opera中, 一但脚本被缓存起来那么即使右键-重新载入, 也会直接去读 cache
 
 ##### 调用 `close()` 方法后的差异
 
-Opera中, 一但在 Worker 线程中调用 `close()` 方法, 那么就代表着一切都结束了. 如果在 `close()` 后你仍然试图使用 Worker 中的某些属性、事件、或方法则会抛出一个 Internal error, 但其他浏览器则不会
+Opera中, 一但在 Worker 线程中调用 `close()` 方法, 那么就代表着一切都结束了. 如果在 `close()` 后你仍然试图使用 Worker 中的某些属性, 事件, 或方法则会抛出一个 Internal error, 但其他浏览器则不会
 Opera中, 调用 `close()` 后, 出现的 `postMessage()` 给主页面传递信息, 不会再触发主页面的 `onmessage` 回调, 其他浏览器则可以
 FF中, 调用 `close()` 后 Worker 虽然不再响应页面的 `postMessage()`, 但是在 `close()` 调用之前, 页面 `postMessage()` 给 Worker 线程的信息仍然会在 Worker 线程结束后被触发回调, 其他浏览器则不会
 chrome中, 调用close()后 self 对象被赋值为 null 但你仍然可以和其他浏览器一样直接调用 WorkerGlobalScope 对象的方法. 所以, 应避免使用 self.postMessage, self.onmessage = function(){}, self.close() 而采用直接调用的方式 (如 onmessage=function(){}; )
@@ -494,17 +522,17 @@ Opera 中, `terminate()` 执行之后, Worker 线程向外部传递数据或抛�
 
 ##### 关于 `importScripts()`
 
-FF中, `importScripts()` 加载脚本时, 虽然同样会冻结当前 Worker 线程, 但执行期是在 Worker 线程结束后, 而其他浏览器的加载、执行都会冻结 Worker 线程.
+FF中, `importScripts()` 加载脚本时, 虽然同样会冻结当前 Worker 线程, 但执行期是在 Worker 线程结束后, 而其他浏览器的加载, 执行都会冻结 Worker 线程.
 FF中, `importScripts()` 方法加载多个脚本时, 执行顺序是不确定的, 遵循先到先执行原则
-FF、Safari、Chrome 中, `importScripts()`加载脚本失败时, 会抛出异常且可被主页面的 `onerror` 捕获, Opera 则不会
+FF, Safari, Chrome 中, `importScripts()`加载脚本失败时, 会抛出异常且可被主页面的 `onerror` 捕获, Opera 则不会
 FF 中, `importScripts()` 加载多个脚本时, 虽然都是并行加载, 但执行却要等待文件都加载完毕后才开始执行, 期间任何一个文件加载失败都将导致直接退出当前执行环境并且 Worker 线程代码也不回执行, 其他浏览器则不会
-Safari、Chrome, 使用 `importScripts()` 加载多个脚本时, 任何一个脚本加载失败, 都将导致退出当前执行环境, 但先加载好的外部脚本可以正常执行
+Safari, Chrome, 使用 `importScripts()` 加载多个脚本时, 任何一个脚本加载失败, 都将导致退出当前执行环境, 但先加载好的外部脚本可以正常执行
 Opera 会无视加载失败错误, 继续执行后面的代码
 
 ##### 关于 Worker 内创建 Worker 的差异
 
-Safari、chrome 不允许 Worker 内部再次创建一个 Worker, 即 Safari、Chrome 中的 WorkerGlobal 并没有 Worker 成员
-FF、opera 允许 Worker 内部再次创建一个 Worker
+Safari, chrome 不允许 Worker 内部再次创建一个 Worker, 即 Safari, Chrome 中的 WorkerGlobal 并没有 Worker 成员
+FF, opera 允许 Worker 内部再次创建一个 Worker
 
 参考资料
 
@@ -553,7 +581,7 @@ Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 Sec-WebSocket-Protocol: chat
 ```
 
-一旦连接成功后, 就可以在全双工的模式下在客户端和服务端之间来回传送WebSocket消息. 这就意味着, 在同一时间、任何方向, 都可以双向发送基于文本的消息. 每个消息已0×00字节开头, 以0xff结尾（这样就可以解决TCP协议中的黏包问题, 在TCP协议中, 会存在两个缓冲区来存放发送的数据或者接收的数据, 如果没有明显的分隔符, 服务端无法正确识别命令）, 中间数据的编码是 UTF-8.
+一旦连接成功后, 就可以在全双工的模式下在客户端和服务端之间来回传送WebSocket消息. 这就意味着, 在同一时间, 任何方向, 都可以双向发送基于文本的消息. 每个消息已0×00字节开头, 以0xff结尾（这样就可以解决TCP协议中的黏包问题, 在TCP协议中, 会存在两个缓冲区来存放发送的数据或者接收的数据, 如果没有明显的分隔符, 服务端无法正确识别命令）, 中间数据的编码是 UTF-8.
 
 #### websocket 的使用
 
@@ -663,7 +691,7 @@ function getCookie(name) {
 
 Web SQL Database (目前只谷歌浏览器支持)：我把它理解成一个 HTML 5 环境下可以用 Javascript 执行 CRUD 的 Web 数据库. WebSql 并不是 HTML5 规范的一部分, 这个规范是基于 SQLite.
 
-** CRUD 是指在做计算处理时的增加(Create)、查询(Retrieve)（重新得到数据）、更新(Update)和删除(Delete)几个单词的首字母简写. 主要被用在描述软件系统中数据库或者持久层的基本操作功能.
+** CRUD 是指在做计算处理时的增加(Create), 查询(Retrieve)（重新得到数据）, 更新(Update)和删除(Delete)几个单词的首字母简写. 主要被用在描述软件系统中数据库或者持久层的基本操作功能.
 
 对于简单的数据, 使用 sessionStorage 和 localStorage 能够很好地完成存取, 但是对于处理复杂的关系型数据, 它就力不从心了. 这也是 HTML 5 的 "Web SQL Database" API 接口的应用所在.
 
@@ -866,28 +894,3 @@ window.applicationCache.addEventListener('updateready', function () {
 
 - [神奇的HTML5离线存储（应用程序缓存）](http://www.cnblogs.com/xjchenhao/p/4032224.html)
 - [HTML5应用程序缓存Application Cache](http://www.cnblogs.com/yexiaochai/p/4271834.html)
-
-
-#### 网页性能优化
-
-- 使用 HTTP2.0
-- 使用 CDN
-- 使用 GZIP 压缩传输
-- 减少 HTTP 请求
-- 使用 DNS 预解析
-- 减少 DNS 解析 - 域名少一点, 浏览器会缓存
-- 减少 DOM 节点
-- 减少 DOM 节点的操作
-  - 必要时可以先缓存, 减少不必要的查找
-  - 通过 `document.createDocumentFragment` 创建临时存放空间, 进行操作再一次性修改
-- 避免重定向
-- 尽量避免使用 iframe - 阻塞 onload, 共享连接数, 共享线程
-  - 使用时最好通过异步插入, 否则会阻塞 onload 事件
-- 图片无损压缩
-- 图片使用精灵图 - 合并图片, 减少连接数
-- 图片延迟加载
-- 图片使用 webP
-  - 既支持 Alpha 透明
-  - 具有更优的图像数据压缩算法, 而且拥有肉眼识别无差异的图像质量
-- 代码压缩
-- 减少代码量, 提取共有代码模块
