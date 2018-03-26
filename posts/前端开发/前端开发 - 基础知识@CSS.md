@@ -30,18 +30,18 @@
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-- IE盒模型:
+- IE 盒模型:
   - 主要有 IE5, IE6(Q), IE7(Q)
-  - width = content + padding left/right + border left/right
-  - box width = width + margin left/right
-- W3C盒模型:
+  - width = content + padding (left/right) + border (left/right)
+  - box width = width + margin (left/right)
+- W3C 盒模型:
   - 主要由 IE6(S), IE7(S), W3C 标准浏览器
   - width = content 宽度
-  - box width = width + padding left/right + border left/right + margin left/right
+  - box width = width + padding (left/right) + border (left/right) + margin (left/right)
 
 因为IE盒模型更为合理, [事例](http://blog.csdn.net/ncode/article/details/7428746), 因此在 CSS3 中引入了 `box-sizing`, 因此我们可以设置使用IE盒模型的渲染模式, IE8也支持.
 
-```
+```CSS
 * {
   box-sizing: border-box;
 }
@@ -50,8 +50,8 @@
 ### 怪异模式 (Quirks mode) 与 标准模式 (Standards Mode)
 
 IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示网页, 如果文档正确定义了 DOCTYPE 浏览器则会进入标准模式 (Standards Mode), 否则浏览器会进入怪异模式 (Quirks mode)
-- 在标准模式下, 浏览器会根据 W3C 的规范来渲染页面;
-- 而在怪异模式中, 页面将以 IE5 的渲染方式来渲染页面.
+- 在标准模式下, 浏览器会根据 W3C 的规范来渲染页面
+- 而在怪异模式中, 页面将以 IE5 的渲染方式来渲染页面
 
 #### 设置标准模式
 
@@ -109,7 +109,7 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 - `[E:out-of-range](http://www.w3schools.com/cssref/sel_out-of-range.asp)` 匹配 `type="number"` 并且不在有效范围内的input元素 `input:out-of-range { color: red; }` IE 不支持
 - `[E:valid](http://www.w3schools.com/cssref/sel_valid.asp)` 匹配所有有效的input元素 `input:valid {}`
 - `[E:invalid](http://www.w3schools.com/cssref/sel_invalid.asp)` 匹配所有无效的input元素 `input:invalid { color:red; }`
-- `[E:optional](http://www.w3schools.com/cssref/sel_optional.asp)` 匹配所有没有 `required` 的input元素 `input:optional { color: red; }` IE 9以上才支持
+- `[E:optional](http://www.w3schools.com/cssref/sel_optional.asp)` 匹配所有没有 `required` 的input元素 `input:optional { color: red; }` IE9 以上才支持
 - `[E:read-only](http://www.w3schools.com/cssref/sel_read-only.asp)` 匹配所有拥有 `readonly` 的input元素 `input:read-only {}`, `input:-moz-read-only {}`
 - `[E:read-write](http://www.w3schools.com/cssref/sel_read-write.asp)` 匹配所有不拥有 `readonly` 的input元素 `input:read-write {}`, `input:-moz-read-write {}`
 - `[E:lang(c)](http://www.w3schools.com/cssref/sel_lang.asp)` 匹配lang属性等于c的元素 `a:lang(sv) { quotes: “\201D” “\201D” “\2019″ “\2019″; }`
@@ -148,7 +148,7 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 
 ### 优先级与权重
 
-一般我们描述CSS的优先级是这样:
+一般我们描述 CSS 的优先级是这样:
 
 !important > 内联 > id(#) > (class(.) > 同级元素选择器 > 伪类|属性) > 标签|伪元素 > 通配符 > 继承
 
@@ -157,34 +157,34 @@ IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示�
 #### 权重值的比较
 
 而在普遍的文章描述中, 经常会说到 ID 是 100, Class 的权重是 10, 标签是 1;
-其实权重结算的结果并非如此, 而是将这些更像如此 ID,Class,E, ID永远比Class优先
+其实权重结算的结果并非如此, 而是将这些更像如此 ID, Class, E, ID 永远比 Class 优先
 当出现这样的情况:
 
-```
+```CSS
 html body header nav ul li div p a span em { color: red; }
 .num { color: yellow; }
 ```
 
-此时样式色结果是 yellow, 若按Class 权重为10来看, 则明显应该是 red; 所以我们可以确定此时权重应该是 0,0,11 0,1,0,
+此时样式色结果是 yellow, 若按 Class 权重为10来看, 则明显应该是 red; 所以我们可以确定此时权重应该是 0,0,11 0,1,0,
 当 class 权重一样的时候, 会根据次权重的即 E 权重的数值来比较, 若都一样会通过后者来确定优先级;
 
 ##### 权重值的计算
 
 一条样式规则的整体权重值包含四个独立的部分: [A, B, C, D]
 
-- A表示内联选择器, 只有1或者0两个值, 若有我们标记A=1, 否则A=0, 标记的权重为 [1/0,0,0,0]
+- A表示内联选择器, 只有 1 或者 0 两个值, 若有我们标记 A=1, 否则 A=0, 标记的权重为 [1/0,0,0,0]
 - B表示ID选择器, 表示规则中的ID数量, 标记的权重为 [0,N,0,0]
 - C表示类选择器, 属性选择器等, 表示这些选择器的数量, 标记的权重为 [0,0,N,0]
 - D表示伪元素选择器及元素选择器, 表示这些选择器的数量, 标记的权重为 [0,0,0,N]
 
-权重值只会看选择器的数量, 而不会因为DOM树中两节点的距离而有所不同, 例如: `html a == body a`.
+权重值只会看选择器的数量, 而不会因为 DOM 树中两节点的距离而有所不同, 例如: `html a == body a`.
 
 ##### `!important` 规则例外
 
-当 !important 规则被应用在一个样式声明中时, 该样式声明会覆盖CSS中任何其他的声明, 无论它处在声明列表中的哪里. 尽管如此, !important规则还是与优先级毫无关系. 使用 !important 不是一个好习惯, 因为它改变了你样式表本来的级联规则, 从而使其难以调试.
+当 !important 规则被应用在一个样式声明中时, 该样式声明会覆盖 CSS 中任何其他的声明, 无论它处在声明列表中的哪里. 尽管如此, !important规则还是与优先级毫无关系. 使用 !important 不是一个好习惯, 因为它改变了你样式表本来的级联规则, 从而使其难以调试.
 
 - Never 永远不要在全站范围的 css 上使用 !important
-- Only 只在需要覆盖全站或外部 css（例如引用的 ExtJs 或者 YUI ）的特定页面中使用   !important
+- Only 只在需要覆盖全站或外部 css (例如引用的 ExtJs 或者 YUI) 的特定页面中使用 !important
 - Never 永远不要在你的插件中使用 !important
 - Always 要优化考虑使用样式规则的优先级来解决问题而不是 !important
 
@@ -280,7 +280,7 @@ BFC (Block Formatting Context, 块级格式化上下文) 是 W3C CSS 2.1 规范�
 
 产生折叠的必备条件: margin 必须是邻接的, 而根据w3c规范, 两个margin是邻接的必须满足以下条件:
 
-- 必须是处于常规文档流(非float和绝对定位)的块级盒子,并且处于同一个BFC当中
+- 必须是处于常规文档流(非 float 和 绝对定位)的块级盒子, 并且处于同一个BFC当中
 - 没有线盒, 没有空隙(clearance), 没有padding和border将他们分隔开
 - 都属于垂直方向上相邻的外边距, 可以是下面任意一种情况
 - 元素的 margin-top 与其第一个常规文档流的子元素的 margin-top

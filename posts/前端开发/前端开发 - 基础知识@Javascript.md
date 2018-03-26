@@ -6,6 +6,10 @@
 
 # Javascript
 
+## ECMAScript
+
+由 ECMA-262 制定的标准, 用于实现通用的脚本语言, ECMAScript 提供了脚本语言需要遵守的规则, 细节和规范. 通用脚本编程语言, 它遵循了 ECMAScript 标准. JavaScript 包含核心 (ECMAScript), 文档对象模型 (DOM), 浏览器对象模型 (BOM)
+
 ## 作用域
 
 作用域就是一个区域, 包含了其中变量, 常量, 函数等等定义信息和赋值信息, 以及这个区域内代码书写的结构信息
@@ -125,11 +129,11 @@ foo()()  // 10, but not 20
 ```Javascript
 var x = 10
 
-function foo() {
+function foo () {
   console.log(x)
 }
 
-(function(funarg) {
+(function (funarg) {
   var x = 20
 
   // there is no ambiguity,
@@ -155,8 +159,8 @@ A closure is a combination of a code block (in ECMAScript this is a function) an
 
 参考文章
 
-- [深入理解JavaScript系列(16)：闭包(Closures)](http://www.cnblogs.com/tomxu/archive/2012/01/31/2330252.html)
-- [执行上下文其三：闭包 Closures](http://www.nowamagic.net/librarys/veda/detail/1646)
+- [深入理解JavaScript系列(16): 闭包(Closures)](http://www.cnblogs.com/tomxu/archive/2012/01/31/2330252.html)
+- [执行上下文其三: 闭包 Closures](http://www.nowamagic.net/librarys/veda/detail/1646)
 
 
 ## 原型与继承
@@ -200,15 +204,15 @@ var obj = {
   name: 'david'
 }
 
-var Foo = function(name) {
+var Foo = function (name) {
   this.name = name
 }
 
-Foo.prototype.do = function() {}
+Foo.prototype.do = function () {}
 var personA = new Foo('David')
 
 // ECMAScript 5 引入, 相当于
-Object.create = function(parent) {
+Object.create = function (parent) {
   function Foo() {}
   Foo.prototype = parent;
   return new Foo();
@@ -223,9 +227,9 @@ console.log(personB.gender) // male
 
 ### prototype chain - 原型链
 
-JavaScript 可以采用构造器(constructor) 生成一个新的对象, 每个构造器都拥有一个 prototype 属性, 而每个通过此构造器生成的对象都有一个指向该构造器原型 (prototype) 的内部私有的链接 (proto), 而这个 prototype 因为是个对象, 它也拥有自己的原型, 这么一级一级直到原型为null, 这就构成了原型链.
+JavaScript 可以采用构造器(constructor) 生成一个新的对象, 每个构造器都拥有一个 prototype 属性, 而每个通过此构造器生成的对象都有一个指向该构造器原型 (prototype) 的内部私有的链接 (proto), 而这个 prototype 因为是个对象, 它也拥有自己的原型, 这么一级一级直到原型为 null, 这就构成了原型链.
 
-在 Javascript 中有一个隐藏的属性 `__proto__` (proto 是一个不应在你代码中出现的非正规的用法, 这里仅仅用它来解释JavaScript原型继承的工作原理. )
+在 Javascript 中有一个隐藏的属性 `__proto__` (proto 是一个不应在你代码中出现的非正规的用法, 这里仅仅用它来解释 JavaScript 原型继承的工作原理.)
 
 ```Javascript
 var Foo = function() {}
@@ -276,11 +280,11 @@ console.log(Horse.prototype.__proto__ === Mammal.prototype) // true
 console.log(Mammal.prototype.__proto__ === Animal.prototype) // true
 ```
 
-在 ECMAScript 中, 每个由构造器创建的对象拥有一个指向构造器 prototype 属性值的隐式引用(implicit reference), 这个引用称之为原型(prototype). 进一步, 每个原型可以拥有指向自己原型的 隐式引用(即该原型的原型), 如此下去, 这就是所谓的原型链(prototype chain)
+在 ECMAScript 中, 每个由构造器创建的对象拥有一个指向构造器 prototype 属性值的隐式引用(implicit reference), 这个引用称之为原型(prototype). 进一步, 每个原型可以拥有指向自己原型的隐式引用(即该原型的原型), 如此下去, 这就是所谓的原型链(prototype chain)
 
 当前的原型继承(如 Object.create 以及 proto)还是存在以下缺点
 
-- 标准性差：proto 不是一个标准用法, 甚至是一个不赞成使用的用法. 同时原生态的 Object.create 和道爷写的原版也不尽相同.
+- 标准性差：proto 不是一个标准用法, 甚至是一个不赞成使用的用法.
 - 优化性差：不论是原生的还是自定义的 Object.create , 其性能都远没有 new 的优化程度高, 前者要比后者慢高达10倍.
 
 #### 属性查找
@@ -289,7 +293,7 @@ console.log(Mammal.prototype.__proto__ === Animal.prototype) // true
 
 #### hasOwnProperty
 
-hasOwnProperty是Object.prototype的一个方法, 它可是个好东西, 他能判断一个对象是否包含自定义属性而不是原型链上的属性, 因为hasOwnProperty 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数.
+`hasOwnProperty` 是 `Object.prototype` 的一个方法, 它可是个好东西, 他能判断一个对象是否包含自定义属性而不是原型链上的属性, 因为 `hasOwnProperty` 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数.
 
 ```Javascript
 Object.prototype.bar = 1
@@ -318,7 +322,7 @@ ES6 通过 `寄生组合继承` 的方式去实现继承, 它通过创建一个�
 ## Javascript 数据类型
 
 - 基本数据类型: `undefined`, `null`, `boolean`, `number`, `string`, `symbol`
-- 引用数据类型: `object`, `array`, `function`
+- 引用数据类型: `Object`, `Array`, `Function`, `Date`, `RegExp`
 
 两种类型的值存放的位置不同
 
@@ -383,13 +387,13 @@ Ajax 的全称是 Asynchronous JavaScript and XML, 其中, Asynchronous 是异�
 
 ### Ajax 原理
 
-Ajax 的原理简单来说通过 XmlHttpRequest 对象来向服务器发异步请求, 从服务器获得数据. 也就是 Javascript 可以及时向服务器提出请求和处理响应, 且不阻塞用户
+Ajax 的原理简单来说通过 `XMLHttpRequest` 对象来向服务器发异步请求, 从服务器获得数据. 也就是 Javascript 可以及时向服务器提出请求和处理响应, 且不阻塞用户
 
-首先了解一下 XMLHttpRequest 对象的属性
+首先了解一下 `XMLHttpRequest` 对象的属性
 
 - onreadystatechange - 每次状态改变所触发事件的事件处理程序
 - responseText - 从服务器进程返回数据的字符串形式
-- responseXML - 从服务器进程返回的DOM兼容的文档数据对象
+- responseXML - 从服务器进程返回的 DOM 兼容的文档数据对象
 - status - 从服务器返回的数字代码, 比如常见的 404(未找到) 和 200(已就绪)
 - statusText - 伴随状态码的字符串信息
 - readyState - 对象状态值
@@ -670,13 +674,13 @@ promise.catch((rejection) => {
 ### 严格模式的规范
 
 - 不允许创建全局变量, 否则会抛出异常 ReferenceError
-- 不能使用 `delete` 删除变量, 否则会抛出异常 ReferenceError
+- 不能使用 `delete` 删除变量, 只能删除部分属性, 否则会抛出异常 ReferenceError
+- 不能使用 `delete` 删除不可配置的属性 (nonconfigurable attributes)
+  - `Object.defineProperty(o, 'a', { configurable: false })`
 - 不能以标识符作为变量名或函数名, 否则抛出语法错误
   - `implements`, `interface`, `let`, `package`, `private`, `protected`, `public`, `static`, `yield`
   - `eval`, `arguments`, 严格模式下这两个也被定义为标识符
 - 不能赋值给只读属性, 否则抛出异常 TypeError
-- 不能使用 `delete` 删除不可配置的属性 (nonconfigurable attributes)
-  - `Object.defineProperty(o, 'a', { configurable: false })`
 - 不能对不可扩展的对象 (nonextensible object) 添加属性, 否则会抛出异常 TypeError
   - `Object.preventExtensions({})` 不可扩展对象
   - `Object.seal({})` 密封对象是不可扩展对象
@@ -690,7 +694,7 @@ promise.catch((rejection) => {
 - 不能访问 `arguments.callee` 和 `arguments.caller`, 否则会抛出异常 TypeError
   - 在非严格模式下, `arguments.callee` 和 `arguments.caller` 指向函数本身
 - `eval()` 不会通过上下文创建变量或函数
-  - 例如 eval('var q = 1'); console.log(q), 严格模式下会报错, 非严格模式 q === 1
+  - 例如 `eval('var q = 1'); console.log(q)`, 严格模式下会报错, 非严格模式 q === 1
 - `eval()` 中声明变量和函数, 但这些变量或函数只能在被求值的特殊作用域中有效, 随后就将被销毁
   - 例如 var q = eval(var a = 1;), 变量 a 将被销毁
 - 执行 `apply()` 或 `call()` 的时候, 传入任何值, `this` 都会指向该值

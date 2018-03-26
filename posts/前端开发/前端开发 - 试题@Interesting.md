@@ -121,3 +121,29 @@ console.log(x)
 - undefined - 因为 `!'a'` 先执行, 导致 `false in window` 为 `false`
 - undefined - 因为声明提升, 所以 `'a' in window` 为 true, 取反得 false
 - undefined - 因为 `(function a () {})` 在 `if ()` 中执行, 不会在函数整体声明提升
+
+## 写出答案
+
+```Javascript
+var a = { n: 1, m: 2 }
+var b = a
+a.n = a = { m: 3 }
+
+console.log(a)
+console.log(b)
+```
+
+### 考点
+- 运算符
+- 指针
+
+### 答案
+
+- { m: 3 }
+- { n: { m: 3 }, m: 2 }
+
+- 首先对 a.n 进行左查找, 不存在, 那就先赋个 undefined, 此时内存中 `a.n = undefined`
+- 然后现在进行右查找, 右查找是个赋值表达式 `a = { m: 3 }`, 所以得先处理这个赋值表达式
+- `a = { n: 指向表达式的结果, m: 2 }`, 而 a 更改了指向 `a = { m: 3 }`
+- 此时 a 不再是指向原本的 a (就是赋值给 b 的指针), 而 b 此时应该等于原本的 a
+- 因此到这里可以理解为 `b.n = a = { m: 3 }` => `a = { m: 3 }` => `b.n = a` => `b.n = { m: 3 }`

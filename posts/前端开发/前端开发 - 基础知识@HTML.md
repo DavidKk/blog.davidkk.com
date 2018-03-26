@@ -40,22 +40,30 @@ DOCTYPE 能告诉浏览器使用哪种 html 或者 xhtml 规范来解析文档, 
 另外 DOCTYPE 还会对浏览器的渲染模式产生影响, 不同的渲染模式会影响浏览器对 CSS, Javascript 脚本的解析方式
 
 - Transitional: 一种要求很不严格的 DTD, 允许在页面中使用 HTML 4.01 的标识
+  - 在混杂模式中, 页面以宽松的向后兼容的方式显示. 模拟老式浏览器的行为以防止站点无法工作
 - Strict: 一种要求严格的 DTD, 不允许使用任何表现层标识和属性
+  - 严格模式的排版和 JS 运作模式是以该浏览器支持的最高标准运行
 - Frameset: 一种专门针对框架页面所使用的 DTD, 当页面中含有框架元素时候, 就要采用这种 DTD
 
-#### 设置怪异模式
+#### 怪异模式 (Quirks mode) 与 标准模式 (Standards Mode)
+
+IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示网页, 如果文档正确定义了 DOCTYPE 浏览器则会进入标准模式 (Standards Mode), 否则浏览器会进入怪异模式 (Quirks mode)
+- 在标准模式下, 浏览器会根据 W3C 的规范来渲染页面
+- 而在怪异模式中, 页面将以 IE5 的渲染方式来渲染页面
+
+##### 设置怪异模式
 
 - 无 doctype 声明, 定义旧的HTML版本 (HTML4以下, 例如 3.2)
 - 加 XML 声明, 可在 ie6 下触发
 - 在 XML 声明和 XHTML 的 DOCTYPE 之间加入 HTML 注释, 可在 ie7 下触发
 - `<!-- keep IE7 in quirks mode -->` 放在 `<!DOCTYPE` 前面
 
-### SVG
-SVG（Scalable Vector Graphics 可缩放矢量图形）表示可缩放矢量图形. 他是基于文本的图形语言, 使用文本, 线条, 点等来进行图像绘制
+### SVG (Scalable Vector Graphics) - 可缩放矢量图形
+SVG (Scalable Vector Graphics 可缩放矢量图形) 表示可缩放矢量图形. 他是基于文本的图形语言, 使用文本, 线条, 点等来进行图像绘制
 
 ## HTML5
 
-HTML5 是最新的 HTML 标准, 他的主要目标是提供所有内容而不需要任何的像 flash, silverlight 等的额外插件, 这些内容来自动画, 视频, 富 GUI 等；HTML5 是万维网联盟 (W3C) 和网络超文本应用技术工作组 (WHATWG) 之间合作输出的.
+HTML5 是最新的 HTML 标准, 他的主要目标是提供所有内容而不需要任何的像 flash, silverlight 等的额外插件, 这些内容来自动画, 视频, 富 GUI 等; HTML5 是万维网联盟 (W3C) 和网络超文本应用技术工作组 (WHATWG) 之间合作输出的.
 
 ### HTML5 新特性
 
@@ -64,7 +72,7 @@ HTML5 是最新的 HTML 标准, 他的主要目标是提供所有内容而不需
 - 媒体播放的 - `video`, `audio`
 - 本地存储 - `localStorage`, `sessionStorage`
 - 离线应用 - `manifest`
-- 桌面通知 - `Notifications`
+- 桌面通知 - `Notification`
 - 语意化标签 - `article`, `footer`, `header`, `nav`, `section`
 - 增强表单控件 - `date`, `time`, `email`, `url`, `search`
 - 地理位置 - `GeoLocation (navigator.geolocation)`
@@ -92,7 +100,7 @@ HTML5 定义了 HTML5 语法, 日前已广泛兼容于网络上 HTML4 和 XHTML1
 
 HTML5 语法中同时定义了解析规则——包括异常的处理方式. 这种解析规则能够广泛支持 HTML4 领域的实现, UA 可以使用这些规则来解析媒体类型为 text/html 的资源.
 
-下面是一个能够说明HTML语法的示例文档：
+下面是一个能够说明HTML语法的示例文档:
 
 ```html
 <!doctype html>
@@ -127,7 +135,7 @@ HTML标准中要求开发声明编码方式, 有这些方式可以做到
 
 - 传输层, 可以用 HTTP 头部的 Content-Type
 - 在文档头部放置对应使用的编码的 BOM
-- 使用有 charset 的 meta 元素 `<meta charset="UTF-8">` 代替 `<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">` (仍可继续使用)
+- 使用有 charset 的 meta 元素 `<meta charset="UTF-8">` 代替 `<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">` (仍可继续使用)
 
 XML 语法中, 开发需要按照 XML 标准来设置编码
 
@@ -159,8 +167,8 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素
 
 - DOM0: JavaScript 在早期版本中提供了查询和操作 Web 文档的内容 API
 - DOM1: DOM1 级主要定义了 HTML 和 XML 文档的底层结构, 统一了标准化, W3C 标准
-- DOM2: 在DOM1的基础上DOM2引入了更多的交互能力, 也支持了更高级的XML特性
-- DOM3: 进一步扩展了DOM, 引入了以统一方式加载和保存文档的方法, 它在 DOM Load And Save 这个模块中定义; 同时新增了验证文档的方法, 是在 DOM Validation这个模块中定义的
+- DOM2: 在 DOM1 的基础上 DOM2 引入了更多的交互能力, 也支持了更高级的XML特性
+- DOM3: 进一步扩展了 DOM, 引入了以统一方式加载和保存文档的方法, 它在 DOM Load And Save 这个模块中定义; 同时新增了验证文档的方法, 是在 DOM Validation这个模块中定义的
 
 #### DOM0 与 DOM2 的事件处理
 
@@ -222,7 +230,7 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素
   - dfn - 定义字段
 - HTML5
   - mark - 定义有记号的文本
-  - [time](http://www.w3school.com.cn/tags/tag_time.asp) - 时间格式, 会在标签内给它一个datetime的属性, 属性值为电脑可识别的时间格式 - `<time datetime="2008-02-14">情人节</time>`
+  - [time](http://www.w3school.com.cn/tags/tag_time.asp) - 时间格式, 会在标签内给它一个 datetime 的属性, 属性值为电脑可识别的时间格式 - `<time datetime="2008-02-14">情人节</time>`
   - [meter](http://www.w3school.com.cn/tags/tag_meter.asp) - 标签定义度量衡, 它拥有6个属性 value, min, max, low, high, optimum, 分别表示当前, 最小, 最大, 低区, 高区, 最佳
   - [progress](http://www.w3school.com.cn/tags/tag_progress.asp) - 用来表示进度条, value, max, 按照 value/max 来确定进度, IE9 或以下不支持
 
@@ -244,11 +252,17 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素
 - datagrid - 可选数据的树形列表
 - input type
   - color 颜色 #ffffff
+  - month 月份 1999-01
+  - week 周 2018-W11
   - date 日期 1999-01-01
   - datetime-local 本地日期 1999-01-01T00:00
-  - month 月份 1999-01
+  - time 时间 01:00
   - email 邮件
   - number 数字
+  - tel 电话
+  - url 地址
+  - search 搜索
+  - range 范围 0, 100
 
 #### 其他元素
 
@@ -267,7 +281,7 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素
 
 #### HTML5 废弃的元素
 
-下面的元素被废弃的原因是用CSS处理可以更好地替代他们：
+下面的元素被废弃的原因是用CSS处理可以更好地替代他们:
 
 - basefont
 - big
@@ -276,13 +290,13 @@ HTML 语法允许文档内嵌 MathML 和 SVG 元素
 - strike
 - tt
 
-下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性：
+下面的元素被废弃的原因是他们的使用破坏了可使用性和可访问性:
 
 - frame
 - frameset
 - noframes
 
-下面的元素被废弃的原因是不经常使用他们, 也会引起混乱, 而且其它元素也可以很好地实现他们的功能：
+下面的元素被废弃的原因是不经常使用他们, 也会引起混乱, 而且其它元素也可以很好地实现他们的功能:
 
 - acronym - 被废弃是因为它经常使页面错乱, 可以使用abbr代替
 - applet - 被废弃是因为可以使用object代替
@@ -310,7 +324,7 @@ HTML5的规范里有对这些属性的代替方案, [点击访问](http://www.wh
 - td - scope
 - table - summary
 
-另外,  在HTML5里, 以下元素的视觉属性也将被废弃, 因为这些功能可用CSS来实现：
+另外,  在HTML5里, 以下元素的视觉属性也将被废弃, 因为这些功能可用CSS来实现:
 
 - caption, iframe, img, input, object, legend, table, hr, div, h1, h2, h3, h4, h5, h6, p, col, colgroup, tbody, td, tfoot, th, thead, tr - align
 - body - alink, link, text, vlink
@@ -345,12 +359,8 @@ HTML5的规范里有对这些属性的代替方案, [点击访问](http://www.wh
 
 ###### name 属性
 
-name 属性的定义是属于document-level metadata，不能和以下属性同时设置： itemprop, http-equiv 或 charset。
-该元数据名称与content属性包含的值相关联
-
-- application-name 定义在网页中运行的应用程序的名称
--
-
+name 属性的定义是属于 document-level metadata，不能和以下属性同时设置: itemprop, http-equiv 或 charset
+该元数据名称与 content 属性包含的值相关联
 
 ```HTML
 <!-- 声明字符编码 -->
@@ -503,10 +513,10 @@ Worker 线程, 我们也是通过 `postMessage()` 来给外部发送消息
 ##### 异常
 Opera 中, 一旦发生一个语法错误或运行时错误, 有时候会多抛出一个 Internal error 并且 lineno 总是 0
 Opera 中, 一般的语法错误或执行期异常(如调用未定义变量, throw new Error(s)除外) 总是无法给出准确的错误信息且 lineno 总是
-Chrome, Safari中,  `onerror` 并不捕获加载失败的404异常
+Chrome, Safari中,  `onerror` 并不捕获加载失败的 404 异常
 
 ##### 关于 worker 引入文件的缓存问题
-Opera中, 一但脚本被缓存起来那么即使右键-重新载入, 也会直接去读 cache
+Opera 中, 一但脚本被缓存起来那么即使右键-重新载入, 也会直接去读 cache
 
 ##### 调用 `close()` 方法后的差异
 
@@ -538,7 +548,6 @@ FF, opera 允许 Worker 内部再次创建一个 Worker
 
 - [HTML5 Web Worker](http://www.cnblogs.com/_franky/archive/2010/11/23/1885773.html)
 
-
 ### Server-Sent Events (SSE) - 单向消息传递
 
 Server-Sent 事件指的是网页自动获取来自服务器的更新. 以前也可能做到这一点, 前提是网页不得不询问是否有可用的更新. 通过服务器发送事件, 更新能够自动到达.
@@ -547,7 +556,9 @@ Server-Sent 事件指的是网页自动获取来自服务器的更新. 以前也
 
 ```Javascript
 let es = new EventSource('/xx.php')
-es.onmessage = function () {...}
+es.onmessage = function (event) {
+  console.log('i received a message: ' + event.data)
+}
 ```
 
 参考资料
@@ -558,7 +569,7 @@ es.onmessage = function () {...}
 
 WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行[全双工](https://zh.wikipedia.org/wiki/%E9%9B%99%E5%B7%A5)通讯的协议, 使服务端和客户端可以相互推送数据. 在 WebSocket API 中, 浏览器和服务器只需要做一个握手的动作, 然后, 浏览器和服务器之间就形成了一条快速通道. 两者之间就直接可以数据互相传送. 这里需要注意一点, 这和 TCP 的三次握手又是不一样的. TCP 的三次握手是为了保证连接可靠, 当 TCP 三次握手成功的时候, websocket 的握手阶段才真正开始. TCP 三次握手传送的是 TCP 报文, 而websocket的握手传送的是 HTTP 报文, 这个是不太一样的地方.
 
-握手开始的时候, 我们需要现发送一个HTTP 1.1的请求头部：
+握手开始的时候, 我们需要现发送一个 HTTP 1.1 的请求头部:
 
 ```
 GET /chat HTTP/1.1
@@ -596,9 +607,9 @@ if ('WebSocket' in window) {
   }
 
   // 收到信息触发事件
-  ws.onmessage = function(evt) {
-    let msg = evt.data
-    console.log('i received a message: ' + msg)
+  ws.onmessage = function(event) {
+    let message = event.data
+    console.log('i received a message: ' + message)
   }
 
   // 连接关闭触发事件
@@ -613,8 +624,8 @@ else {
 
 #### 使用 websocket 主要考虑因素
 
-- 请求数：WebSocket可以一直保持连接, 通过Socket通道传输数据, 节省掉了建立连接需要耗费的时间.
-- 服务器并发数：服务端要同时维持大量连接处于打开状态, 就需要能以低性能开销接收高并发数据的架构. 此类架构通常是围绕线程或所谓的非阻塞 IO 而设计的. 这就与传统服务器围绕 HTTP 请求/响应循环的设计不同. 这个时候, 我们就会想到nodejs, 使用事件机制和异步IO对请求进行处理, 提高了服务器的并发能力, 并且减少了线程切换带来的开销.
+- 请求数: WebSocket 可以一直保持连接, 通过 Socket 通道传输数据, 节省掉了建立连接需要耗费的时间.
+- 服务器并发数: 服务端要同时维持大量连接处于打开状态, 就需要能以低性能开销接收高并发数据的架构. 此类架构通常是围绕线程或所谓的非阻塞 IO 而设计的. 这就与传统服务器围绕 HTTP 请求/响应循环的设计不同. 这个时候, 我们就会想到nodejs, 使用事件机制和异步 IO 对请求进行处理, 提高了服务器的并发能力, 并且减少了线程切换带来的开销.
 
 #### 扩展 HTTP 实时性 Web
 
@@ -628,7 +639,7 @@ else {
   - 长轮询 (long-polling): 应该是指服务器端的技术可以保持连接保持打开状态, 有事件发生, 则响应给客户端, 关闭连接, 然后再打开一个新的连接. 也是有2种实现方式: script 标签 和 XMLHttpRequest 长轮询.
     - script 标签: 跟 iframe 类似, 也是返回 script 脚本执行, 可跨域, 与 iframe 有同样的缺点, 错误处理缺失, 以及连接的不可知不可干涉.
     - XMLHttpRequest 长轮询: 我的理解就是发送普通的 ajax 请求, 由服务器端挂起请求, 直到某个事件返回响应客户端, 客户端继续打开新的请求. 这也算是实现 Comet 的最佳实现了, 可以对超时等错误进行追踪, 对浏览器几乎没有要求, 只是服务器端需要挂起连接的功能.
-- FlashSockets: 利用嵌入网页的 flash 程序中的 socket 跟服务器通信, javascript 在通过f lash 提供的接口获取到 XML. 从而实现服务器推. 但flashsockets需要安装flash插件, 并需要843端口.
+- FlashSockets: 利用嵌入网页的 flash 程序中的 socket 跟服务器通信, javascript 在通过f lash 提供的接口获取到 XML. 从而实现服务器推. 但 flashsockets 需要安装 flash 插件, 并需要 843 端口.
 - WebSocket: 是 HTML5 开始提供的一种浏览器与服务器间进行全双工通讯的网络技术.
 
 参考资料
@@ -644,37 +655,40 @@ else {
 LocalStorage 是 HTML5 标准中新加入的技术, 它并不是什么划时代的新东西. 早在 IE 6 时代, 就有一个叫 userData 的东西用于本地存储, 而当时考虑到浏览器兼容性, 更通用的方案是使用 Flash. 而如今, localStorage 被大多数浏览器所支持, 如果你的网站需要支持 IE6+, 那以 userData 作为你的 polyfill 的方案是种不错的选择.
 SessionStorage 与 LocalStorage 的接口类似, 但保存数据的生命周期与 LocalStorage 不同. 做过后端开发的同学应该知道 Session 这个词的意思, 直译过来是“会话”. 而 SessionStorage 是一个前端的概念, 它只是可以将一部分数据在当前会话中保存下来, 刷新页面数据依旧存在. 但当页面关闭后, SessionStorage 中的数据就会被清空.
 
+- localStorage 大小一般在 5M
+- sessionStorage 大小一般在 5M
+
 #### Web Storage 与 Cookie
 
 Web Storage 的概念和 Cookie 相似, 区别是它是为了更大容量存储设计的. Cookie 的大小是受限的, 并且每次你请求一个新的页面的时候Cookie都会被发送过去, 这样无形中浪费了带宽, 另外cookie还需要指定作用域, 不可以跨域调用.
 除此之外, Web Storage 拥有 setItem, getItem, removeItem, clear 等方法, 不像 Cookie 需要前端开发者自己封装 setCookie, getCookie
 Cookie 确实非常小, 它的大小限制为4KB左右. Cookie 的作用是与服务器进行交互, 作为HTTP规范的一部分而存在, 而 Web Storage 仅仅是为了在本地存储数据而生
-Cookie 可以设置失效时间; LocalStorage 除非被清除, 否则永久保存；SessionStorage 仅在当前会话下有效, 关闭页面或浏览器后被清除, 在多个 Tab 浏览器中,  Tab 关闭后重新打开, 该会话也会存在
+Cookie 可以设置失效时间; LocalStorage 除非被清除, 否则永久保存; SessionStorage 仅在当前会话下有效, 关闭页面或浏览器后被清除, 在多个 Tab 浏览器中,  Tab 关闭后重新打开, 该会话也会存在
 Cookie 的缺陷
-- Cookie 的大小被限制在4KB
-- Cookie 是随HTTP事务一起发送的, 因此会浪费一部分发送 Cookie 时所使用的带宽
+- Cookie 的大小被限制在 4KB
+- Cookie 是随 HTTP 事务一起发送的, 因此会浪费一部分发送 Cookie 时所使用的带宽
 - Cookie 操作繁琐复杂
 
 ##### Cookie 设置
 
-Cookie 通过 `key=value;` 这样的形式表示的；若 value 出现等号, 我们可以使用 `escape()`；若要添加过期时间, 我们可以添加一个 `expire=date.toGMTString();`(date 为未来时间)；这时我们也可以通过设置过期时间为过去时间就可以删除该 cookie 了. 当我们要指定可访问 cookie 的路径, 我们可以通过设置 `path=/` 来设置.
+Cookie 通过 `key=value;` 这样的形式表示的; 若 value 出现等号, 我们可以使用 `escape()`; 若要添加过期时间, 我们可以添加一个 `expire=date.toGMTString();`(date 为未来时间); 这时我们也可以通过设置过期时间为过去时间就可以删除该 cookie 了. 当我们要指定可访问 cookie 的路径, 我们可以通过设置 `path=/` 来设置.
 
 ```Javascript
-function addCookie(name, value, expire) {
+function addCookie (name, value, expire) {
   var cookieString = name + '=' + escape(value)
 
-  if(expireHours > 0) {
+  if (expireHours > 0) {
     var date = new Date()
     date.setTime(date.getTime + expire)
-    cookieString = cookieString + ';expire=' + date.toGMTString()
+    cookieString = cookieString + ';expires=' + date.toGMTString()
   }
 
-  document.cookie=cookieString
+  document.cookie = cookieString
 }
 
-function getCookie(name) {
+function getCookie (name) {
   var strCookie = document.cookie
-      arrCookie = strCookie.split(';')
+  let arrCookie = strCookie.split(';')
 
   for (var i = 0, l = arrCookie.length; i < l; i ++) {
     var arr = arrCookie[i].split('=')
@@ -689,7 +703,7 @@ function getCookie(name) {
 
 #### WebSQL
 
-Web SQL Database (目前只谷歌浏览器支持)：我把它理解成一个 HTML 5 环境下可以用 Javascript 执行 CRUD 的 Web 数据库. WebSql 并不是 HTML5 规范的一部分, 这个规范是基于 SQLite.
+Web SQL Database (目前只谷歌浏览器支持): 我把它理解成一个 HTML 5 环境下可以用 Javascript 执行 CRUD 的 Web 数据库. WebSql 并不是 HTML5 规范的一部分, 这个规范是基于 SQLite.
 
 ** CRUD 是指在做计算处理时的增加(Create), 查询(Retrieve)（重新得到数据）, 更新(Update)和删除(Delete)几个单词的首字母简写. 主要被用在描述软件系统中数据库或者持久层的基本操作功能.
 
@@ -729,11 +743,11 @@ dataBase.transaction(function(tx) {
 })
 ```
 
-executeSql 函数有四个参数, 其意义分别是：
+executeSql 函数有四个参数, 其意义分别是:
 - 表示查询的字符串, 使用的SQL语言是 SQLite 3.6.19.
 - 插入到查询中问号所在处的字符串数据.
-- 成功时执行的回调函数. 返回两个参数：tx和执行的结果.
-- 一个失败时执行的回调函数. 返回两个参数：tx和失败的错误信息.
+- 成功时执行的回调函数. 返回两个参数: tx和执行的结果.
+- 一个失败时执行的回调函数. 返回两个参数: tx和失败的错误信息.
 
 ##### 添加数据
 
@@ -804,9 +818,9 @@ dataBase.transaction(function (tx) {
 
 ### Application Cache - 应用缓存
 
-HTML5引入了应用程序缓存技术, 意味着web应用可进行缓存, 并在没有网络的情况下使用, 通过创建cache manifest文件, 可以轻松的创建离线应用.
+HTML5 引入了应用程序缓存技术, 意味着web应用可进行缓存, 并在没有网络的情况下使用, 通过创建cache manifest文件, 可以轻松的创建离线应用.
 
-Application Cache带来的三个优势是：
+Application Cache 带来的三个优势是:
 
 - 离线浏览
 - 提升页面载入速度
@@ -814,7 +828,7 @@ Application Cache带来的三个优势是：
 
 #### 使用
 
-Application Cache的使用要做两方面的工作：
+Application Cache的使用要做两方面的工作:
 
 - 服务器端需要维护一个 `manifest.appcache` 清单
 - 浏览器上只需要一个简单的设置即可
@@ -823,7 +837,7 @@ Application Cache的使用要做两方面的工作：
 <html manifest="manifest.appcache">
 ```
 
-manifest 文件可分为三个部分：
+manifest 文件可分为三个部分:
 
 - CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存
 - NETWORK - 在此标题下列出的文件需要与服务器的连接, 且不会被缓存
@@ -835,7 +849,7 @@ manifest 文件可分为三个部分：
 MIME-type: text/cache-manifest
 ```
 
-```manifest.appcache
+```Manifest
 # MIME-type: text/cache-manifest (必须设置)
 CACHE MANIFEST
 
@@ -888,7 +902,7 @@ window.applicationCache.addEventListener('updateready', function () {
 
 #### 其他问题
 
-由更新机制来说, 首次更新 manifest 时, 因为页面加载已经开始甚至已经完成, 缓存更新尚未完成, 浏览器仍然会使用过期的资源；浏览器是当 Application Cache 有更新时, 该次不会使用新资源, 第二次才会使用. 这个时候 update 事件中执行 window.reload 事件.
+由更新机制来说, 首次更新 manifest 时, 因为页面加载已经开始甚至已经完成, 缓存更新尚未完成, 浏览器仍然会使用过期的资源; 浏览器是当 Application Cache 有更新时, 该次不会使用新资源, 第二次才会使用. 这个时候 update 事件中执行 window.reload 事件.
 
 参考文章
 
