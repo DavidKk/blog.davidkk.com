@@ -111,7 +111,7 @@ Scope chain = Activation object + [[Scope]]
 请再次注意这个很重要的点 – 在函数创建期间[creation moment], 函数会将父级的作用域链保存起来, 因为随后调用这个函数的时候使用的已经保存的作用域链来搜寻变量.
 
 ```Javascript
-function foo() {
+function foo () {
   var x = 10
   return function() {
     console.log(x)
@@ -122,7 +122,7 @@ var x = 20
 foo()()  // 10, but not 20
 ```
 
-这种形式的作用域称为静态作用域. 理论上来说, 也会有动态作用域[dynamic scope], 也就是上述的x被解释为20, 而不是10. 但是EMCAScript不使用动态作用域.
+这种形式的作用域称为静态作用域. 理论上来说, 也会有动态作用域[dynamic scope], 也就是上述的x被解释为20, 而不是10. 但是EMCAScript 不使用动态作用域.
 
 “funarg problem”的另一个类型就是自上而下[”downward funarg problem”].在这种情况下, 父级的上下会存在, 但是在判断一个变量值的时候会有多义性. 也就是, 这个变量究竟应该使用哪个作用域. 是在函数创建时的作用域呢, 还是在执行时的作用域呢？为了避免这种多义性, 可以采用闭包, 也就是使用静态作用域.
 
@@ -182,7 +182,8 @@ JavaScript 不包含传统的类继承模型, 而是使用 prototypal 原型模�
 let instance = {}
 instance.__props__ = InputFunc.prototype
 let result = InputFunc.call(instance, ...arguments)
-return typeof result === 'function' && typeof result === 'object' && result ? instance : result
+// result 为 null 则无效
+return typeof result === 'function' || typeof result === 'object' && result ? result : instance
 ```
 
 `Object.create` 的实现过程
@@ -237,7 +238,7 @@ Foo.prototype.say = 'hello'
 
 var a = new Foo()
 console.log(a.__proto__ === Foo.prototype) // true
-console.log(a.__proto__.construct === Foo) // true
+console.log(a.__proto__.constructor === Foo) // true
 console.log(a.__proto__) // Foo { say: 'hello' } --> Foo.prototype
 console.log(a.__proto__.__proto__) // Object {} --> Object.prototype
 console.log(a.__proto__.__proto__) // null --> Object.__proto__
@@ -246,12 +247,12 @@ console.log(a.__proto__.__proto__) // null --> Object.__proto__
 更复杂一点的原型链继承结构
 
 ```Javascript
-function Animal(name) {
+function Animal (name) {
   this.name = name
 }
 
 Animal.prototype = {
-  eat: function() {
+  eat: function () {
     console.log('something to eat..')
   }
 }
@@ -334,7 +335,7 @@ ES6 通过 `寄生组合继承` 的方式去实现继承, 它通过创建一个�
 
 - 数据封装类对象: `Object`, `Array`, `Boolean`, `Number`, `String`
 - 其他对象: `Function`, `Math`, `Date`, `RegExp`, `Error`
-- ES6新增对象: `Symbol`, `Map`, `Set`, `Promises`, `Proxy`, `Reflect`
+- ES6新增对象: `Symbol`, `Map`, `Set`, `Promise`, `Proxy`, `Reflect`
 
 ### Proxy 代理
 
@@ -412,11 +413,11 @@ if (window.XmlHttpRequest) {
 // IE 浏览器创建 XmlHttpRequest 对象
 if (window.ActiveXObject) {
   try {
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+    xmlhttp = new ActiveXObject('Microsoft.XMLHTTP')
   }
   catch(e) {
     try {
-      xmlhttp = new ActiveXObject("msxml2.XMLHTTP")
+      xmlhttp = new ActiveXObject('msxml2.XMLHTTP')
     }
     catch (err) {}
   }
@@ -508,7 +509,7 @@ console.log(window.name) // something...
 
 #### HTML5 window.postMessage
 
-`window.postMessage(message, targetOrigin)` 方法是html5新引进的特性, 可以使用它来向其它的 window 对象发送消息, 无论这个 window 对象是属于同源或不同源, 目前 IE8+, FireFox, Chrome, Opera 等浏览器都已经支持 `window.postMessage` 方法.
+`window.postMessage(message, targetOrigin)` 方法是 html5 新引进的特性, 可以使用它来向其它的 window 对象发送消息, 无论这个 window 对象是属于同源或不同源, 目前 IE8+, FireFox, Chrome, Opera 等浏览器都已经支持 `window.postMessage` 方法.
 
 调用 postMessage 方法的 window 对象是指要接收消息的那一个 window 对象, 该方法的第一个参数 message 为要发送的消息, 类型只能为字符串；第二个参数 targetOrigin 用来限定接收消息的那个 window 对象所在的域, 如果不想限定域, 可以使用通配符"*".
 
@@ -570,9 +571,9 @@ Map 本质上是键值对的集合, 但是 Hash 的范围不限于字符串, 各
 
 ## requestAnimationFrame
 
-与setTimeout相比, `requestAnimationFrame` 最大的优势是由系统来决定回调函数的执行时机
+与 setTimeout 相比, `requestAnimationFrame` 最大的优势是由系统来决定回调函数的执行时机
 
-- 经过浏览器优化，动画更流畅
+- 经过浏览器优化, 动画更流畅
 - 资源消耗小, 省电, 对移动端更好
 - 当窗口处于非激活状态下, 他会暂停并节省资源
 
@@ -696,7 +697,7 @@ promise.catch((rejection) => {
 - `eval()` 不会通过上下文创建变量或函数
   - 例如 `eval('var q = 1'); console.log(q)`, 严格模式下会报错, 非严格模式 q === 1
 - `eval()` 中声明变量和函数, 但这些变量或函数只能在被求值的特殊作用域中有效, 随后就将被销毁
-  - 例如 var q = eval(var a = 1;), 变量 a 将被销毁
+  - 例如 var q = eval("var a = 1;"), 变量 a 将被销毁
 - 执行 `apply()` 或 `call()` 的时候, 传入任何值, `this` 都会指向该值
   - 非严格模式下调用 `null` 或 `undefined`, `this` 会指向全局变量
 - 不能使用 `with`
