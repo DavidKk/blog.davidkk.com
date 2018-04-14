@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 模块化@Javascript</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>6/8/2015, 16:47:22</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="javascript-javascript-class-module-ecmascript-">Javascript 模块化Javascript 不是一种模块化编程语言，它不支持类<code>(class)</code>，更没有模块<code>(module)</code>。(正在制定中的 ECMAScript 标准第六版，将正式支持类和模块，但还需要很长时间才能投入实用。)</h1>
+<p>Javascript 只有本身的基础原生对象和类型，更多的对象和API都取决于宿主的提供，所以，我们可以看到JavaScript 缺少这些功能：- JavaScript 没有模块系统，没有原生的支持密闭作用域或依赖管理。</p>
+<ul>
+<li>JavaScript 没有标准库，除了一些核心库外，没有文件系统的API，没有IO流API等。</li>
+<li>JavaScript 没有标准接口，没有如Web Server或者数据库的统一接口。</li>
+<li>JavaScript 没有包管理系统，不能自动加载和安装依赖。因此 Javascript 代码越来越庞大的情况下，模块化已经成为迫切的需求了。## 模块化当我们称一个应用程序是模块化的的时候，我们通常是指它由一组高度解耦的、存放在不同模块中的独特功能构成。你可能已经知道，<code>松散耦合</code>通过尽可能地去除依赖性来让可维护性更加简单易得。当这一点被有效实现的时候，系统中某一部分的变化将如何影响其它部分就会变得显而易见。然而，与一些更传统的编程语言不同的是，JavaScript 的当前版本<code>(ECMA-262)</code>并没有为开发者们提供以一种简洁、有条理地的方式来引入模块的方法。规范的一大问题，就是未曾在这方面投入足够多的考量。直到近年来，人们对更为有序组织的 JavaScript 应用的需求变得越来越显著，这一情况才有所改观。作为代替，当前的开发者们只能被迫降级使用<code>模块模式</code>或是<code>对象字面量模式</code>的各种变体。通过很多这样的方法，各模块的脚本被串在一起注入到 DOM 中，其命名空间是由单一的全局对象来描述的。你的整个体系架构在这种模式下，仍然有可能发生命名冲突。想要简洁地管理依赖关系，不通过一些手工处理或借助第三方库往往是不可能的。尽管这些问题的原生解决方案在 <code>ES Harmony</code> 中才会被引入，但好消息是，编写模块化的 JavaScript 目前已经变得极为简单，甚至今天就可以开始动手。## CommonJSCommonJS 是服务器端模块的规范，Node.js 采用了这个规范, 通过 <code>require</code> 进行模块加载### 文件查找策略加载优先级- 原生模块</li>
+<li>文件模块 (node_modules 等)<ul>
+<li>.js: 通过 fs 模块同步读取 js 文件并编译执行</li>
+<li>.node: 通过 C/C++ 进行编写的 Addon, 通过 dlopen 方法进行加载</li>
+<li>.json: 读取文件, 调用 JSON.parse 解析加载所有加载的模块都会被缓存 (cache) 起来, 当第二次 <code>require</code> 的时候就不会重复开销;
+Node.js 在编译 js 文件的过程中实际完成的步骤有对 js 文件内容进行头尾包装<code>Javascript
+(function (exports, require, module, __filename, __dirname) {
+var circle = require(&#39;./circle.js&#39;)
+console.log(&#39;The area of a circle of radius 4 is &#39; + circle.area(4))
+})</code>这段代码会通过 vm 原生模块的 <code>runInThisContext</code> 方法执行 (类似eval, 只是具有明确上下文, 不污染全局), 返回为一个具体的 function 对象. 最后传入 <code>module</code> 对象的 <code>exports</code>, <code>require</code>, <code>__filename</code> (文件名), <code>__dirname</code> (目录名) 作为实参并执行; 这就是为什么 <code>require()</code> 并没有定义在 app.js 文件中, 但是这个方法却存在的原因.
+<code>exports</code> 是在 <code>module</code> 的构造函数中初始化的一个空对象 {}, 而不是 null## AMD (异步模块定义) - Asynchronous Module Definition为了模块化 Javascript 代码而建立, 是一种具有异步特性的模块化解决方案
+通过预先定义好依赖, 经过异步加载依赖后执行回调函数
+AMD 属于前置依赖, 当执行文件时就立即知道依赖模块并进行加载## CMD (通用模块定义) - Common Module Definition也是为了模块化 Javascript 代码而建立, 更偏向与 CommonJS 的规范, 也是具有异步特性的模块化解决方案
+CMD 属于就近依赖, 加载模块时需要将模块编译成字符串从而找出需要依赖的模块, 这里会消耗部分性能</li>
+</ul>
+</li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 基础知识@网络安全.html" title="前端开发 - 基础知识@网络安全"><span>Previous</span><span>前端开发 - 基础知识@网络安全</span></a></li><li><a href="/article/OpenWrt - Time Capsule.html" title="OpenWrt - Time Capsule"><span>Next</span><span>OpenWrt - Time Capsule</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

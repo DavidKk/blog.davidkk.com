@@ -1,0 +1,326 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 基础知识@Javascript</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="javascript-ecmascript-ecma-262-ecmascript-ecmascript-javascript-ecmascript-dom-bom-">Javascript## ECMAScript由 ECMA-262 制定的标准, 用于实现通用的脚本语言, ECMAScript 提供了脚本语言需要遵守的规则, 细节和规范. 通用脚本编程语言, 它遵循了 ECMAScript 标准. JavaScript 包含核心 (ECMAScript), 文档对象模型 (DOM), 浏览器对象模型 (BOM)## 作用域作用域就是一个区域, 包含了其中变量, 常量, 函数等等定义信息和赋值信息, 以及这个区域内代码书写的结构信息</h1>
+<p>作用域 (scope, 或译作有效范围) 是名字 (name) 与实体 (entity) 的绑定 (binding) 保持有效的那部分计算机程序
+若出现同名变量, 作用域中的变量会比全局变量的优先级高. 而且改变作用域下的变量, 全局变量不会受到任何影响.
+Javascript 并没有块状作用域, 因此在相同作用域下不同的块状中定义变量, 他们均是该作用域变量, 作用域下都能引用.### Scope Chain - 作用域链作用域链就是包含了函數被創建的作用域中對象的集合. 它決定了哪些數據能被函數訪問.
+这个原理和原型链很类似, 如果这个变量在自己的作用域中没有, 那么它会寻找父级的, 直到最顶层.### Hoisting - 声明提升当定义一个变量时, 定义的声明会在程序运行时优先执行定义(非赋值)<code>console.log(a)    // undefined, 并不会
+var a = 1         // 声明被提升, 这里只执行赋值
+console.log(a)    // 1</code>但他并不适用于 <code>let</code>### Window Scope基于浏览器的 Javascript 定义一个全局变量可以通过给 Window 对象添加属性.
+同时, 没有经过 <code>var</code> 定义的变量均被定义为全局变量 (此情况是没有标志 <code>use strict</code> 的情况下)
+当函数内部调用一个从未被定义的值, 它会指向 Window, 若通过 &#39;use strict&#39; 标志了该作用域, 则会报错### 静态作用域 与 动态作用域静态作用域 (Static/Lexical Scope) 又叫做词法作用域, 采用词法作用域的变量叫词法变量. 词法变量有一个在编译时静态确定的作用域. 词法变量的作用域可以是一个函数或一段代码, 该变量在这段代码区域内可见 (visibility); 在这段区域以外该变量不可见(或无法访问). 词法作用域里, 取变量的值时, 会检查函数定义时的文本环境, 捕捉函数定义时对该变量的绑定.动态作用域 (Dynamic Scope) 的变量叫做动态变量. 只要程序正在执行定义了动态变量的代码段, 那么在这段时间内, 该变量一直存在；代码段执行结束, 该变量便消失. 动态作用域里, 取变量的值时, 会由内向外逐层检查函数的调用链, 并打印第一次遇到的那个绑定的值.下面闭包章节将有具体例子详细说明参考文章- <a href="https://zh.wikipedia.org/wiki/%E4%BD%9C%E7%94%A8%E5%9F%9F#.E9.9D.99.E6.80.81.E4.BD.9C.E7.94.A8.E5.9F.9F.E4.B8.8E.E5.8A.A8.E6.80.81.E4.BD.9C.E7.94.A8.E5.9F.9F">作用域</a>## Closure - 闭包### 闭包的定义闭包 (Closure) 是词法闭包 (Lexical Closure) 的简称, 是引用了自由变量的函数, 也可以说闭包是由函数和与其相关的引用环境组合而成的实体.### 闭包的特征- 函数</p>
+<ul>
+<li>可以引用外部自由变量</li>
+<li>作用域### 闭包的应用- 读取函数内部变量</li>
+<li>让变量常驻内存### 闭包拓展首先我们了解一下函数编程的一些基本定义, 函数式语言中, 函数即是数据, 则我们可以把函数作为参数传递, 也可以返回一个函数, 然而在 ECMAScript 中也一样.
+这些接受函数式参数的函数称为高阶函数 (HOF - high-order function)；
+而带函数返回值的函数称为带函数值的函数 (functions with functional value)；
+把自己作为参数的函数称为自应用函数 (self-applicative function)；
+把自己作为返回值的函数称为自复制函数 (self-replicative function)<code>`</code>Javascript<h1 id="-">高阶函数</h1>
+function q (funcVar) {
+funcVar()
+}# 带函数值的函数
+function q () {
+return function() {}
+}# 自应用函数
+(function() {})()# 自复制函数
+function q() {
+return q
+}
+<code>### Funarg Problem - 泛函参数问题Funarg Problem 的一个子问题是 upward funarg problem (自下而上), 当一个函数作为另一个函数的返回值时, 并且使用了自由变量[free variable]的时候会发生. 即便它的父级上下文环境已经结束了, 它可以引用父级的变量. 这个内部函数在创建时就会将父级的作用域链保存在自己的作用域[[Scope]]中. 当函数运行时, 上下文环境的作用域量是由活跃变量[activation object]和它[[Scope]]属性组合而成.</code>
+Scope chain = Activation object + [[Scope]]
+<code>请再次注意这个很重要的点 – 在函数创建期间[creation moment], 函数会将父级的作用域链保存起来, 因为随后调用这个函数的时候使用的已经保存的作用域链来搜寻变量.</code>Javascript
+function foo () {
+var x = 10
+return function() {
+  console.log(x)
+}
+}var x = 20
+foo()()  // 10, but not 20
+<code>这种形式的作用域称为静态作用域. 理论上来说, 也会有动态作用域[dynamic scope], 也就是上述的x被解释为20, 而不是10. 但是EMCAScript 不使用动态作用域.“funarg problem”的另一个类型就是自上而下[”downward funarg problem”].在这种情况下, 父级的上下会存在, 但是在判断一个变量值的时候会有多义性. 也就是, 这个变量究竟应该使用哪个作用域. 是在函数创建时的作用域呢, 还是在执行时的作用域呢？为了避免这种多义性, 可以采用闭包, 也就是使用静态作用域.</code>Javascript
+var x = 10function foo () {
+console.log(x)
+}(function (funarg) {
+var x = 20  // there is no ambiguity,
+// because we use global &quot;x&quot;,
+// which was statically saved in
+// [[Scope]] of the &quot;foo&quot; function,
+// but not the &quot;x&quot; of the caller&#39;s scope,
+// which activates the &quot;funArg&quot;  funarg() // 10, but not 20
+})(foo)
+<code>从上述的情况, 我们似乎可以断定, 在语言中, 使用静态作用域是闭包的一个强制性要求. 不过, 在某些语言中, 会提供动态和静态作用域的结合, 可以允许开发员选择哪一种作用域. 但是在ECMAScript中, 只采用了静态作用域. 所以ECMAScript完全支持使用[[Scope]]的属性. 我们可以给闭包得出如下定义</code>
+A closure is a combination of a code block (in ECMAScript this is a function) and statically/lexically saved all parent scopes.Thus, via these saved scopes a function may easily refer free variables.
+<code>`</code>闭包是一系列代码块(在ECMAScript中是函数), 并且静态保存所有父级的作用域. 通过这些保存的作用域来搜寻到函数中的自由变量.几个函数可能含有相同的父级作用域(这是一个很普遍的情况, 例如有好几个内部或者全局的函数). 在这种情况下, 在[[Scope]]中存在的变量是会共享的. 一个闭包中变量的变化, 也会影响另一个闭包的.参考文章- <a href="http://www.cnblogs.com/tomxu/archive/2012/01/31/2330252.html">深入理解JavaScript系列(16): 闭包(Closures)</a></li>
+<li><a href="http://www.nowamagic.net/librarys/veda/detail/1646">执行上下文其三: 闭包 Closures</a>## 原型与继承### 原型模型JavaScript 不包含传统的类继承模型, 而是使用 prototypal 原型模型. 在基于类的面向对象方式中, 对象(object)依靠类(class)来产生. 而在基于原型的面向对象方式中, 对象(object)则是依靠构造器(constructor)利用原型(prototype)构造出来的. 在 JavaScript 中, &quot;一切都是对象, 函数是第一类&quot;, <code>Function</code> 和 <code>Object</code> 都是函数的实例.### new 与 Object.create<code>new</code> 的实现过程- 创建一个以这个函数为原型的空对象</li>
+<li>将函数的 <code>prototype</code> 赋值给对象的 <code>__proto__</code> 属性</li>
+<li>将对象作为函数的 <code>this</code> 传进去<ul>
+<li>如果 <code>return</code> 中含有<code>函数</code>或<code>对象</code>且<code>有效</code>的情况下将返回该值, 否则返回创建的对象<code>Javascript
+let instance = {}
+instance.__props__ = InputFunc.prototype
+let result = InputFunc.call(instance, ...arguments)
+// result 为 null 则无效
+return typeof result === &#39;function&#39; || typeof result === &#39;object&#39; &amp;&amp; result ? result : instance
+`</code>Object.create` 的实现过程- 创建一个新的空函数</li>
+</ul>
+</li>
+<li>将传入对象作为该函数 <code>prototype</code> 属性</li>
+<li>通过 <code>new</code> 创建一个新对象并返回<code>Javascript
+let NewFuc = function () {}
+NewFuc.prototype = object
+return new NewFuc()</code>### 生成对象方式<code>Javascript
+var obj = {
+name: &#39;david&#39;
+}var Foo = function (name) {
+this.name = name
+}Foo.prototype.do = function () {}
+var personA = new Foo(&#39;David&#39;)// ECMAScript 5 引入, 相当于
+Object.create = function (parent) {
+function Foo() {}
+Foo.prototype = parent;
+return new Foo();
+}var personB = Object.create({
+gender: &#39;male&#39;
+})console.log(personB.gender) // male</code>### prototype chain - 原型链JavaScript 可以采用构造器(constructor) 生成一个新的对象, 每个构造器都拥有一个 prototype 属性, 而每个通过此构造器生成的对象都有一个指向该构造器原型 (prototype) 的内部私有的链接 (proto), 而这个 prototype 因为是个对象, 它也拥有自己的原型, 这么一级一级直到原型为 null, 这就构成了原型链.在 Javascript 中有一个隐藏的属性 <code>__proto__</code> (proto 是一个不应在你代码中出现的非正规的用法, 这里仅仅用它来解释 JavaScript 原型继承的工作原理.)<code>Javascript
+var Foo = function() {}
+Foo.prototype.say = &#39;hello&#39;var a = new Foo()
+console.log(a.__proto__ === Foo.prototype) // true
+console.log(a.__proto__.constructor === Foo) // true
+console.log(a.__proto__) // Foo { say: &#39;hello&#39; } --&gt; Foo.prototype
+console.log(a.__proto__.__proto__) // Object {} --&gt; Object.prototype
+console.log(a.__proto__.__proto__) // null --&gt; Object.__proto__</code>更复杂一点的原型链继承结构<code>Javascript
+function Animal (name) {
+this.name = name
+}Animal.prototype = {
+eat: function () {
+  console.log(&#39;something to eat..&#39;)
+}
+}function Mammal() {
+this.name = &#39;mammal&#39;
+}Mammal.prototype = new Animal(&#39;animal&#39;)
+Mammal.prototype.constructor = Mammalfunction Horse() {
+this.name = &#39;horse&#39;
+}Horse.prototype = new Mammal()
+Horse.prototype.constructor = HorseHorse.prototype.eat = function() {
+console.log(&#39;eat glass&#39;)
+}var horseA = new Horse()
+console.log(horseA.__proto__ === Horse.prototype) // true
+console.log(Horse.prototype.__proto__ === Mammal.prototype) // true
+console.log(Mammal.prototype.__proto__ === Animal.prototype) // true</code>在 ECMAScript 中, 每个由构造器创建的对象拥有一个指向构造器 prototype 属性值的隐式引用(implicit reference), 这个引用称之为原型(prototype). 进一步, 每个原型可以拥有指向自己原型的隐式引用(即该原型的原型), 如此下去, 这就是所谓的原型链(prototype chain)当前的原型继承(如 Object.create 以及 proto)还是存在以下缺点- 标准性差：proto 不是一个标准用法, 甚至是一个不赞成使用的用法.</li>
+<li>优化性差：不论是原生的还是自定义的 Object.create , 其性能都远没有 new 的优化程度高, 前者要比后者慢高达10倍.#### 属性查找当查找一个对象的属性时, JavaScript 会向上遍历原型链, 直到找到给定名称的属性为止, 到查找到达原型链的顶部 - 也就是 Object.prototype - 但是仍然没有找到指定的属性, 就会返回 undefined#### hasOwnProperty<code>hasOwnProperty</code> 是 <code>Object.prototype</code> 的一个方法, 它可是个好东西, 他能判断一个对象是否包含自定义属性而不是原型链上的属性, 因为 <code>hasOwnProperty</code> 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数.<code>Javascript
+Object.prototype.bar = 1var foo = {
+goo: undefined
+}cnosole.log(foo.bar) // 1
+&#39;bar&#39; in foo // truefoo.hasOwnProperty(&#39;bar&#39;) // false
+foo.hasOwnProperty(&#39;goo&#39;) // true</code>#### 继承在 Javascript 中并没有类的概念, 所以只能通过原型链实现继承.
+ES6 通过 <code>寄生组合继承</code> 的方式去实现继承, 它通过创建一个对象 (Object.create(superClass.prototype)) 的方式得到一个原型对象, 这个对象的构造函数必须等于该子类的构造函数, 否则实例就无法找到该类了. 然后通过赋值给子类原型链的方式就可以实现继承; 最后还要确保构造函数调用时必须执行父类的构造函数且不能在构造函数之前修改或定义任何新属性, 否则会影响父类构造函数的执行结果参考文章- <a href="http://www.jianshu.com/p/d2742610ec30">深入理解javascript原型继承</a></li>
+<li><a href="http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html">深入理解JavaScript系列(5)：强大的原型和原型链</a>## Javascript 数据类型- 基本数据类型: <code>undefined</code>, <code>null</code>, <code>boolean</code>, <code>number</code>, <code>string</code>, <code>symbol</code></li>
+<li>引用数据类型: <code>Object</code>, <code>Array</code>, <code>Function</code>, <code>Date</code>, <code>RegExp</code>两种类型的值存放的位置不同- 引用数据类型存储在堆 (heap) 中的对象, 占据空间大, 大小不固定, 如果存储在栈中, 将会影响程序运行的性能</li>
+<li>引用数据类型在栈中存储了指针, 该指针指向堆中该实体的起始地址</li>
+<li>当解释器寻找引用值时, 会首先检索其在栈中的地址, 取得地址后从堆中获得实体### Javascript 内置对象- 数据封装类对象: <code>Object</code>, <code>Array</code>, <code>Boolean</code>, <code>Number</code>, <code>String</code></li>
+<li>其他对象: <code>Function</code>, <code>Math</code>, <code>Date</code>, <code>RegExp</code>, <code>Error</code></li>
+<li>ES6新增对象: <code>Symbol</code>, <code>Map</code>, <code>Set</code>, <code>Promise</code>, <code>Proxy</code>, <code>Reflect</code>### Proxy 代理<code>Javascript
+let pQ = new Proxy({ q: 1 }, {
+get (target, name) {
+  return name
+}
+})console.log(pQ.q === &#39;q&#39;) // true</code>### Reflect将一些关键的方法抽离出来赋值给此变量, 用单一的全局变量去存储这些方法,<code>Javascript
+Reflect.apply
+Reflect.construct
+Reflect.defineProperty
+Reflect.deleteProperty
+Reflect.enumerate // 废弃的
+Reflect.get
+Reflect.getOwnPropertyDescriptor
+Reflect.getPrototypeOf
+Reflect.has
+Reflect.isExtensible
+Reflect.ownKeys
+Reflect.preventExtensions
+Reflect.set
+Reflect.setPrototypeOf</code>## AjaxAjax 的全称是 Asynchronous JavaScript and XML, 其中, Asynchronous 是异步的意思, 它有别于传统 web 开发中采用的同步的方式.### 理解同步异步同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)</li>
+<li>同步, 就是在发出一个请求时, 在没有得到结果之前, 该请求就不返回</li>
+<li>异步, 请求在发出之后, 这个请求就直接返回了, 所以没有返回结果; 必须通过<code>状态</code>和<code>通知</code>来让请求者处理回调### 理解阻塞与非阻塞阻塞和非阻塞关注的是程序在等待调用结果(消息, 返回值)时的状态</li>
+<li>阻塞调用是指调用结果返回之前, 当前线程会被挂起, 调用线程只有在得到结果之后才会返回</li>
+<li>非阻塞调用指在不能立刻得到结果之前, 该调用不会阻塞当前线程### Ajax 原理Ajax 的原理简单来说通过 <code>XMLHttpRequest</code> 对象来向服务器发异步请求, 从服务器获得数据. 也就是 Javascript 可以及时向服务器提出请求和处理响应, 且不阻塞用户首先了解一下 <code>XMLHttpRequest</code> 对象的属性- onreadystatechange - 每次状态改变所触发事件的事件处理程序</li>
+<li>responseText - 从服务器进程返回数据的字符串形式</li>
+<li>responseXML - 从服务器进程返回的 DOM 兼容的文档数据对象</li>
+<li>status - 从服务器返回的数字代码, 比如常见的 404(未找到) 和 200(已就绪)</li>
+<li>statusText - 伴随状态码的字符串信息</li>
+<li>readyState - 对象状态值<ul>
+<li>0 (未初始化) 对象已建立, 但是尚未初始化(尚未调用open方法)</li>
+<li>1 (初始化) 对象已建立, 尚未调用 send 方法</li>
+<li>2 (发送数据) send 方法已调用, 但是当前的状态及 http 头未知</li>
+<li>3 (数据传送中) 已接收部分数据, 因为响应及 http 头不全, 这时通过 responseBody 和 responseText 获取部分数据会出现错误</li>
+<li>4 (完成) 数据接收完毕, 此时可以通过通过 responseXml 和 responseText 获取完整的回应数据<code>Javascript
+var xmlhttp
+if (window.XmlHttpRequest) {
+xmlhttp = new XmlHttpRequest()
+}// IE 浏览器创建 XmlHttpRequest 对象
+if (window.ActiveXObject) {
+try {
+xmlhttp = new ActiveXObject(&#39;Microsoft.XMLHTTP&#39;)
+}
+catch(e) {
+try {
+  xmlhttp = new ActiveXObject(&#39;msxml2.XMLHTTP&#39;)
+}
+catch (err) {}
+}
+}xmlhttp.open(&#39;POST&#39;, url, false)
+xmlhttp.onreadystatechange = function() {
+if (xmlhttp.readyState == 4 &amp;&amp; xmlhttp.status == 200) {
+console.log(xmlhttp.responseText)
+}
+}xmlhttp.send(null)</code>参考文章:- <a href="http://blog.csdn.net/lfsf802/article/details/7233640">深入理解Ajax原理</a></li>
+</ul>
+</li>
+<li><a href="http://www.cnblogs.com/tugenhua0707/p/4524877.html">逐渐深入地理解Ajax</a></li>
+<li><a href="http://www.cnblogs.com/mingmingruyuedlut/archive/2011/10/18/2216553.html">Ajax工作原理</a>## Cross Domain - 跨域### AJAX 跨域请求问题#### 服务器设置头<code>`</code>Conf<h1 id="nginx-conf">Nginx Conf</h1>
+add_header Access-Control-Allow-Origin <a href="http://www.xxx.com">www.xxx.com</a> always;
+add_header Access-Control-Allow-Credentials &#39;true&#39; always;
+add_header Access-Control-Allow-Methods &#39;GET,POST,PUT,DELETE,OPTIONS&#39; always;
+add_header Access-Control-Allow-Headers &#39;token,Authorization,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-File-Name&#39; always;
+<code>`Access-Control-Allow-Origin` 并不包括请求发送 Cookie, 若要支持 Cookie 则首先 `Access-Control-Allow-Origin` 不能设置成 `*`, 而且 `Access-Control-Allow-Credentials` 需要设置成 `true`. 而客户端浏览器在提交数据时必须通过设置 `withCredentials = true` 来让此次 Ajax 发送 Cookie</code>Javascript
+let xhr = new XMLHttpRequest()
+xhr.open(&#39;GET&#39;, &#39;<a href="http://api.xxx.com&#39;">http://api.xxx.com&#39;</a>, true)
+xhr.withCredentials = true                  // 开启, 自动发送 cookie
+xhr.send(null)
+<code>#### jsonpjsonp 原理就是利用 javascript 脚本引用可以跨域. 首先客户端会注册一个 callback, 然后把 callback 传递给服务器. 服务器生成 JSON 数据并且通过 javascript 语法方式生成一个 function, function 的名字就是 jsonp 传递上来的名字. 最后将 json 数据直接以入参的方式, 放置到 function 中, 这样就生成了一段 js 语法的文档, 返回给客户端. 客户端浏览器, 解析 script 标签, 并执行返回的 javascript 文档, 此时数据作为参数, 传入到了客户端预先定义好的 callback 函数里.(动态执行回调函数)</code>Javascript
+var sc = document.createElement(script)
+sc.src = &#39;<a href="http://example2.com/getinfo.php?callback=jsonpcallback&#39;">http://example2.com/getinfo.php?callback=jsonpcallback&#39;</a>
+document.getElementsByTagName(&#39;head&#39;)[0].appendChild(sc)
+<code>#### 设置 document.domain浏览器都有一个同源策略, 其限制之一就是第一种方法中我们说的不能通过 ajax 的方法去请求不同源中的文档. 它的第二个限制是浏览器中不同域的框架之间是不能进行 js 的交互操作的. 但是我们却可以在相同的主域下将不同的子域设置成一样的 domain.</code>Javascript<h1 id="a-example-com">a.example.com</h1>
+document.domain = &#39;example.com&#39;# b.b.example.com
+document.doamin = &#39;example.com&#39;
+<code>这样就可以操作子页面的 Javascript 脚本了, 这些我们都可以通过创建 iframe 来实现. 最后通过调用这个 iframe 的 AJAX 请求相应的数据并返回给主页面达到跨域的效果#### 通过 window.namewindow 对象有个 name 属性, 该属性有个特征：即在一个窗口(window)的生命周期内, 窗口载入的所有的页面都是共享一个 window.name 的, 每个页面对window.name都有读写的权限, window.name 是持久存在一个窗口载入过的所有页面中的, 并不会因新页面的载入而进行重置因此当我们通过跳转页面而达到传输数据的效果</code>Javascript<h1 id="a-html">a.html</h1>
+window.name = &#39;something...&#39;
+setTimeout(function() {
+location.href = &#39;b.html&#39;
+})# b.html
+console.log(window.name) // something...
+<code>`</code>- window.name 的值只能是字符串的形式, 这个字符串的大小最大能允许2M左右甚至更大的一个容量, 具体取决于不同的浏览器</li>
+<li>若两页处于不同的域中, 该方式也适用</li>
+<li>若要使用在 iframe 下, 必须确保 iframe 必须可以跨域, 就是 window 必须可以控制 iframe.contentWindow#### HTML5 window.postMessage<code>window.postMessage(message, targetOrigin)</code> 方法是 html5 新引进的特性, 可以使用它来向其它的 window 对象发送消息, 无论这个 window 对象是属于同源或不同源, 目前 IE8+, FireFox, Chrome, Opera 等浏览器都已经支持 <code>window.postMessage</code> 方法.调用 postMessage 方法的 window 对象是指要接收消息的那一个 window 对象, 该方法的第一个参数 message 为要发送的消息, 类型只能为字符串；第二个参数 targetOrigin 用来限定接收消息的那个 window 对象所在的域, 如果不想限定域, 可以使用通配符&quot;<em>&quot;.需要接收消息的 window 对象, 可是通过监听自身的 message 事件来获取传过来的消息, 消息内容储存在该事件对象的 data 属性中.<code>`</code>Javascript
+// a.html
+window.postMessage(&#39;message...&#39;, &#39;</em>&#39;)// b.html
+window.onmessage = function(evt) {
+evt = evt || event
+console.log(evt.message) // message...
+}
+<code>我们可以通过嵌套 iframe 指向目标域, 并监听 `onmessage` 去接受需要请求的数据并换转化成请求, 然后通过请求返回的数据通过 `postMessage` 传回给页面来实现跨域请求#### FLASH 跨域请求使用 flash 插件设置 `crossdoamin.xml`, 该文件放在根目录下</code>xml&lt;?xml version=&quot;1.0&quot;?&gt;
+<cross-domain-policy>
+<allow-access-from domain="*.example.com" />
+</cross-domain-policy>
+<code>`</code>#### 服务器代理设置一个同域的域名, 该页面会发出跨域请求, 并返回信息. 这样就可以通过服务器作为中转进行跨域请求了#### Iframe 跨域- 当页面的域与 iframe 页面的域不相同时, window 不能并不能控制 iframe 若获取 <code>iframe.contentWindow</code> 则会报错</li>
+<li>如果主域相同, 二级域名不同, 则可以通过两个页面同时将 <code>document.domain</code> 设置成主域名就可以实现相互访问### HTML5 部分元素可以设置成必须跨域才能使用外部资源- <code>&lt;script&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;audio&gt;</code>, <code>&lt;video&gt;</code> 等可以设置 <code>crossOrigin = &#39;anonymous&#39;</code> 或者任意不等于 <code>use-credentials</code> 的值就可以访问跨域资源## Set 与 MapSet 唯一没有重复值, 可以通过 <code>Array.from(new Set([]))</code> 达到快速去重
+Map 本质上是键值对的集合, 但是 Hash 的范围不限于字符串, 各种类型的值(包括对象)都可以当作键## WeakMap- WeakMap 结构与 Map 结构基本类似, 唯一的区别是它只接受对象作为键名 (null 除外), 不接受其他类型的值作为键名, 而且键名所指向的对象, 不计入垃圾回收机制.</li>
+<li>WeakMap 最大的好处是可以避免内存泄漏. 一个仅被 WeakMap 作为 key 而引用的对象, 会被垃圾回收器回收掉.</li>
+<li>WeakMap 拥有和 Map 类似的 set(key, value), get(key), has(key), delete(key) 和 clear() 方法, 没有任何与迭代有关的属性和方法.## setTimeout- 因为 Javascript 是单线程, 所以 setTimeout 如果不写时间他会在下一个可执行时间内执行</li>
+<li>刷新频率受屏幕分辨率和屏幕尺寸的影响，因此不同设备的屏幕刷新频率可能会不同，而 setTimeout只能设置一个固定的时间间隔，这个时间不一定和屏幕的刷新时间相同## requestAnimationFrame与 setTimeout 相比, <code>requestAnimationFrame</code> 最大的优势是由系统来决定回调函数的执行时机- 经过浏览器优化, 动画更流畅</li>
+<li>资源消耗小, 省电, 对移动端更好</li>
+<li>当窗口处于非激活状态下, 他会暂停并节省资源## 捕获与冒泡DOM 事件流 (event flow) 存在三个阶段: <code>事件捕获阶段</code>, <code>处于目标阶段</code>, <code>事件冒泡阶段</code>
+DOM 标准事件流的触发的先后顺序为: <code>先捕获再冒泡</code>- 事件捕获: 从根节点开始由外到内进行事件传播<ul>
+<li>window -&gt; document -&gt; documentElement -&gt; body -&gt; ...</li>
+</ul>
+</li>
+<li>事件冒泡: 事件冒泡顺序是由内到外进行事件传播，直到根节点## 阻止事件- <code>preventDefault</code> - 阻止节点默认事件</li>
+<li><code>stopPropagation</code> - 阻止冒泡</li>
+<li><code>stopImmeidatePropagation</code> - 阻止冒泡并阻止该节点上的其他该类型事件触发## for in 及原型链查询索引顺序所有的方法都会用相同的方法读取原型链中的值- 首先根据数组索引进行查找</li>
+<li>然后根据初始值进行查找, 先进先出<ul>
+<li>这里面的排序是根据 ANSI 码进行排序</li>
+</ul>
+</li>
+<li>查找所有标点符号, 先进先出参考资料</li>
+<li><a href="http://stackoverflow.com/questions/5467129/sort-javascript-object-by-key/31102605#31102605">http://stackoverflow.com/questions/5467129/sort-javascript-object-by-key/31102605#31102605</a>## 函数防抖与函数节流### debounce - 函数防抖函数在单位时间后执行, 若在该单位时间内再次执行, 则重新计算单位时间, 函数延迟执行<code>Javascript
+function debounce (fn, delay) {
+let timeoutId  return function () {
+  timeoutId &amp;&amp; clearTimeout(timeoutId)
+  timeoutId = setTimeout(fn, delay)
+}
+}</code>### throttle - 函数节流函数立即执行, 在单位时间内不能再次执行. 必须等待该单位时间已过期后才能再次执行<code>`</code>Javascript
+function throttle (fn, delay) {
+let flag = false
+return function () {
+  if (flag === true) {<pre><code class="hljs kotlin"><span class="hljs-keyword">return</span></code></pre>  }    flag = true
+  fn()
+  setTimeout(() =&gt; flag = false, delay)
+}
+}
+<code>## Promise### then 转 catch</code>Javascript
+promise.then(() =&gt; {
+return Promise.reject(new Error(&#39;&#39;))
+})promise.then(() =&gt; {
+throw new Error(&#39;&#39;)
+})
+<code>## catch 转 then</code>Javascript
+promise.catch((rejection) =&gt; {
+return rejection
+})
+.then(() =&gt; {})
+<code>`</code>## Javscript 严格模式- 消除 Javascript 语法的一些不合理和不严谨之处, 减少一些怪异行为</li>
+<li>消除代码运行的一些不安全之处, 保证代码运行的安全</li>
+<li>提高编译器效率, 增加运行速度</li>
+<li>为未来新版本的 Javascript 做好铺垫### 严格模式的规范- 不允许创建全局变量, 否则会抛出异常 ReferenceError</li>
+<li>不能使用 <code>delete</code> 删除变量, 只能删除部分属性, 否则会抛出异常 ReferenceError</li>
+<li>不能使用 <code>delete</code> 删除不可配置的属性 (nonconfigurable attributes)<ul>
+<li><code>Object.defineProperty(o, &#39;a&#39;, { configurable: false })</code></li>
+</ul>
+</li>
+<li>不能以标识符作为变量名或函数名, 否则抛出语法错误<ul>
+<li><code>implements</code>, <code>interface</code>, <code>let</code>, <code>package</code>, <code>private</code>, <code>protected</code>, <code>public</code>, <code>static</code>, <code>yield</code></li>
+<li><code>eval</code>, <code>arguments</code>, 严格模式下这两个也被定义为标识符</li>
+</ul>
+</li>
+<li>不能赋值给只读属性, 否则抛出异常 TypeError</li>
+<li>不能对不可扩展的对象 (nonextensible object) 添加属性, 否则会抛出异常 TypeError<ul>
+<li><code>Object.preventExtensions({})</code> 不可扩展对象</li>
+<li><code>Object.seal({})</code> 密封对象是不可扩展对象</li>
+<li><code>Object.freeze({})</code> 冻结对象是不可扩展对象</li>
+</ul>
+</li>
+<li>使用对象字面量定义对象时, 属性名必须唯一, 否则抛出语法错误<ul>
+<li><code>var q = {a:1,a:1}</code></li>
+</ul>
+</li>
+<li>函数的参数必须唯一, 否则抛出语法错误<ul>
+<li><code>(a, a) =&gt; {}</code></li>
+</ul>
+</li>
+<li>函数中, 修改参数值不会导致 <code>arguments</code> 对应的值也改变, 两个值是独立的<ul>
+<li>在非严格模式下, 两者是一致的</li>
+</ul>
+</li>
+<li>不能访问 <code>arguments.callee</code> 和 <code>arguments.caller</code>, 否则会抛出异常 TypeError<ul>
+<li>在非严格模式下, <code>arguments.callee</code> 和 <code>arguments.caller</code> 指向函数本身</li>
+</ul>
+</li>
+<li><code>eval()</code> 不会通过上下文创建变量或函数<ul>
+<li>例如 <code>eval(&#39;var q = 1&#39;); console.log(q)</code>, 严格模式下会报错, 非严格模式 q === 1</li>
+</ul>
+</li>
+<li><code>eval()</code> 中声明变量和函数, 但这些变量或函数只能在被求值的特殊作用域中有效, 随后就将被销毁<ul>
+<li>例如 var q = eval(&quot;var a = 1;&quot;), 变量 a 将被销毁</li>
+</ul>
+</li>
+<li>执行 <code>apply()</code> 或 <code>call()</code> 的时候, 传入任何值, <code>this</code> 都会指向该值<ul>
+<li>非严格模式下调用 <code>null</code> 或 <code>undefined</code>, <code>this</code> 会指向全局变量</li>
+</ul>
+</li>
+<li>不能使用 <code>with</code></li>
+<li>不能使用八进制赋值<ul>
+<li><code>var q = 010;</code> 或者 <code>var q = &#39;\047&#39;</code></li>
+<li><code>parseInt()</code> 传入八进制数字的时候, 会当成十进制<ul>
+<li><code>parseInt(010)</code>, 严格模式下输出 10, 非严格模式下输出 8参考资料</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode/Transitioning_to_strict_mode">向严格模式过渡</a></li>
+<li><a href="https://juejin.im/post/5a8fb8c35188257a865d84b3">JavaScript 中的 严格模式</a></li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 基础知识@HTML.html" title="前端开发 - 基础知识@HTML"><span>Previous</span><span>前端开发 - 基础知识@HTML</span></a></li><li><a href="/article/前端开发 - 基础知识@NodeJS.html" title="前端开发 - 基础知识@NodeJS"><span>Next</span><span>前端开发 - 基础知识@NodeJS</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

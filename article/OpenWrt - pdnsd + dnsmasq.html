@@ -1,0 +1,98 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">OpenWrt - pdnsd + dnsmasq</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/OpenWrt/1.html" title="OpenWrt">OpenWrt</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>4/11/2015, 12:57:14</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><p>使用 pdnsd 与 dnsmasq 能解决 DNS 污染与创建本地 DNS 缓存强劲加速解析速度，
+一般知名 DNS 服务器提供商，百度垃圾竟然玩劫持，这里严重吐槽，一下列出几个，国内没测试过有没劫持：##### 国内：- OpenerDNS:    42.120.21.30</p>
+<ul>
+<li>114DNS:       114.114.114.114   114.114.115.115</li>
+<li>oneDNS:       112.124.47.27</li>
+<li>aliDNS:       223.5.5.5         223.6.6.6##### 国际：- Google DNS:   8.8.8.8           8.8.4.4</li>
+<li>OpenDNS:      208.67.222.222    208.67.220.220</li>
+<li>V2EX DNS:     199.91.73.222     178.79.131.110### 安装 pdnsdpdnsd 是一款高效灵活的 DNS proxy 服务器，它既可以充当一个 DNS forwarding 的角色，也可作为一个 DNS cache 服务器，更可以作为一款简单的本地解释 DNS 服务器。建议将此服务不要安装到 USB 或其他硬盘上，否则配置起来很麻烦。<code>$ opkg update
+$ opkg install pdnsd</code>开始配置 <code>pdnsd.conf```</code>
+$ vim /etc/pdnsd.confglobal {<h1 id="debug-on-var-pdnsd-pdnsd-debug">debug = on;             # 调试模式，日志会写入 /var/pdnsd/pdnsd.debug</h1>
+perm_cache = 5120;        # 缓存文件大小，单位KB
+cache_dir = &quot;/var/pdnsd&quot;; # 缓存文件位置，保留默认
+run_as = &quot;nobody&quot;;        # 运行的用户，使用匿名用户
+server_port = 1153;       # 使用 1153 作为 DNS 端口，默认是53，因为 53 端口已经被 dnsmasq占用了
+server_ip = 0.0.0.0;      # 监听所有
+status_ctl = on;          # 方便在 pdnsd 运行时通过 pdnsd-ctl 进行管理
+query_method = tcp_only;  # 最重要的配置，只使用 TCP 查询上级 DNS, <code>tcp_only</code>, <code>udp_only</code>, <code>tcp_udp</code>
+min_ttl = 15m;            # 最小TTL时间，自己酌情往上加，默认是15分钟
+max_ttl = 1w;             # 最长TTL时间，默认一周
+timeout = 10;             # 全局超时时间，默认10秒，酌情修改
+}server {
+label = &quot;Foreign&quot;;        # 为这组server起一个名字
+ip = 8.8.8.8              # 这里为上级DNS地址，多个地址逗号分隔，可以换行，分号结尾
+   , 8.8.4.4              # Google DNS
+   , 208.67.222.222       # OpenDNS
+   , 208.67.220.220
+   , 199.91.73.222        # V2EX DNS
+   , 178.79.131.110
+;
+timeout = 4;              # 超时值
+root_server = on;         # 设置为 <code>on</code> 后，就代替系统默认的 dns 了。
+uptest = none;            # 不去检测 DNS 是否无效。
+}source {
+owner = localhost;<h1 id="serve_aliases-on-">serve_aliases = on;</h1>
+file = &quot;/etc/hosts&quot;;
+}rr {
+name = localhost;
+reverse = on;
+a = 127.0.0.1;
+owner = localhost;
+soa = localhost,root.localhost,42,86400,900,86400,86400;
+}# 重启
+$ /etc/init.d/pdnsd start
+$ /etc/init.d/pdnsd enable# 验证正常运行，这里可以在 PC 或路由中运行，但路由中 <code>dig</code> 不存在，需要安装插件<h1 id="-ip-ip-192-168-1-1-1153">此处IP应改成路由的IP地址，一般为 <code>192.168.1.1</code>，端口为刚才改的 1153</h1>
+$ dig @192.168.1.1 -p 1153 <a href="http://www.google.com">www.google.com</a>; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; @192.168.1.1 -p 1153 <a href="http://www.google.com">www.google.com</a>
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 60638
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0;; QUESTION SECTION:
+;<a href="http://www.google.com">www.google.com</a>.      IN  A;; ANSWER SECTION:
+<a href="http://www.google.com">www.google.com</a>.   900 IN  A 216.58.221.68;; Query time: 1757 msec
+;; SERVER: 192.168.1.1#1153(192.168.1.1)
+;; WHEN: Sun Jul  5 11:15:54 2015
+;; MSG SIZE  rcvd: 48
+<code>### 安装 dnsmasq一般情况下，OpenWrt 已经安装 dnsmasq, 若未安装请直接安装。</code>
+$ opkg update
+$ opkg install dnsmasq
+<code>### 创建需要的 DNS 与 HOSTS 配置文件</code><h1 id="-dnsmasq-">创建 dnsmasq 专用配置路径，该路径下所有文件均为有效的配置文件</h1>
+$ mkdir /var/dnsmasq.d
+$ vi /var/dnsmasq.d/google.conf# Google
+server=/.google.com/127.0.0.1#1153
+server=/.gstatic.com/127.0.0.1#1153
+server=/.googleusercontent.com/127.0.0.1#1153
+server=/.googlevideo.com/127.0.0.1#1153
+server=/.appspot.com/127.0.0.1#1153
+server=/.googlecode.com/127.0.0.1#1153
+server=/.googleapis.com/127.0.0.1#1153
+server=/.gmail.com/127.0.0.1#1153
+server=/.google-analytics.com/127.0.0.1#1153
+server=/.youtube.com/127.0.0.1#1153
+server=/.blogspot.com/127.0.0.1#1153
+server=/.blogger.com/127.0.0.1#1153# 创建 dnsmasq 专用 HOSTS 文件
+$ mkdir /var/dnsmasq.hosts
+$ ln -s /etc/hosts /var/dnsmasq.hosts/origin.hosts# 编辑 dnsmasq 配置文件
+$ vim /etc/dnsmasq.confconf-dir=/var/dnsmasq.d                 # 导入所有文件作为 <code>resolv-file</code> 的配置
+expand-hosts                            # 改为指定 HOSTS 目录
+addn-hosts=/var/dnsmasq.hosts           # 指定 HOSTS，默认是系统文件 /etc/hosts# 重启 dnsmasq 服务
+$ /etc/init.d/dnsmasq restart
+<code>### 检查 dnsmasq 服务</code><h1 id="-53-53-log-">查看 53 端口，若出现 <code>:53</code> 即表示启动成功，否则查看以下系统 log 看看那里出错了</h1>
+$ netstat -tunlp|grep 53tcp   0   0   0.0.0.0:53  0.0.0.0:<em>   LISTEN      6406/dnsmasq
+tcp   0   0   :::53       :::</em>        LISTEN      6406/dnsmasq
+udp   0   0   0.0.0.0:53  0.0.0.0:<em>               6406/dnsmasq
+udp   0   0   :::53       :::</em>                    6406/dnsmasq# 检测 DNS 速度 (PC 或 路由器均可检测)
+$ dig @192.168.1.1 -p 1153 google.com | grep &quot;Query time&quot;
+;; Query time: 385 msec
+$ dig @192.168.1.1 -p 1153 google.com | grep &quot;Query time&quot;
+;; Query time: 0 msec# 此时已经缓存了
+<code>`</code></li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/OpenWrt/1.html" title="OpenWrt">OpenWrt</a><a href="/tag/路由器/1.html" title="路由器">路由器</a><a href="/tag/dns/1.html" title="dns">dns</a><a href="/tag/pdnsd/1.html" title="pdnsd">pdnsd</a><a href="/tag/dnsmasq/1.html" title="dnsmasq">dnsmasq</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/OpenWrt - 离线下载之迅雷 Xware.html" title="OpenWrt - 离线下载之迅雷 Xware"><span>Previous</span><span>OpenWrt - 离线下载之迅雷 Xware</span></a></li><li><a href="/article/Vagrant &amp;&amp; VirtualBox 安装，打包和分享 Base Box.html" title="Vagrant &amp;&amp; VirtualBox 安装，打包和分享 Base Box"><span>Next</span><span>Vagrant &amp;&amp; VirtualBox 安装，打包和分享 Base Box</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

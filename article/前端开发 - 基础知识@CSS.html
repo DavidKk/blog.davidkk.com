@@ -1,0 +1,243 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 基础知识@CSS</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h2 id="css-ie-w3c-">CSS### 盒模型盒模型有两种诠释, 一种是 IE 盒模型, 而另一种是 W3C 标准盒模型.<code>`</code></h2>
+<p>┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃             margin             ┃
+┃  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓  ┃
+┃  ┃          border          ┃  ┃
+┃  ┃  ┏━━━━━━━━━━━━━━━━━━━━┓  ┃  ┃
+┃  ┃  ┃       padding      ┃  ┃  ┃
+┃  ┃  ┃  ┏━━━━━━━━━━━━━━┓  ┃  ┃  ┃
+┃  ┃  ┃  ┃              ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃    content   ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┃              ┃  ┃  ┃  ┃
+┃  ┃  ┃  ┗━━━━━━━━━━━━━━┛  ┃  ┃  ┃
+┃  ┃  ┃                    ┃  ┃  ┃
+┃  ┃  ┗━━━━━━━━━━━━━━━━━━━━┛  ┃  ┃
+┃  ┃                          ┃  ┃
+┃  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━┛  ┃
+┃                                ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+<code>`</code>- IE 盒模型:</p>
+<ul>
+<li>主要有 IE5, IE6(Q), IE7(Q)</li>
+<li>width = content + padding (left/right) + border (left/right)</li>
+<li>box width = width + margin (left/right)<ul>
+<li>W3C 盒模型:</li>
+</ul>
+</li>
+<li>主要由 IE6(S), IE7(S), W3C 标准浏览器</li>
+<li>width = content 宽度</li>
+<li>box width = width + padding (left/right) + border (left/right) + margin (left/right)因为IE盒模型更为合理, <a href="http://blog.csdn.net/ncode/article/details/7428746">事例</a>, 因此在 CSS3 中引入了 <code>box-sizing</code>, 因此我们可以设置使用IE盒模型的渲染模式, IE8也支持.<code>`</code>CSS<ul>
+<li>{
+box-sizing: border-box;
+}
+<code>`</code>### 怪异模式 (Quirks mode) 与 标准模式 (Standards Mode)IE 浏览器从服务端获取网页后会根据文档的 DOCTYPE 定义显示网页, 如果文档正确定义了 DOCTYPE 浏览器则会进入标准模式 (Standards Mode), 否则浏览器会进入怪异模式 (Quirks mode)</li>
+<li>在标准模式下, 浏览器会根据 W3C 的规范来渲染页面</li>
+<li>而在怪异模式中, 页面将以 IE5 的渲染方式来渲染页面#### 设置标准模式<a href="http://www.fantxi.com/blog/archives/browser-mode/">最详细</a>- 加 DOCTYPE 声明</li>
+<li>设置 X-UA-Compatible 触发### CSS 选择器##### 基础的选择器- <code>*</code> 通用元素选择器 <code>* { margin: 0; padding: 0; }</code></li>
+<li><code>E</code> 标签选择器 <code>p { color: #333; }</code></li>
+<li><code>.</code> 类选择器 <code>.content { color: #333; }</code></li>
+<li><code>#</code> ID选择器 <code>#caption { color: #000; }</code>##### 组合选择器- <code>E, E</code> 多元素选择器 <code>a,p { color: #333; }</code></li>
+<li><code>E E</code> 后代元素选择器 <code>p a { color: #fff; }</code></li>
+<li><code>E &gt; F</code> 子元素选择器 <code>p &gt; a { color: #000; }</code></li>
+<li><code>E + F</code> 毗邻元素选择器 <code>p + p { color: #330; }</code>##### 同级元素选择器- <code>E ~ F</code> 匹配任何在E元素之后的同级F元素 <code>p ~ ul { color: red; }</code>##### 属性选择器###### CSS 2.1- <code>E[attr]</code> 匹配属性存在 <code>a[href] { color: #fff; }</code></li>
+<li><code>E[attr=val]</code> 匹配属性等于某值 <code>p[class=&quot;error&quot;] { color: red; }</code></li>
+<li><code>E[attr~=val]</code> 匹配属性中含有某值, 用空格分开 <code>p[class~=&quot;error&quot;] { color: red; }</code></li>
+<li><code>E[attr|=val]</code> 匹配连字号分割, 若为 <code>class</code> 只能匹配到只有一个 <code>class</code>且拥有 <code>-</code> 的元素 p[lang|=en] { color: green; }<code>###### CSS 3-</code>E[attr^=&quot;val&quot;]<code>属性attr的值以val开头的元素</code>a[class^=&quot;btn-&quot;] { color: red; }`</li>
+<li><code>E[attr$=&quot;val&quot;]</code> 属性attr的值以val结尾的元素 <code>a[class$=&quot;-red&quot;] { color: red; }</code></li>
+<li><code>E[attr*=&quot;val&quot;]</code> 属性attr的值包含val的元素 <code>a[class*=&quot;btn&quot;] { color: red; }</code>##### 伪类选择器###### CSS 2.1- <code>E:first-child</code> 匹配父元素的第一个子元素 <code>p:first-child { color: #fff; }</code></li>
+<li><code>E:link</code> 匹配所未被点击的链接元素 <code>a:link { color: #fff; }</code></li>
+<li><code>E:visited</code> 匹配所有已被点击的链接元素 <code>a:visited { color: red; }</code></li>
+<li><code>E:active</code> 匹配鼠标已按下但未被释放的元素 <code>a:active { color: red; }</code></li>
+<li><code>E:hover</code> 匹配鼠标悬停的元素 <code>a:hover { color: red; }</code></li>
+<li><code>E:focus</code> 匹配获得当前焦点元素 <code>a:focus { color: red; }</code></li>
+<li><code>[E:in-range](http://www.w3schools.com/cssref/sel_in-range.asp)</code> 匹配 <code>type=&quot;number&quot;</code> 并且在有效范围内的input元素 <code>input:in-range { color: red; }</code> IE 不支持</li>
+<li><code>[E:out-of-range](http://www.w3schools.com/cssref/sel_out-of-range.asp)</code> 匹配 <code>type=&quot;number&quot;</code> 并且不在有效范围内的input元素 <code>input:out-of-range { color: red; }</code> IE 不支持</li>
+<li><code>[E:valid](http://www.w3schools.com/cssref/sel_valid.asp)</code> 匹配所有有效的input元素 <code>input:valid {}</code></li>
+<li><code>[E:invalid](http://www.w3schools.com/cssref/sel_invalid.asp)</code> 匹配所有无效的input元素 <code>input:invalid { color:red; }</code></li>
+<li><code>[E:optional](http://www.w3schools.com/cssref/sel_optional.asp)</code> 匹配所有没有 <code>required</code> 的input元素 <code>input:optional { color: red; }</code> IE9 以上才支持</li>
+<li><code>[E:read-only](http://www.w3schools.com/cssref/sel_read-only.asp)</code> 匹配所有拥有 <code>readonly</code> 的input元素 <code>input:read-only {}</code>, <code>input:-moz-read-only {}</code></li>
+<li><code>[E:read-write](http://www.w3schools.com/cssref/sel_read-write.asp)</code> 匹配所有不拥有 <code>readonly</code> 的input元素 <code>input:read-write {}</code>, <code>input:-moz-read-write {}</code></li>
+<li><code>[E:lang(c)](http://www.w3schools.com/cssref/sel_lang.asp)</code> 匹配lang属性等于c的元素 <code>a:lang(sv) { quotes: “\201D” “\201D” “\2019″ “\2019″; }</code>###### CSS 3表现性伪类- <code>E:enabled</code> 匹配表单中激活的元素 <code>input:enabled { color: #000; }</code></li>
+<li><code>E:disabled</code> 匹配表单中禁用的元素 <code>input:disabled { color: #999; }</code></li>
+<li><code>E:checked</code> 匹配表单中被选中的单选框与复选框 <code>input[type=&quot;raido&quot;]:checked { background-color: #fff; }</code></li>
+<li><code>E::selection</code> 匹配用户当前选中的元素 <code>p::selection { color: #555; }</code>结构性伪类- <code>E:last-child</code> 匹配父元素的最后一个子元素, 等同于:nth-last-child(1) <code>p:last-child { color: #fff; }</code></li>
+<li><code>E:first-of-type</code> 匹配父元素下使用同种标签的第一个子元素, 等同于:nth-of-type(1) <code>p:first-of-type { color: #fff; }</code></li>
+<li><code>E:last-of-type</code> 匹配父元素下使用同种标签的最后一个子元素, 等同于:nth-last-of-type(1) <code>p:last-of-type { color: #fff; }</code></li>
+<li><code>E:nth-child(n)</code> 匹配其父元素的第n个子元素, 第一个编号为1,  <code>p:nth-child(3) { color: #fff; }</code>, n由0开始 <code>p:nth-child(2n) {}</code></li>
+<li><code>E:nth-last-child(n)</code> 匹配其父元素的倒数第n个子元素, 第一个编号为1 <code>p:nth-last-child(3) { color: #fff; }</code></li>
+<li><code>E:nth-of-type(n)</code> 与:nth-child()作用类似, 但是仅匹配使用同种标签的元素 <code>p:nth-of-type(3) { color: #fff; }</code></li>
+<li><code>E:nth-last-of-type(n)</code> 与:nth-last-child() 作用类似, 但是仅匹配使用同种标签的元素 <code>p:nth-last-of-type(n) { color: #fff; }</code></li>
+<li><code>E:only-child</code> 匹配父元素下仅有的一个子元素, 等同于 <code>:first-child:last-child</code> 或 <code>:nth-child(1):nth-last-child(1)</code></li>
+<li><code>E:only-of-type</code> 匹配父元素下使用同种标签的唯一一个子元素, 等同于 <code>:first-of-type:last-of-type</code> 或 <code>:nth-of-type(1)</code>:nth-last-of-type(1)</li>
+<li><code>:root</code> 匹配文档的根元素, 对于HTML文档, 就是 HTML 元素, 权重大于 <code>html {}</code> <code>:root { color: #fff; }</code></li>
+<li><code>E:empty</code> 匹配一个不包含任何子元素的元素, 注意, 文本节点也被看作子元素 <code>a:empty { display:block;width:100px;height:100px;background:#ff0; }</code></li>
+<li><code>E:not</code> 匹配不符合当前选择器的任何元素 <code>:not(p) { #fff; }</code></li>
+<li><code>[E:target](http://www.w3schools.com/cssref/css3_pr_target.asp)</code> 匹配文档中特定 ID 点击后的效果, 暂时主流浏览器都均不支持##### 伪元素- <code>E::before</code> 在E元素前插入生成的内容 <code>p:before { content: &#39;Hello&#39;; }</code></li>
+<li><code>E::after</code> 在E元素后插入生成的内容 <code>p:after { content: &#39;World&#39;; }</code></li>
+<li><code>[E::first-line](https://developer.mozilla.org/en-US/docs/Web/CSS/::first-line)</code> 匹配E元素的第一行 <code>p:first-line { color: red; }</code> 此时设置 <code>text-transform: uppercase;</code> 在 <code>webkit</code> 中无效.</li>
+<li><code>E::first-letter</code> 匹配E元素的第一个字母 <code>p:first-letter { color: red; }</code>### 优先级与权重一般我们描述 CSS 的优先级是这样:!important &gt; 内联 &gt; id(#) &gt; (class(.) &gt; 同级元素选择器 &gt; 伪类|属性) &gt; 标签|伪元素 &gt; 通配符 &gt; 继承其实括号内的选择器权重其实均相等, 我们先探讨一下如何对比权重值与如何计算出权重的优先级.#### 权重值的比较而在普遍的文章描述中, 经常会说到 ID 是 100, Class 的权重是 10, 标签是 1;
+其实权重结算的结果并非如此, 而是将这些更像如此 ID, Class, E, ID 永远比 Class 优先
+当出现这样的情况:<code>CSS
+html body header nav ul li div p a span em { color: red; }
+.num { color: yellow; }</code>此时样式色结果是 yellow, 若按 Class 权重为10来看, 则明显应该是 red; 所以我们可以确定此时权重应该是 0,0,11 0,1,0,
+当 class 权重一样的时候, 会根据次权重的即 E 权重的数值来比较, 若都一样会通过后者来确定优先级;##### 权重值的计算一条样式规则的整体权重值包含四个独立的部分: [A, B, C, D]- A表示内联选择器, 只有 1 或者 0 两个值, 若有我们标记 A=1, 否则 A=0, 标记的权重为 [1/0,0,0,0]</li>
+<li>B表示ID选择器, 表示规则中的ID数量, 标记的权重为 [0,N,0,0]</li>
+<li>C表示类选择器, 属性选择器等, 表示这些选择器的数量, 标记的权重为 [0,0,N,0]</li>
+<li>D表示伪元素选择器及元素选择器, 表示这些选择器的数量, 标记的权重为 [0,0,0,N]权重值只会看选择器的数量, 而不会因为 DOM 树中两节点的距离而有所不同, 例如: <code>html a == body a</code>.##### <code>!important</code> 规则例外当 !important 规则被应用在一个样式声明中时, 该样式声明会覆盖 CSS 中任何其他的声明, 无论它处在声明列表中的哪里. 尽管如此, !important规则还是与优先级毫无关系. 使用 !important 不是一个好习惯, 因为它改变了你样式表本来的级联规则, 从而使其难以调试.- Never 永远不要在全站范围的 css 上使用 !important</li>
+<li>Only 只在需要覆盖全站或外部 css (例如引用的 ExtJs 或者 YUI) 的特定页面中使用 !important</li>
+<li>Never 永远不要在你的插件中使用 !important</li>
+<li>Always 要优化考虑使用样式规则的优先级来解决问题而不是 !important##### <code>:not</code> 伪类例外:not 否定伪类在优先级计算中不会被看作是伪类. 事实上, 在计算选择器数量时还是会把其中的选择器当做普通选择器进行计数.参考文章- <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Specificity">优先级</a></li>
+<li><a href="http://www.cssforest.org/blog/index.php?id=185">重新认识CSS的权重</a>##### 关于 <code>inherit</code>除了直接指定到元素上的样式规则以外, 每个属性值还有一个可能为 inherit(继承) 的值. 表示元素的该样式属性继承自父级元素, 与父级元素的定义一致.
+继承而来的属性值, 权重永远低于明确指定到元素的定义.###### 默认继承的属性- 字体:</li>
+</ul>
+</li>
+<li><code>color</code></li>
+<li><code>font-family</code>, <code>font-size</code>, <code>font-style</code>, <code>font-variant</code>, <code>font-weight</code>, <code>font</code><ul>
+<li>段落:</li>
+</ul>
+</li>
+<li><code>letter-spacing</code>, <code>word-spacing</code>, <code>line-height</code></li>
+<li><code>text-align</code>, <code>text-decoration</code>, <code>text-indent</code>, <code>text-transform</code>, <code>text-shadow</code>, <code>white-space</code></li>
+<li><code>quotes</code>, <code>direction</code><ul>
+<li>表格: <code>border-collapse</code>, <code>border-spacing</code>, <code>empty-cells</code></li>
+<li>列表: <code>list-style-image</code>, <code>list-style-position</code>, <code>list-style-type</code>, <code>list-style</code></li>
+<li>声音:</li>
+</ul>
+</li>
+<li><code>azimuth</code></li>
+<li><code>volume</code>, <code>voice-family</code></li>
+<li><code>speak-header</code>, <code>speak-numeral</code>, <code>speak-punctuation</code>, <code>speak</code>,</li>
+<li><code>stress</code>, <code>richness</code>, <code>speech-rate</code>, <code>elevation</code></li>
+<li><code>pitch-range</code>, <code>pitch</code><ul>
+<li>打印: <code>orphans</code>, <code>widows</code></li>
+<li>可见: <code>visibility</code></li>
+<li>其他: <code>cursor</code>参考- <a href="https://www.w3.org/TR/CSS21/propidx.html##">https://www.w3.org/TR/CSS21/propidx.html##</a> FC (Formatting Context) - 格式化上下文每一个 BOX 只含有一种 FC 值### BFC - 块级格式化上下文BFC (Block Formatting Context, 块级格式化上下文) 是 W3C CSS 2.1 规范中的一个概念, 它决定了元素如何对其内容进行定位, 以及与其他元素的关系和相互作用.简单来讲, 我们可以把它理解为, 我们在进行盒模型布局的时候, 如果<code>一个元素符合了成为 BFC 的条件, 该元素成为一个隔离了的独立容器, 元素内部元素会垂直的沿着其父元素的边框排列, 和外部元素互不影响</code>. 比如浮动元素会触发 BFC, 浮动元素内部的子元素主要受到该浮动元素的影响, 而两个浮动元素之间是互不影响的.在 CSS3 中, BFC 叫做 Flow Root. 在早期的 ie 中也有类似的概念 haslayout IE6, 7 的很多布局产生的 bug（如3px 间隙, 绝对定位的继承宽度）都可以通过触发 haslayout 修复, 比较推荐的方法为 zoom:1 与 height:1%, 不会破坏已有的样式, 相信大家对它并不陌生.#### 特点- 内部的 Box 会在垂直方向, 从顶部开始一个接一个地放置 (即每个块级元素独占一行)</li>
+<li>Box 垂直方向的距离由 margin 决定. 属于同一个 BFC 的两个相邻 Box 的 margin 会发生重叠</li>
+</ul>
+</li>
+<li>可以通过 <code>inline-block</code> 解决坍塌问题</li>
+<li><code>absolute</code> 不会与其他元素在垂直方向 margin 有折叠情况<ul>
+<li>BFC 的区域不会与浮动元素重叠</li>
+<li>每个元素的 margin box 的左边, 与包含块 border box 的左边相接触 (对于从左往右的格式化, 否则相反). 即使存在浮动也是如此</li>
+<li>BFC 是一个隔离的独立容器, 其子元素不会影响到外部元素, 而外部元素也不会影响到其子元素</li>
+<li>计算 BFC 的高度时, 浮动元素也参与计算#### 产生 BFC 的条件- 根元素或其它包含它的元素</li>
+<li>浮动 (元素的 float 不为 none)</li>
+<li>绝对定位元素 (元素的 position 为 absolute 或 fixed)</li>
+<li>内联块 inline-blocks (元素的 display: inline-block)</li>
+<li>表格单元格 (元素的 display: table-cell, HTML 表格单元格默认属性)</li>
+<li>表格标题 (元素的 display: table-caption, HTML 表格标题默认属性)</li>
+<li>overflow 的值不为 visible 的元素</li>
+<li>弹性盒 flex boxes (元素的 display: flex 或 inline-flex)#### BFC 对于布局的影响根据 w3c 的规范, 在一个 BFC 中, 盒子(boxes) 从 BFC 的顶端往下, 一个挨着一个垂直放置. 相邻盒子之间的垂直距离取决于它们的 margin 属性, 同一个 BFC 中, 相邻块级盒子之间的垂直 margin 值会折叠. 这句话包含几个限定条件, 边距折叠的分析在以后的文章中再展开, 这次仅注意到边距折叠只发生在同一个 BFC 中.#### BFC 对浮动的影响根据 w3c 的规范, 在 BFC 中, 每个盒子的左外边缘(edge)都会触及 BFC 的左边缘, 甚至浮动元素存在的时候也是这样(尽管盒子的行盒 line boxes 会因为浮动元素而被压缩), 除非盒子创建了一个新的 BFC.#### 合并外边距与BFC相邻的两个盒子合并外边距折叠的结果:- 两个相邻的外边距都是正数时, 折叠结果是它们两者之间较大的值.</li>
+<li>两个相邻的外边距都是负数时, 折叠结果是两者绝对值的较大值.</li>
+<li>两个外边距一正一负时, 折叠结果是两者的相加的和.产生折叠的必备条件: margin 必须是邻接的, 而根据w3c规范, 两个margin是邻接的必须满足以下条件:- 必须是处于常规文档流(非 float 和 绝对定位)的块级盒子, 并且处于同一个BFC当中</li>
+<li>没有线盒, 没有空隙(clearance), 没有padding和border将他们分隔开</li>
+<li>都属于垂直方向上相邻的外边距, 可以是下面任意一种情况</li>
+<li>元素的 margin-top 与其第一个常规文档流的子元素的 margin-top</li>
+<li>元素的 margin-bottom 与其下一个常规文档流的兄弟元素的 margin-top</li>
+<li>height 为 auto 的元素的 margin-bottom 与其最后一个常规文档流的子元素的 margin-bottom</li>
+<li>高度为0并且最小高度也为0, 不包含常规文档流的子元素, 并且自身没有建立新的 BFC 的元素的 margin-top 和 margin-bottom建议阅读参考文章结合例子理解</li>
+<li><a href="http://web.jobbole.com/83274/">学习BFC</a></li>
+<li><a href="http://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html">深入理解BFC和Margin Collapse</a></li>
+<li><a href="http://blog.comiclee.com/2015/02/bfc%E6%B5%AE%E5%8A%A8%E6%B8%85%E9%99%A4%E5%92%8Chaslayout">BFC, 浮动, 清除和 hasLayout</a></li>
+<li><a href="http://www.cnblogs.com/v10258/p/3530290.html">【深入BFC】 关于CSS中float布局, 清除浮动, 和margin合并的原理解析, 解开你心中的那些困惑！</a>### IFC - 行内格式化上下文IFC (Inline Formatting Context) - 行内格式化上下文, 表示盒子从左到右的水平排列方式. IFC 只有在一个块元素中仅包含内联级别元素时才会生成#### 特点- 内部的 Boxes 会在水平方向, 一个接一个地放置</li>
+<li>这些 Boxes 垂直方向的起点从包含块盒子的顶部开始</li>
+<li>摆放这些 Boxes 的时候, 它们在水平方向上的外边距, 边框, 内边距所占用的空间都会被考虑在内</li>
+<li>在垂直方向上, 这些框可能会以不同形式来对齐 (vertical-align)</li>
+</ul>
+</li>
+<li>它们可能会使用底部或顶部对齐, 也可能通过其内部的文本基线 (baseline) 对齐<ul>
+<li>行框 (line box) 的宽度是由包含块 (containing box) 和存在的浮动来决定</li>
+</ul>
+</li>
+<li>能把在一行上的框都完全包含进去的一个矩形区域, 被称为该行的行框 (line box)<ul>
+<li>IFC 中的行框 (line box) 一般左右边都贴紧其包含块, 但是会因为浮动元素 (floating element) 的存在发生变化</li>
+</ul>
+</li>
+<li>浮动元素会位于 IFC 与行框 (line box) 之间, 使得行框 (line box) 宽度缩短<ul>
+<li>IFC 中的行框 (line box) 高度由 CSS 行高计算规则来确定, 同个 IFC 下的多个行框 (line box) 高度可能会不同</li>
+</ul>
+</li>
+<li>例如一行包含了较高的图片, 而另一行只有文本<ul>
+<li>当 inline-level boxes 的总宽度少于包含它们的行框 (line box) 时, 其水平渲染规则由 <code>text-align</code> 属性来确定, 如果取值为 <code>justify</code>, 那么浏览器会对 inline-boxes (注意不是inline-table 和 inline-block boxes) 中的文字和空格做出拉伸</li>
+<li>当一个 inline box 超过行框 (line box) 的宽度时, 它会被分割成多个 boxes, 这些 boxes 被分布在多个行框 (line box)里. 如果一个 inline box 不能被分割, 那么这个 inline box 将溢出这个行框 (line box)</li>
+</ul>
+</li>
+<li>例如只包含单个字符, 或 word-breaking 机制被禁用, 或该行内框受 white-space 属性值为 nowrap 或 pre 的影响#### 作用- 水平居中: 当一个块要在环境中水平居中时, 设置其为 inline-block 则会在外层产生 IFC, 通过 <code>text-align</code> 则可以使其水平居中<ul>
+<li>垂直居中: 创建一个 IFC, 用其中一个元素撑开父元素的高度, 然后设置其 <code>vertical-align:middle</code>, 其他行内元素则可以在此父元素下垂直居中### GFC (GridLayout Formatting Contexts) - 网格布局格式化上下文一个元素设置 <code>display: grid</code> 的时候, 此元素将会获得一个独立的渲染区域, 我们可以通过在网格容器 (grid container) 上定义网格定义行 (grid definition rows) 和网格定义列 (grid definition columns) 属性各在网格项目 (grid item) 上定义网格行 (grid row) 和网格列 (grid columns) 为每一个网格项目 (grid item) 定义位置和空间<code>`</code>CSS
+.container {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+/*</li>
+<li>包含</li>
+<li>grid-row-gap: 10px;      // 行距</li>
+<li>grid-column-gap: 10px;   // 列距
+<em>/
+grid-gap: 10px;
+/</em> 最小行高与最大行高 <em>/
+grid-auto-rows: minmax(100px, auto);
+}.first-column-in-first-row {
+/</em></li>
+<li>第一列到第散列, 不包含第三列</li>
+<li>grid-column-start: 1;</li>
+<li>grid-column-end: 3;      // 默认为 auto
+<em>/
+grid-column: 1 / 3;
+/</em></li>
+<li>第一行到第二行, 不包含第三行</li>
+<li>grid-row-start: 1;</li>
+<li>grid-row-end: 3;         // 默认为 auto
+*/
+grid-row: 1 / 3;
+}
+<code>`</code>### FFC (Flex Formatting Contexts) - 自适应格式化上下文通过设置 <code>display:flex;</code> 或者 <code>display:inline-flex;</code> 的元素将会生成自适应容器 (flex container)#### FFC 的特性- Flexbox 不支持 <code>::first-line</code> 和 <code>::first-letter</code> 这两种伪元素</li>
+<li>vertical-align 对 Flexbox 中的子元素是没有效果的</li>
+<li>float 和 clear 属性对 Flexbox 中的子元素是没有效果的, 也不会使子元素脱离文档流</li>
+<li>多栏布局 (column-*) 在 Flexbox 中也是失效的, 就是说我们不能使用多栏布局在 Flexbox 排列其下的子元素</li>
+<li>Flexbox 下的子元素不会继承父级容器的宽### 浮动与清除浮动浮动元素碰到包含它的边框或者浮动元素的边框停留. 由于浮动元素不在文档流中, 所以文档流的块框表现得就像浮动框不存在一样. 浮动元素会漂浮在文档流的块框上.#### 浮动带来的问题与解决方法- 父元素的高度无法被撑开, 影响与父元素同级的元素</li>
+</ul>
+</li>
+<li>最后一个浮动元素后加个标签并添加样式 <code>clear:both;</code> <code>display:table;</code> <code>overflow:hidden|auto;</code><ul>
+<li>与浮动元素同级的非浮动元素 (内联元素) 会跟随其后</li>
+</ul>
+</li>
+<li>为了保持排列顺序, 之前所有元素都必须 <code>float:left;</code>### Flex 布局- 主轴 (main axis): 通过这个伸缩盒子特性, 可以很好的管理伸缩项目在伸缩盒子中的布局方向. 这个方向可以是从左到右, 从上到下, 从下到上, 从右到左. 这个主轴的方向可以通过 <code>flex-direction</code> 属性来定义值分别为 <code>row</code>, <code>row-reverse</code>, <code>column</code>, <code>column-reverse</code><ul>
+<li>主轴起点 (main start) 和终点 (main end): 伸缩项目从主轴起点开始布局到终点结束. 属性 <code>justify-content</code> 就是根据主轴的起点和终点赋予 start, center, end 等值来布局的</li>
+<li>主轴长度 (main size): 伸缩项目在主轴方向上的宽度或者高度就是项目的主轴长度</li>
+<li>侧轴 (cross axis): 与主轴垂直的轴是侧轴, 所以说, 侧轴的方向是由主轴决定的</li>
+<li>侧轴的起点 (cross start) 和终点 (cross end): 伸缩项目充满伸缩行, 并且伸缩行从侧轴起点开始布局容器到侧轴终点结束</li>
+<li>侧轴长度 (cross size): 伸缩项目在侧轴方向上的宽度或者高度就是项目的侧轴长度设为 Flex 布局以后, 子元素的 <code>float</code>, <code>clear</code> 和 <code>vertical-align</code> 属性将失效#### Flex 属性<code>flex</code> 是 <code>flex-grow</code> <code>flex-shrink</code> <code>flex-basic</code> 的缩写<code>CSS
+div {
+flex: [flex-grow] [flex-shrink] [flex-basis];
+}</code>- flex-grow - 子元素分配父元素的剩余空间量; 当父元素的宽度大于所有子元素的宽度的和时 (即父元素会有剩余空间)</li>
+</ul>
+</li>
+<li>默认值为 0, 不索取</li>
+<li>若多个子节点同时索取父元素剩余空间, 则将其除以个元素索求数的总和, 并按百分比进行分配<ul>
+<li>flex-shrink - 当父元素的宽度小于所有子元素的宽度的和时 (即子元素会超出父元素), 子元素如何缩小自己的宽度的</li>
+</ul>
+</li>
+<li>默认值为 1, 若超过则缩小; 若为 0 表示不缩小</li>
+<li>若多个子节点同时缩小, 则各元素最终大小值为 <code>容器超出大小</code> <em> (<code>自身大小</code> </em> <code>缩小系数</code> / ((<code>各元素大小</code> * <code>各元素缩小系数</code> + <code>...</code>)))<ul>
+<li>flex-basic - 该属性来设置该元素的宽度</li>
+</ul>
+</li>
+<li><code>width</code> 也可以用来设置元素宽度. 如果元素上同时设置了 <code>width</code> 和 <code>flex-basis</code>, 那么 <code>flex-basis</code> 会覆盖 <code>width</code> 的值### 栅格 - Grid栅格可以方便排版设计, 通过设定 <code>最小栅格大小</code>, <code>屏幕总宽度</code>, <code>栅格的列宽</code>, <code>栅格的列数</code>, <code>栅格之间的距离 (水槽 Gutter)</code>, <code>栅格的安全边距</code> 来可以建立一套栅格系统### 横屏与竖屏<code>CSS
+/** 竖屏 */
+@media screen and (orientation: portrait) {}
+/** 横屏 */
+@media screen and (orientation: landscape) {}
+```</code>HTML<link rel="stylesheet" media="all and (orientation: portrait)" href="portrait.css"><link rel="stylesheet" media="all and (orientation: landscape)" href="portrait.css"><pre><code class="hljs javascript"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'onorientationchange'</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">window</span> ? <span class="hljs-string">'orientationchange'</span> : <span class="hljs-string">'resize'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+<span class="hljs-comment">// 横屏</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.orientation === <span class="hljs-number">180</span> || <span class="hljs-built_in">window</span>.orientation === <span class="hljs-number">0</span>) {}
+<span class="hljs-comment">// 竖屏</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.orientation === <span class="hljs-number">90</span> || <span class="hljs-built_in">window</span>.orientation === <span class="hljs-number">-90</span> ) {}
+}, <span class="hljs-literal">false</span>)</code></pre></li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 兼容性@AngularJS.html" title="前端开发 - 兼容性@AngularJS"><span>Previous</span><span>前端开发 - 兼容性@AngularJS</span></a></li><li><a href="/article/前端开发 - 基础知识@Cookie.html" title="前端开发 - 基础知识@Cookie"><span>Next</span><span>前端开发 - 基础知识@Cookie</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

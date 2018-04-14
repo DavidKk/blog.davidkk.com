@@ -1,0 +1,97 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">OpenWrt - 在 Virtualbox 安装 OpenWrt</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/openwrt/1.html" title="openwrt">openwrt</a><a href="/category/virtualbox/1.html" title="virtualbox">virtualbox</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>4/11/2015, 12:57:14</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><p>本人是新手，所以在 virtualbox 折腾一下，否则砖头够建房了。## 下载</p>
+<ul>
+<li><a href="https://www.virtualbox.org/">virtualbox</a></li>
+<li><a href="https://downloads.openwrt.org/">openwrt x86 镜像</a>建议直接下载 vdi 虚拟硬盘文件
+否则可以通过 virtualbox 命令行方式转换成VM的虚拟磁盘文件<code>`</code>
+VBoxManage convertfromraw --format vdi openwrt.img openwrt.vdi<h1 id="-xxx-combined-ext4-img-">这里注意一下不能下载只读文件系统，例如 <code>xxx-combined-ext4.img</code> 这些就是木有问题的</h1>
+<code>`</code>## 安装- 解压虚拟硬盘文件</li>
+<li>启动 virtualbox</li>
+<li>创建一个 linux 2.6(32)</li>
+<li>虚拟硬盘选择 使用已有的虚拟硬盘文件</li>
+<li>并选择当前虚拟硬盘文件</li>
+<li>设置 -&gt; 网络</li>
+<li>选择网卡1，设置成桥接网卡</li>
+<li>开启网卡2，设置成桥接网卡 (必须开启两张网卡)</li>
+<li>启动## 重置密码
+进入系统第一件事就是设置 root 密码<code>root@Openwrt:/# passwd
+Changing password for root
+New password:
+Retype password:
+Password for root changed by root</code>## 配置网络
+虽然已经启动系统了，但是现在系统还不能连接网络默认情况下，OpenWrt 的分配它的第一个 NIC 是 192.168.1.1/24 的静态IP地址。
+如果该IP地址和当前LAN不在同一子网，或者该IP地址已经被其他设备占中。
+下面的命令配置第一个NIC设置成动态获取IP地址 (DHCP)<code>`</code><h1 id="-">编辑配置</h1>
+$ vim /etc/config/networkconfig  interface looppack<pre><code class="hljs routeros">  option ifname   lo
+  option proto    static
+  option ipaddr   127.0.0.1
+  option netmsak  255.0.0.0config <span class="hljs-built_in"> interface lan
+</span>  option ifname   eth0
+  option proto    static
+  option ipaddr   192.168.1.250
+  option netmsak  255.255.255.0config <span class="hljs-built_in"> interface wan
+</span>  option ifname   eth1
+  option proto    dhcp# 修改完重启一下</code></pre><h1 id="-etc-init-d-network-restart-lan-ip-">$ /etc/init.d/network restart   # 不改变 lan IP 的话</h1>
+$ reboot -f                       # 改变了要重启路由
+<code>`</code>## 安装 webUI<pre><code class="hljs clean">$ opkg update
+$ opkg install luci-ssl
+```## 只允许 https 访问
+最后你还可以设置一下，该操作非必然打开配置文件</code></pre>$ vim /etc/config/uhttpd# 注释HTTP监听<h1 id="list-listen_http-0-0-0-0-80">list listen_http 0.0.0.0:80</h1>
+<h1 id="list-listen_http-80list-listen_https-0-0-0-0-443">list listen_http [::]:80list listen_https 0.0.0.0:443</h1>
+list listen_https [::]:80# 重启
+$ /etc/init.d/uhttpd reload
+<code>## 连接最后你可以通过 webUI 进入路由控制界面</code>
+<a href="https://192.168.1.250">https://192.168.1.250</a><h1 id="-">进入页面会出现证书不信任，你只要强制进入就可以了。</h1>
+<code>你也可以通过 iTeam2 或 ssh 工具进入链接到路由器</code>
+$ ssh <a href="mailto:root@192.168.1.250">root@192.168.1.250</a>
+The authenticity of host &#39;192.168.1.250 (192.168.1.250)&#39; can&#39;t be established.
+RSA key fingerprint is ...
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &#39;192.168.1.250&#39; (RSA) to the list of known hosts.
+<a href="mailto:root@192.168.1.250">root@192.168.1.250</a>&#39;s password:# password 是开始时设置的密码
+<code>`</code>## 使用 virtualbox 挂载虚拟硬盘- 设置</li>
+<li>存储</li>
+<li>选择 SATA</li>
+<li>添加虚拟硬盘</li>
+<li>创建新的虚拟硬盘### 启动虚拟机因为硬盘还没有格式化所以系统识别不了硬盘，因此我们将其格式化一下<code>`</code><h1 id="-">查看一下硬盘状态</h1>
+$ blkid
+/dev/sda1: TYPE=&quot;ext2&quot;
+/dev/sda2: UUID=&quot;90f1212b-f256-4fff-9d2b-05af7de0859e&quot; TYPE=&quot;ext4&quot;
+/dev/sdb: UUID=&quot;f2d177f1-ab1a-477f-a99c-366c7c1a822c&quot; TYPE=&quot;ext4&quot;# 若没有安装
+$ opkg update
+$ opkg install blkid# 下载格式化工具
+$ opkg update
+$ opkg install e2fsprogs# 格式化硬盘
+$ mkfs.ext4 /dev/sdb      # ext4 格式<h1 id="mkfs-ext3-dev-sdb-ext3-">mkfs.ext3 /dev/sdb      # ext3 格式</h1>
+<h1 id="mkfs-ext2-dev-sdb-ext2-">mkfs.ext2 /dev/sdb      # ext2 格式# 挂载硬盘</h1>
+$ mkdir -p /mnt/sdb
+$ mount /dev/sdb /mnt/sdb# 编辑 fstab
+$ vim /etc/config/fstab# 添加以下
+config mount<pre><code class="hljs rsl">  <span class="hljs-built_in">option</span> device <span class="hljs-string">'/dev/sdb'</span>
+  <span class="hljs-built_in">option</span> target <span class="hljs-string">'/mnt/sdb'</span>
+  <span class="hljs-built_in">option</span> fstype <span class="hljs-string">'ext4'</span>
+  <span class="hljs-built_in">option</span> enabled <span class="hljs-string">'1'</span><span class="hljs-meta"># 查看挂载硬盘的信息</span></code></pre>$ df -m
+Filesystem           1M-blocks      Used Available Use% Mounted on
+rootfs                      47        26        19  58% /
+/dev/root                   47        26        19  58% /
+tmpfs                      124         1       124   0% /tmp
+tmpfs                        1         0         1   0% /dev
+/dev/sdb                   497        23       449   5% /mnt/sdb# /dev/sdb 就是刚才挂载的硬盘# 设置开启机动
+$ /etc/init.d/fstab enable# 如果没有安装 <code>fstab</code>
+$ opkg update
+$ opkg install block-mount
+<code>`</code>## 最后
+现在你可以开始折腾了，有需要的请跳转到折腾篇。## 其他### 安装主题<pre><code class="hljs clean"># 安装中文
+$ opkg install luci-i18n-chinese# 安装主题
+$ opkg install luci-theme-bootstrap
+```然后到 webUI 上设置，依次选择系统 -》语言/主题 (System -&gt; Lanuage and Style)### 安装其他
+可以通过查找各种插件</code></pre>$ opkg serach &quot;*bootstrap&quot;
+<code>`</code></li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/openwrt/1.html" title="openwrt">openwrt</a><a href="/tag/路由器/1.html" title="路由器">路由器</a><a href="/tag/virtualbox/1.html" title="virtualbox">virtualbox</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 试题@Interesting.html" title="前端开发 - 试题@Interesting"><span>Previous</span><span>前端开发 - 试题@Interesting</span></a></li><li><a href="/article/OpenWrt - Goagent.html" title="OpenWrt - Goagent"><span>Next</span><span>OpenWrt - Goagent</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

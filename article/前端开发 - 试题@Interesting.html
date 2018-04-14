@@ -1,0 +1,81 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 试题@Interesting</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/18/2015, 23:46:54</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="-javascript">试题## 使等式成立并执行打印<code>`</code>Javascript</h1>
+<p>if (a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3) {
+  console.log(&#39;wtf?&#39;)
+}
+<code>`</code>### 考点- 运算符</p>
+<ul>
+<li>隐式转换中调用的方法<ul>
+<li>toString</li>
+<li>valueOf### 答案<code>Javascript
+var a = { value: 0 }
+a.valueOf = () =&gt; ++ a.valueif (a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3) {
+console.log(&#39;wtf?&#39;)
+}
+```</code>Javascript
+var value = 0
+function a () {}
+a.toString = () =&gt; ++ valueif (a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3) {
+console.log(&#39;wtf?&#39;)
+}
+<code></code>Javascript
+/**</li>
+<li>Symbol.toPrimitive 标记控制数据对比时转换数据后的结果值
+*/
+var a = {}
+a[Symbol.toPrimitive] = (function (value) {
+return function (hint) {
+// hint === &#39;number&#39;
+return ++ value
+}
+})(0)if (a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3) {
+console.log(&#39;wtf?&#39;)
+}
+<code>## 写出打印的答案</code>Javascript
+function a (a, b, c) {
+console.log(this.length)
+console.log(this.callee.length)
+}function fn (d) {
+arguments<a href="10, 20, 30, 40, 50">0</a>;
+}fn(a, 10, 20, 30)
+<code>`</code>### 考点- arguments 中 this 的引用</li>
+</ul>
+</li>
+<li>callees 在 arguments 中是指代什么### 答案- this.length === 4: <code>arguments[0]()</code> 等同于 <code>arguments.a()</code>, this 会指向 <code>arguments</code></li>
+<li>this.callee.length === 1: callees 是 arguments 中指向源执行函数的执行参数数量 <code>fn(d)</code> 只定义了一个参数## 写出打印结果<code>Javascript
+if (!&#39;a&#39; in window) {
+  var a = 10
+}console.log(a)
+```</code>Javascript
+if (!(&#39;a&#39; in window)) {
+var a = 10
+}console.log(a)
+<code></code>Javascript
+var x = &#39;&#39;
+if (function a () {}) {
+x += typeof a
+}console.log(x)
+<code>`</code>### 考点</li>
+<li>声明提升</li>
+<li><code>in</code> <code>instanceof</code> 执行顺序### 答案- undefined - 因为 <code>!&#39;a&#39;</code> 先执行, 导致 <code>false in window</code> 为 <code>false</code></li>
+<li>undefined - 因为声明提升, 所以 <code>&#39;a&#39; in window</code> 为 true, 取反得 false</li>
+<li>undefined - 因为 <code>(function a () {})</code> 在 <code>if ()</code> 中执行, 不会在函数整体声明提升## 写出答案<code>Javascript
+var a = { n: 1, m: 2 }
+var b = a
+a.n = a = { m: 3 }console.log(a)
+console.log(b)</code>### 考点</li>
+<li>运算符</li>
+<li>指针### 答案- { m: 3 }</li>
+<li>{ n: { m: 3 }, m: 2 }- 首先对 a.n 进行左查找, 不存在, 那就先赋个 undefined, 此时内存中 <code>a.n = undefined</code></li>
+<li>然后现在进行右查找, 右查找是个赋值表达式 <code>a = { m: 3 }</code>, 所以得先处理这个赋值表达式</li>
+<li><code>a = { n: 指向表达式的结果, m: 2 }</code>, 而 a 更改了指向 <code>a = { m: 3 }</code></li>
+<li>此时 a 不再是指向原本的 a (就是赋值给 b 的指针), 而 b 此时应该等于原本的 a</li>
+<li>因此到这里可以理解为 <code>b.n = a = { m: 3 }</code> =&gt; <code>a = { m: 3 }</code> =&gt; <code>b.n = a</code> =&gt; <code>b.n = { m: 3 }</code></li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/试题/1.html" title="试题">试题</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/OpenWrt - 在 Virtualbox 安装 OpenWrt.html" title="OpenWrt - 在 Virtualbox 安装 OpenWrt"><span>Next</span><span>OpenWrt - 在 Virtualbox 安装 OpenWrt</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

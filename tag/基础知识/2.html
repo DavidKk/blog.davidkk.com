@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="index-container container context"><div class="entry-group"><section class="entry"><h3 class="entry-title"><a href="/article/前端开发 - 基础知识@React.html" title="前端开发 - 基础知识@React">前端开发 - 基础知识@React</a></h3><div class="entry-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time></div><section class="entry-content"><div class="content clearfix"><h1 id="react-reactcomponent-">React- ReactComponent: 组件</h1>
+<ul>
+<li>ReactEmptyComponent (空组件): return null/false</li>
+<li>ReactCompositeComponent (复合组件): 类组件/方法组件</li>
+<li>ReactDOMComponent (DOM 组件): div 等</li>
+<li>ReactTextComponent (文本组件): 文本组件, 字符串/数字</li>
+<li>通过 render...</li></ul>
+</div></section><div class="entry-more"><a class="btn" href="/article/前端开发 - 基础知识@React.html" title="Continue Reading">Continue Reading</a></div></section><section class="entry"><h3 class="entry-title"><a href="/article/前端开发 - 基础知识@Vue.html" title="前端开发 - 基础知识@Vue">前端开发 - 基础知识@Vue</a></h3><div class="entry-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time></div><section class="entry-content"><div class="content clearfix"><h1 id="vue-">Vue- 生命周期</h1>
+<ul>
+<li>Hook 包括: <code>beforeCreate</code>, <code>created</code>, <code>beforeMount</code>, <code>mounted</code>, <code>beforeUpdate</code>, <code>updated</code>, <code>beforeDestroy</code>, <code>destroyed</code><ul>
+<li>Virtual DOM</li>
+</ul>
+</li>
+<li>ElementVNode: 普通元素节点</li>
+<li>TextVNode: 文本节点</li>
+<li>ComponentVNode: 组件节点</li>
+<li>EmptyVNode:...</li></ul>
+</div></section><div class="entry-more"><a class="btn" href="/article/前端开发 - 基础知识@Vue.html" title="Continue Reading">Continue Reading</a></div></section><section class="entry"><h3 class="entry-title"><a href="/article/前端开发 - 基础知识@Webpack.html" title="前端开发 - 基础知识@Webpack">前端开发 - 基础知识@Webpack</a></h3><div class="entry-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time></div><section class="entry-content"><div class="content clearfix"><h1 id="webpack-compiler-compiler-watching-webpack-compiler-run-">Webpack- compiler 主要包括 Compiler 与 Watching, 调用 Webpack 方法会返回一个 Compiler 对象, 而执行 run 方法才是真正开始执行编译</h1>
+<ul>
+<li>Compiler 主要存放输入输出相关配置信息与编译器 Parser</li>
+<li>Watching 监听文件变化<ul>
+<li>compilation</li>
+</ul>
+</li>
+<li>负责组织整个编译过程, 包含每个环节所对应的方法</li>
+<li>也保存了对...</li></ul>
+</div></section><div class="entry-more"><a class="btn" href="/article/前端开发 - 基础知识@Webpack.html" title="Continue Reading">Continue Reading</a></div></section><section class="entry"><h3 class="entry-title"><a href="/article/前端开发 - 基础知识@SCSS.html" title="前端开发 - 基础知识@SCSS">前端开发 - 基础知识@SCSS</a></h3><div class="entry-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/19/2018, 01:08:25</span></time></div><section class="entry-content"><div class="content clearfix"><h1 id="scssscss-nan-infinity-js-nan-infinity-">SCSSSCSS 中 NaN Infinity 与 JS 的 NaN Infinity 类似.</h1>
+<p>JS 两者都属于 number 类型, 但是 scss 中 不属于 number 类型 (很多都不属于)<code>NaN      : 无意义的数, IEEE754 标准规定的双精度浮点小数类型的特殊值
+Infinity : 正无穷大, 超过最大数值也会变成该值
+```</code>SCSS
+@debug &#39;1111111-----------------------&#39;;
+@debug...</p>
+</div></section><div class="entry-more"><a class="btn" href="/article/前端开发 - 基础知识@SCSS.html" title="Continue Reading">Continue Reading</a></div></section></div><nav class="pagination"><ul class="pagination-book"><li><a href="/tag/基础知识/page/1.html" title="1">1</a></li><li class="active"><a title="Currrent page">2</a></li></ul></nav></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script></body></html>

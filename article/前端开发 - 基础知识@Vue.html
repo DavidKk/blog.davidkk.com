@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 基础知识@Vue</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="vue-">Vue- 生命周期</h1>
+<ul>
+<li>Hook 包括: <code>beforeCreate</code>, <code>created</code>, <code>beforeMount</code>, <code>mounted</code>, <code>beforeUpdate</code>, <code>updated</code>, <code>beforeDestroy</code>, <code>destroyed</code><ul>
+<li>Virtual DOM</li>
+</ul>
+</li>
+<li>ElementVNode: 普通元素节点</li>
+<li>TextVNode: 文本节点</li>
+<li>ComponentVNode: 组件节点</li>
+<li>EmptyVNode: 空节点</li>
+<li>CloneVNode: 克隆节点<ul>
+<li>isClone === true</li>
+<li>VUE 三大模块</li>
+</ul>
+</li>
+<li>Observer: 为所有数据添加监听器 Dep</li>
+<li>Dep: data 中每一个数据都持有这个 Dep 对象, 当数据有更新的时候 <code>Dep.notice()</code> 方法会被调用, 并通知 <code>Watcher</code><ul>
+<li>Dep 有一个全局引用 <code>Dep.target</code>, 当 <code>Compile</code> 解析指令时会将当前指令的 <code>Watcher</code> 赋值到 <code>Dep.target</code><ul>
+<li>解析指令的时候会读取变量, 在 <code>getter</code> 中, 会调用当前的 <code>dep.depend()</code> 方法并将 <code>Watcher</code> 绑定到当前的 <code>dep.subs</code> 列表中</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Compile: 对每个元素节点进行扫描与解析, 根据指令模板替换数据, 以及绑定相应的更新函数.</li>
+<li>Watcher: 作为连接 <code>Observer</code> 和 <code>Compile</code> 的桥梁, 当 <code>Compile</code> 解析指令时会生成一个 <code>Watcher</code> 并给它绑定一个 <code>update</code> 方法, 并添加到当前正在解析的指令所依赖的对象的 <code>Dep</code> 对象上. 在收到 <code>Dep</code> 的消息之后, <code>Watcher</code> 会通知 <code>Directive</code> (指令) 对 DOM 节点进行更新<ul>
+<li>当 <code>update</code> 执行时大部分情况将自身压进队列中, 等待下一次更新.</li>
+<li>Path 阶段:</li>
+</ul>
+</li>
+<li>Diff 算法: 当发现需要更新/新增/删除的节点的时候, 是即时进行的, 而不是统一通过队列处理的 (React 是压入队列之中);<ul>
+<li>通过定义两个指针位置逐一对新旧树上的节点进行对比, 然后将结果直接反应到 <code>DOM tree</code> 上 (两树共四个位置, 这里标记为 <code>newStart</code>, <code>newEnd</code>, <code>oldStart</code>, <code>oldEnd</code>);</li>
+<li>当两个指针指向两个新旧节点的时候<ul>
+<li>如果两个节点相同则只需要进行更新操作 (属性,内容等更新), 并标记 DOM, 然后将 <code>newStart</code> <code>oldStart</code> 同时向后移动一个位置;</li>
+<li>如果两个节点不相同<ul>
+<li>则先查看 <code>oldStart</code> 是否在新树 (<code>newTree</code>) 中<ul>
+<li>如果不存在, 则删除该 DOM 节点, <code>oldStart</code> 往后移动一位</li>
+<li>如果存在, 则移动该节点到该位置后, 并 <code>oldStart</code> 往后移动一位, 并标记 DOM 成已操作</li>
+</ul>
+</li>
+<li>然后再查看 <code>newStart</code> 是否存在旧树 (<code>oldTree</code>) 中<ul>
+<li>如果不存在, 则创建新 DOM 节点, <code>newStart</code> 往后移动一位</li>
+<li>如果存在, 同上</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>重复以上操作, 并先后对 <code>oldStart</code>, <code>newStart</code>, <code>oldEnd</code>, <code>newEnd</code> 顺序去处理参考资料</li>
+<li><a href="https://github.com/berwin/Blog/issues/11">https://github.com/berwin/Blog/issues/11</a></li>
+<li><a href="https://www.jianshu.com/p/b55eb91014d2">https://www.jianshu.com/p/b55eb91014d2</a></li>
+</ul>
+</li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 基础知识@React.html" title="前端开发 - 基础知识@React"><span>Previous</span><span>前端开发 - 基础知识@React</span></a></li><li><a href="/article/前端开发 - 基础知识@Webpack.html" title="前端开发 - 基础知识@Webpack"><span>Next</span><span>前端开发 - 基础知识@Webpack</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

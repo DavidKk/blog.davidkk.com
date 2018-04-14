@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 性能优化@CSS</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="css-">CSS 性能优化- 加载性能 - 从减少文件体积, 减少阻塞加载, 提高并发方面入手的</h1>
+<ul>
+<li>css 中不使用 <code>@import</code>, <code>@import</code> 非异步加载且会阻塞渲染; 使用普通 <code>link</code> 标签代替</li>
+<li>样式放到最前面, 避免浏览器出现白屏或者无样式, 提高用户体验</li>
+<li>减少不必要代码书写量<ul>
+<li>Color 缩写 <code>#fff</code></li>
+<li>浮点数缩写 <code>.1</code></li>
+</ul>
+</li>
+<li>压缩 CSS 代码, 压缩方式会抽取共同公共样式并进行代码压缩<ul>
+<li>选择器性能</li>
+</ul>
+</li>
+<li>减少选择器层级; 例如 <code>html body img</code> -&gt; <code>img</code></li>
+<li>减少复用选择器; 例如 <code>ul#id</code> <code>ul.class</code> <code>.parent.self.child</code> -&gt; <code>#id</code> <code>.class</code> <code>.parent-self-child</code></li>
+<li>不要<code>子元素选择器</code>或<code>后代选择器</code>中使用<code>通配符选择器</code>; 例如 <code>#id *</code> -&gt; <code>*</code><ul>
+<li>渲染性能参考资料- <a href="https://speakerdeck.com/jonrohan/githubs-css-performance">GitHub&#39;s CSS Performance</a></li>
+</ul>
+</li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/性能优化/1.html" title="性能优化">性能优化</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 基础知识@Webpack.html" title="前端开发 - 基础知识@Webpack"><span>Previous</span><span>前端开发 - 基础知识@Webpack</span></a></li><li><a href="/article/前端开发 - 性能优化@Javascript.html" title="前端开发 - 性能优化@Javascript"><span>Next</span><span>前端开发 - 性能优化@Javascript</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

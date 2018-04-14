@@ -1,0 +1,37 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 性能优化@网页</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="-http2-0">网页性能优化- 使用 HTTP2.0</h1>
+<ul>
+<li>使用 CDN</li>
+<li>使用 GZIP 压缩传输</li>
+<li>减少 HTTP 请求</li>
+<li>使用 DNS 预解析</li>
+<li>减少 DNS 解析 - 域名少一点, 浏览器会缓存</li>
+<li>减少 DOM 节点</li>
+<li>减少 DOM 节点的操作<ul>
+<li>必要时可以先缓存, 减少不必要的查找</li>
+<li>通过 <code>document.createDocumentFragment</code> 创建临时存放空间, 进行操作再一次性修改</li>
+</ul>
+</li>
+<li>避免重定向</li>
+<li>尽量避免使用 iframe - 阻塞 onload, 共享连接数, 共享线程<ul>
+<li>使用时最好通过异步插入, 否则会阻塞 onload 事件</li>
+</ul>
+</li>
+<li>图片无损压缩</li>
+<li>图片使用精灵图 - 合并图片, 减少连接数</li>
+<li>图片延迟加载</li>
+<li>图片使用 webP<ul>
+<li>既支持 Alpha 透明</li>
+<li>具有更优的图像数据压缩算法, 而且拥有肉眼识别无差异的图像质量</li>
+</ul>
+</li>
+<li>代码压缩</li>
+<li>减少代码量, 提取共有代码模块</li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/性能优化/1.html" title="性能优化">性能优化</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 性能优化@Javascript.html" title="前端开发 - 性能优化@Javascript"><span>Previous</span><span>前端开发 - 性能优化@Javascript</span></a></li><li><a href="/article/前端开发 - 基础知识@SCSS.html" title="前端开发 - 基础知识@SCSS"><span>Next</span><span>前端开发 - 基础知识@SCSS</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

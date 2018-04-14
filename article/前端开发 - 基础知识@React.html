@@ -1,0 +1,120 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 基础知识@React</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>3/9/2018, 15:18:13</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="react-reactcomponent-">React- ReactComponent: 组件</h1>
+<ul>
+<li>ReactEmptyComponent (空组件): return null/false</li>
+<li>ReactCompositeComponent (复合组件): 类组件/方法组件</li>
+<li>ReactDOMComponent (DOM 组件): div 等</li>
+<li>ReactTextComponent (文本组件): 文本组件, 字符串/数字</li>
+<li>通过 render 函数 createElement 来创建 <code>ReactElement</code><ul>
+<li>ReactElement: 一个普通的数据对象</li>
+</ul>
+</li>
+<li>拥有 <code>props.children</code> 属性, 标记子 element, 通过此容易实现一些递归的需求</li>
+<li>当 <code>props.children.type</code> 标记为自定义组件时, 会递归执行 Component-&gt;render-&gt;createElement 过程, 并最终获得 element 对象为止<ul>
+<li>Instance: Component 实例化后的 this</li>
+</ul>
+</li>
+<li>实例化 Component 之后, Instance 拥有 props, stats 和对应的 DOM 节点与子组件的引用, 实例化通过 React 自身执行创建/销毁<ul>
+<li>ReactHostComponent: 该模块通过 <code>ReactHostComponentInjection</code>, <code>.injectGenericComponentClass(ReactDOMComponent)</code> 与 <code>.injectTextComponentClass(ReactTextComponent)</code> 注入到模块中并通过 <code>createInternalComponent</code> 和 <code>createInstanceForText</code> 来对 <code>ReactDOMComponent</code> 与 <code>ReactTextComponent</code> 进行属性加成 (Markup); 例如这两种组件都会增加了对应 DOM 节点的 node 属性.</li>
+<li>PureComponent: 纯正的组件</li>
+</ul>
+</li>
+<li>继承该组件的组件在 <code>shouldComponentUpdate</code> 的阶段会通过 <code>shadowEqual</code> 来判断新旧 <code>props</code> 和 <code>state</code> 的 <code>key</code> 值是否相同, 对应属性的引用是否一致 <code>===</code>, 若相同则不做更新处理, 若不同则更新</li>
+<li>这里主要 <code>onChange={this.udpate.bind(this)}</code> 会导致 <code>props.onChange</code> 引用改变, 导致 render, 所以建议使用 <code>onChange={this.update}</code> 或在 <code>constructor</code> 中使用 <code>bind</code> 创建方法</li>
+<li>总之注意一下引用<ul>
+<li>Virtual DOM:</li>
+</ul>
+</li>
+<li>减少重排/重绘次数, 把<code>双缓冲</code>的技术实现到 DOM 上面</li>
+<li>将 DOM 抽象化, 同时自动化地管理 DOM 碎片, 开发者在无感知的情况下已经实现优化的过程</li>
+<li>并不比手动优化处理 DOM 节点快, 利用最小的性能代价来更新 DOM, 增加了代码可维护性<ul>
+<li>生命周期 (React Lifecycle):</li>
+</ul>
+</li>
+<li>Hook 包括: <code>componenWillReceiveProps</code>, <code>componentWillMount</code>, <code>shouldComponentUpdate</code>, <code>componentWillUpdate</code>, <code>componentDidMount</code>. <code>componentDidUpdate</code>, <code>componentWillUnmount</code></li>
+<li>初始化时 <code>getDefaultProps</code>, <code>getInitialState</code>, <code>componentWillMount</code>, <code>render</code>, <code>componentDidMount</code></li>
+<li>state 更新时调用 <code>shouldComponentUpdate</code>, <code>componentWillUpdate</code>, <code>render</code>, <code>componentDidUpdate</code></li>
+<li>props 改变时调用 <code>componentWillReceiveProps</code>, <code>shouldComponentUpdate</code>, <code>componentWillUpdate</code>, <code>render</code>, <code>componentDidUpdate</code></li>
+<li>只有 <code>CompositeComponent</code> 才存在生命周期</li>
+<li>父组件与子组件的生命周期 Hook 表现像回调函数一样, parent-will, children-will, children-did, parent-did<ul>
+<li>key 属性: 唯一标识, 识别节点身份标识</li>
+</ul>
+</li>
+<li>key 最大优势在于数组/集合的更新, 根据 key 值快速辨别元素是否相同<ul>
+<li>key 值相同, 则更新元素</li>
+<li>key 值不同, 则销毁元素然后创建一个新元素</li>
+</ul>
+</li>
+<li>当没有定义 key 值时, 首先会报错提示, 然后会判断成所有元素都相同并进行更新元素</li>
+<li>普通元素不需要 key 值是因为 React 根据元素的位置进行更新前后的对比<ul>
+<li>diff 算法: <code>tree diff</code> -&gt; <code>component diff</code> -&gt; <code>element diff</code></li>
+</ul>
+</li>
+<li>tree diff: 只对树结构同层节点进行对比<ul>
+<li>若出现跨层转移节点, 则会通过创建节点与所有拥有的子节点, 再通过删除直接加到位置中</li>
+<li>主要利用 children 获取所有子节点并对这些子节点进行对比</li>
+<li>稳定的树结构可以有助于性能的体现, 可通过隐藏等方式代替节点跳级情况</li>
+</ul>
+</li>
+<li>component diff: 在 <code>tree diff</code> 的需要对比的两个组件的过程叫做 <code>component diff</code><ul>
+<li>不是同一类就替换此组件及所有其子节点</li>
+<li>如果不是同一类就需要更新, 通过删除旧组件再创建一个新组件插入到被删除组件的位置</li>
+<li>如果类型相同, 暂时不更新, 往下进行 <code>element diff</code></li>
+<li>若为同一类, 也有可能其 Virtual DOM 没有发生改变, 这是组件提供了 <code>shouldComponentUpdate</code> 方法让用户自行判断是否需要更新自身, 或使用 <code>extends PureComponent</code> 的方式表示该组件不接受根节点的更新, 即不执行 <code>render</code> 方法</li>
+</ul>
+</li>
+<li>element diff: 在类型相同的组件对比中, 需要再对内部元素进行对比的过程叫做 <code>element diff</code><ul>
+<li>INSERT_MARKUP (插入): 新的 <code>component</code> 类型不在老集合里, 需要对新节点执行插入操作</li>
+<li>MOVE_EXISTING (移动): 老的集合包含新的 <code>component</code> 类型, 就需要做移动操作, 可以复用以前的 DOM 节点</li>
+<li>REMOVE_NODE (删除): 老的 component 不在新集合里的, 需要执行删除操作 或者 老的 component 类型在新集合里也有, 但对应的 element 不同则不能直接复用和更新, 需要执行删除操作</li>
+</ul>
+</li>
+<li>通过 key 标记需要更新的 Virtual DOM<ul>
+<li>一致性比较 (reconciliation): Fiber (纤维)</li>
+</ul>
+</li>
+<li>Docs: <a href="https://github.com/facebook/react/tree/master/packages/react-reconciler">https://github.com/facebook/react/tree/master/packages/react-reconciler</a></li>
+<li>拥有权重<ul>
+<li>权重低的任务会被高权重的任务进入而打断</li>
+</ul>
+</li>
+<li>分为两个阶段: 以 render 函数为两个阶段的分割<ul>
+<li>reconciliation phase (调和/挂载阶段): 执行 diff 寻找哪些节点是需要被更新的<ul>
+<li>所处生命周期: componentWillMount, componentWillReceiveProps, shouldComponentUpdate, componentWillUpdate</li>
+<li>导致部分生命周期中的函数可能并重复执行</li>
+</ul>
+</li>
+<li>commit phase (提交/更新阶段): 不会被任何任务打断直到完毕<ul>
+<li>所处生命周期: componentDidMount, componentDidUpdate, componentWillUnmount</li>
+<li>因此异步请求接口等都应该在 componentDidMount 时进行</li>
+</ul>
+</li>
+<li>组件间的通信方式:</li>
+</ul>
+</li>
+<li>自上而下 (官方推荐)</li>
+<li>穿透多个子节点可以使用 context 方式</li>
+<li>兄弟节点之间的传递则可以通过父节点作为中转站</li>
+<li>时下最流行的方式是通过 redux 等状态管理工具<ul>
+<li>高阶组件 (Higher Order Component): 类似与高阶函数, 一种开发模式, 工厂模式, 创建一个函数并传入组件类并返回该组件</li>
+</ul>
+</li>
+<li>Props Proxy (属性代理): 通过返回一个新建的组件并将该组件的属性赋值给传入组件类的属性中, 并返回该传入组件</li>
+<li>Inheritance Inversion (继承反转): 通过创建一个新组件并继承传入组件, 达到不影响原组件的情况下可以扩展组件<ul>
+<li>获取原始 state 与继承原组件的所有方法</li>
+<li>渲染劫持</li>
+<li>新特性:</li>
+</ul>
+</li>
+<li>16.4 componentWillMount componentWillUpdate componentWillReceiveProps 将会废除, static getDerivedStateFromProps 将被引进参考资料<ul>
+<li><a href="https://blog.kisnows.com/2017/09/20/how-react-render-component-to-dom/">https://blog.kisnows.com/2017/09/20/how-react-render-component-to-dom/</a></li>
+</ul>
+</li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 基础知识@NodeJS.html" title="前端开发 - 基础知识@NodeJS"><span>Previous</span><span>前端开发 - 基础知识@NodeJS</span></a></li><li><a href="/article/前端开发 - 基础知识@Vue.html" title="前端开发 - 基础知识@Vue"><span>Next</span><span>前端开发 - 基础知识@Vue</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

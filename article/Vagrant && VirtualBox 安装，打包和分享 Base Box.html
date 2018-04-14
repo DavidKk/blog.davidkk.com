@@ -1,0 +1,180 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">Vagrant &amp;&amp; VirtualBox 安装，打包和分享 Base Box</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/vagrant/1.html" title="vagrant">vagrant</a><a href="/category/virtualbox/1.html" title="virtualbox">virtualbox</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>4/11/2015, 12:57:14</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h2 id="-">首先要准备的软件</h2>
+<ul>
+<li><a href="http://www.vagrantup.com">Vagrant</a> <br></li>
+<li><a href="https://www.virtualbox.org/">VirtualBox</a> <br></li>
+<li><a href="http://download.virtualbox.org/virtualbox/">VirtualBox Extension Pack</a> (一般已经存在，主要用到文档共享，其他功能纯手工复制)<ul>
+<li>实现客户机和主机间的鼠标平滑移动</li>
+<li>与主机实现文件共享</li>
+<li>安装虚拟显卡驱动，实现2D和3D视频图形加速，自动调整客户机分辨率</li>
+<li>支持无缝模式</li>
+<li>通用主机/客户机通信通道（别扭），用于主机与客户机交换数据、监控客户机，也可以启动客户机中的程序</li>
+<li>与主机实现时间同步</li>
+<li>与主机共享剪贴板的内容，也就是说直接可以在主机、客户机之间复制、粘贴（不支持文件）</li>
+<li>自动登录客户机系统 最后会贴上部分常见错误。本人当前各软件版本：</li>
+</ul>
+</li>
+<li>OSX Yosemite 10.10.2</li>
+<li>Vagrant 1.7.2</li>
+<li>Virtualbox 4.3.20 r96996</li>
+<li>ubuntu 14.10## 以 ubuntu 为例### 安装ubuntu
+<a href="http://www.ubuntu.com/download">Ubuntu 下载地址</a>
+安装过程略，自行安装需要的工具，注意因为 box 是分享给别人使用的，所以尽量安装基础的软件就可以了无聊的东西最好不要安装。### 更新一下<code>$ sudo apt-get update -y
+$ sudo apt-get upgrade -y# 完成后重启一下
+$ sudo reboot</code>### 添加VM用户</li>
+<li>若安装 ubuntu 时已经设置了这用户，可跳过这一步。</li>
+<li>由于 vagrant 默认是以 vagrant 来作SSH账号密码，因此最好在 ubuntu 中新增一个名为vagrant 的用户。</li>
+<li>当然也可以通过后面 vagranfile 配置文件设置相应的<code>$ config.ssh.username = &quot;customer_name&quot;</code>具体参考<a href="http://docs.vagrantup.com/v2/vagrantfile/ssh_settings.html">这里</a>#### 添加名为 vagrant 用户
+相同地账号与密码最好都设置成 vagrant。<code>`</code>
+$ adduser vagrantAdding user <code>vagrant&#39; ...
+Adding new group</code>vagrant&#39; (1001) ...
+Adding new user <code>vagrant&#39; (1001) with group</code>vagrant&#39; ...
+Creating home directory <code>/home/vagrant&#39; ...
+Copying files from</code>/etc/skel&#39; ...
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+Changing the user information for vagrant
+Enter the new value, or press ENTER for the default<pre><code class="hljs inform7">  Full Name <span class="hljs-comment">[]</span>: customer_name
+  <span class="hljs-keyword">Room</span> Number <span class="hljs-comment">[]</span>:
+  Work Phone <span class="hljs-comment">[]</span>:
+  Home Phone <span class="hljs-comment">[]</span>:
+  Other <span class="hljs-comment">[]</span>:</code></pre>Is the information correct? [Y/n]
+<code>添加用户后，编辑 /etc/group 将vagrant 添加到群组中</code>
+$ sudo vim /etc/groupadm:x:4:vagrant
+sudo:x:27:vagrant
+<code>## Virtualbox Guest Additions之前已经安装了virtualbox增强包，但需要用到 compile kernel 模块，而ubuntu server 一般没有将 compile kernel 所要的控件加入，因此下载一下呗。</code>
+$ sudo apt-get install dkms
+$ sudo apt-get install build-essential<h1 id="-linux-headers-kernel-">安装 linux-headers (kernel 头部文件，一般都有安装)</h1>
+$ sudo apt-get install linux-headers-$(uname -r) <pre><code class="hljs undefined"></code></pre>$ sudo /etc/init.d/vboxadd setup # 可执行安装操作
+<code>若没有挂载，挂载CD-ROM，选择菜单，Devices -&gt; Insert Guest Additions CD image...</code>
+$ sudo mount /dev/cdrom /mnt/           # 挂载
+$ sudo /mnt/VBoxLinuxAdditions-x86.run  # 安装
+$ sudo umount /mnt/                     # 卸载CD-ROM
+<code>`</code>## 设置共享
+上一步已经安装好增强扩展了，下面就要实现虚拟机与本机目录共享。
+先关掉VM<pre><code class="hljs clean">$ sudo shutdown -h now
+```#### 简单的配置方式通过 virtualbox 右键 vm 选择设置，选择共享文档共享文档列表，设置一个固定分配，默认已经拥有一个 双击编辑，共享文件夹路径与共享文件夹名称，名称设置为 `vagrant`；然后启动VM</code></pre>$ sudo mkdir /vagrant
+$ sudo mount -t vboxsf vagrant /vagrant # vagrant 为共享文件夹名称
+<code>`</code>#### 写成配置文件并且解决共享目录读写权限本机上设置<pre><code class="hljs ruby">$ sudo chmod o+w /vagrant   <span class="hljs-comment"># /vagrant 为共享目录</span>
+$ sudo chown &lt;user&gt;<span class="hljs-symbol">:&lt;group&gt;</span> <span class="hljs-comment"># 设置文件所属，非 root</span>
+<span class="hljs-string">``</span><span class="hljs-string">`设置 Vagrantfile 配置文件</span></code></pre><h1 id="config-wm-synced_folder-host_sync_path-vm_path">config.wm.synced_folder &quot;host_sync_path&quot;, &quot;/vm_path&quot;</h1>
+$ config.vm.synced_folder &quot;vagrant&quot;, &quot;/vagrant&quot;, :nfs =&gt; true
+<code>`</code>其中 NFS 是解决共享目录读写权限最好得方式## SSH access<h3 id="-openssh">安装 openssh</h3>
+若ubuntu 没有安装 ssh server 则需要安装。<code>$ sudo apt-get install -y openssh-server$ vim /etc/ssh/sshd_config
+Port 22
+PubKeyAuthentication yes # 是否允许 Public Key
+AuthorizedKeysFile %h/.ssh/authorized_keys
+PermitEmptyPasswords no # 这个项目在是否允许以空的密码登入！# 重启一下 ssh server
+$ sudo /etc/init.d/ssh restart</code>### 设置公钥
+vagrant 用的 insecure public key(不安全公钥)。<code>`</code>
+$ mkdir -p /home/vagrant/.ssh
+$ wget --no-check-certificate <a href="https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub">https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub</a> -O /home/vagrant/.ssh/authorized_keys<h1 id="ensure-we-have-the-correct-permissions-set">Ensure we have the correct permissions set</h1>
+$ chmod 0700 /home/vagrant/.ssh 
+$ chmod 0600 /home/vagrant/.ssh/authorized_keys
+$ chown -R vagrant /home/vagrant/.ssh
+<code>github 一般被会被墙，若被墙请翻墙或直接复制以下 ssh key</code>
+$ ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+<code>## Remove sudo password
+一般使用 vagrant 作为 sudo password，但你可以去除。</code>
+$ sudo visudo<h1 id="-nopasswd">添加找到相应行添加 <code>NOPASSWD</code></h1>
+<h1 id="members-of-the-admin-group-may-gain-root-privileges">Members of the admin group may gain root privileges</h1>
+%admin ALL=(ALL) NOPASSWD: ALL# Allow members of group sudo to execute any command
+%sudo ALL=(ALL:ALL) NOPASSWD: ALL
+<code>## Packge Base Box
+[vagrant package 命令用法](http://docs.vagrantup.com/v2/cli/package.html)</code>
+$ vagrant package vm_name --base name --output box_file_name<h1 id="example">Example</h1>
+<h1 id="vagrant-package-lemp-ubuntu-base-ubuntu-output-lemp-ubuntu-box">vagrant package lemp.ubuntu --base ubuntu --output lemp.ubuntu.box</h1>
+<code>`</code>## Import Box导入 box<pre><code class="hljs armasm">$ vagrant <span class="hljs-keyword">box </span><span class="hljs-keyword">add </span>vm_name <span class="hljs-keyword">box_file_name
+</span># vagrant <span class="hljs-keyword">box </span><span class="hljs-keyword">add </span>lemp.ubuntu ./lemp.ubuntu
+# vagrant <span class="hljs-keyword">box </span><span class="hljs-keyword">add </span>lemp.ubuntu http://xxx.xxx/xxx.<span class="hljs-keyword">box
+</span>```你还可以下载其他[一些<span class="hljs-keyword">boxes](http://www.vagrantbox.es)。</span></code></pre><h1 id="-box-list">查看 box list</h1>
+$ vagrant box list
+lemp.ubuntu (virtualbox, 0)# 添加 vagrantfile 配置和运行 box
+$ cd ~/web\ develop/
+$ vagrant init lemp.ubuntu
+$ vagrant up
+<code>`</code>具体配置可以参考<a href="http://docs.vagrantup.com/v2/vagrantfile">这里</a>ssh 链接</li>
+<li>Windows 用户是不能使用该方法的，请自行使用其他 ssh client 工具<pre><code class="hljs clean">$ vagrant ssh
+```大功告成，只要你将 BOX 分享给其他人就可以了。## 其他### 修改默认 SSH 端口</code></pre>$ vi Vagrantfile
+config.vm.network :forwarded_port, guest: 10022, host: 2255# 修改 vm ssh server 配置
+$ sudo vim /etc/ssh/sshd_config# vi Vagrantfile
+config.ssh.port = 2255          # host
+config.ssh.guest_port = 10022   # vm# 导出 box
+$ vagrant package ubuntu --output ubuntu.box
+<code>## 一般遇到的问题### 需要启动 GUI</code>
+$ vi vagrantfile
+config.vm.provider &quot;virtualbox&quot; do |v|
+v.gui = true
+end
+<code>### 没有安装 ssh server</code>
+$ vagrant up
+...
+default: SSH address: 127.0.0.1:2222
+default: SSH username: vagrant
+default: SSH auth method: private key
+default: Warning: Connection timeout. Retrying...
+default: Warning: Remote connection disconnect. Retrying...
+<code>`</code>注意你是否安装了 ssh server### SSH 无法链接<pre><code class="hljs oxygene">$ vagrant up
+...
+  <span class="hljs-keyword">default</span>: SSH address: <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">2222</span>
+  <span class="hljs-keyword">default</span>: SSH username: vagrant
+  <span class="hljs-keyword">default</span>: SSH auth <span class="hljs-function"><span class="hljs-keyword">method</span>:</span> <span class="hljs-keyword">private</span> key
+  <span class="hljs-keyword">default</span>: Warning: Connection timeout. Retrying...
+  <span class="hljs-keyword">default</span>: Warning: Authentication failure. Retrying...
+  <span class="hljs-keyword">default</span>: Warning: Authentication failure. Retrying...
+```##### 请确定你的 ssh key 是否正确
+[公钥](https:<span class="hljs-comment">//raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub)#### 确定 vagrant ssh config</span></code></pre>$ vagrant ssh-config
+Host default
+HostName 127.0.0.1
+User vagrant
+Port 2222
+UserKnownHostsFile /dev/null
+StrictHostKeyChecking no
+PasswordAuthentication no
+IdentityFile ~/.vagrant.d/insecure_private_key
+IdentitiesOnly yes
+LogLevel FATAL# or 导出
+$ vagrant ssh-config --host vagrant &gt;&gt; ~/.ssh/config
+<code>`</code>#### 利用 vagrant 私钥连接调试配置是否正确<pre><code class="hljs clean">$ ssh -o IdentitiesOnly=yes -i ~/.vagrant.d/insecure_private_key vagrant@<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span> -p <span class="hljs-number">2222</span> echo OK
+```#### private_key 非 insecure_private_key(默认且非安全)或不正确</code></pre>$ vi Vagrantfile
+config.ssh.insert_key = false
+config.ssh.private_key_path = [&#39;~/.vagrant.d/insecure_private_key&#39;]# 保存并重启
+$ vagrant halt
+$ vagrant up --provision
+<code>`</code>#### 确定文件权限，具体看上面步骤</li>
+<li>0600 /.ssh/authorized_keys</li>
+<li>0700 /.ssh#### 确定增强工具是否正确安装#### 开启GUI，查看 virtualbox 是否正常运行<code>Vagrant.configure(2) do |config|
+...
+config.vm.provider &quot;virtualbox&quot; do |v|
+ v.gui = true
+end
+end</code>### 安装virtualbox增强工具安装增强时出现以下错误提示<pre><code class="hljs routeros">Installing the Window<span class="hljs-built_in"> System </span>drivers <span class="hljs-built_in">..</span>.fail!
+(Could <span class="hljs-keyword">not</span> <span class="hljs-builtin-name">find</span> the X.Org <span class="hljs-keyword">or</span> XFree86 Windows System.)</code></pre>这是正确的，因为系统并没有桌面环境<code>sudo /etc/init.d/vboxadd setup
+Removing existing VirtualBox DKMS kernel modules ...done. 
+Removing existing VirtualBox non-DKMS kernel modules ...done. 
+Building the VirtualBox Guest Additions kernel modules 
+The headers for the current running kernel were not found. If the following 
+module compilation fails then this could be the reason. Building the main Guest Additions module ...done. 
+Building the shared folder support module ...done. 
+Building the OpenGL support module ...done. 
+Doing non-kernel setup of the Guest Additions ...done. 
+You should restart your guest to make sure the new modules are actually used</code>在Building VirtualBox Guest Additions kernel modules的时候，缺少kernal的头文件， 
+使用下面的命令安装： <code>`</code><h1 id="sudo-apt-get-install-dkms-">sudo apt-get install dkms                       # 已经安装可忽略</h1>
+<h1 id="sudo-apt-get-install-build-essential-">sudo apt-get install build-essential            # 已经安装可忽略</h1>
+$ sudo apt-get install linux-headers-$(uname -r) 
+$ sudo /etc/init.d/vboxadd setup
+Removing existing VirtualBox DKMS kernel modules ...done. 
+Removing existing VirtualBox non-DKMS kernel modules ...done. 
+Building the VirtualBox Guest Additions kernel modules ...done. 
+Doing non-kernel setup of the Guest Additions ...done. 
+You should restart your guest to make sure the new modules are actually used 
+<code>`</code></li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/vagrant/1.html" title="vagrant">vagrant</a><a href="/tag/virtualbox/1.html" title="virtualbox">virtualbox</a><a href="/tag/打包box/1.html" title="打包box">打包box</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/OpenWrt - pdnsd + dnsmasq.html" title="OpenWrt - pdnsd + dnsmasq"><span>Previous</span><span>OpenWrt - pdnsd + dnsmasq</span></a></li><li><a href="/article/前端开发 - 兼容性@浏览器.html" title="前端开发 - 兼容性@浏览器"><span>Next</span><span>前端开发 - 兼容性@浏览器</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

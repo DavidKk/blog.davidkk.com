@@ -1,0 +1,50 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="index-container container context"><div class="entry-group"><section class="entry"><h3 class="entry-title"><a href="/article/前端开发 - 兼容性@浏览器.html" title="前端开发 - 兼容性@浏览器">前端开发 - 兼容性@浏览器</a></h3><div class="entry-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><div class="tags"><i class="fa fa-tags"></i><a href="/tag/兼容性/1.html" title="兼容性">兼容性</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>5/15/2015, 08:50:16</span></time></div><section class="entry-content"><div class="content clearfix"><h1 id="-css">浏览器兼容性## 移动端### 各种浏览器#### 禁止长按弹出菜单<code>`</code>CSS</h1>
+<p>a, img {
+  -webkit-touch-callout: none;
+}
+<code>`</code>#### 禁止用户选中文字</p>
+<pre><code class="hljs CSS">html, body {
+ -webkit-user-select: none;
+ user-select: none;
+}
+```#### 改变输入框 placeholder 的颜色值```CSS
+/*...</code></pre>
+</div></section><div class="entry-more"><a class="btn" href="/article/前端开发 - 兼容性@浏览器.html" title="Continue Reading">Continue Reading</a></div></section><section class="entry"><h3 class="entry-title"><a href="/article/前端开发 - 兼容性@AngularJS.html" title="前端开发 - 兼容性@AngularJS">前端开发 - 兼容性@AngularJS</a></h3><div class="entry-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><div class="tags"><i class="fa fa-tags"></i><a href="/tag/兼容性/1.html" title="兼容性">兼容性</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>9/14/2016, 13:16:53</span></time></div><section class="entry-content"><div class="content clearfix"><!-- # 前言- 问题机型   : 华为 Che2-TL00M EMUI 3.0 等部分华为, 三星机型
+- 微信版本   : 微信 6.3.22 版本
+- 框架版本   : angular.js@1.5.8
+- 浏览器版本 : Chrome v37.0.0 (微信)## 问题表现- 使用该机华为输入法输入中文情况下会出现第二个输入字符覆盖第一个输入字符
+- 问题输入法多数为输入的中文时, 每输入一个字符, 输入框就会显示一个英文, 而非全拼后才输入到输入框
+- 该问题只有在微信浏览器才会出现## 原因排查angular.js@1.5.8 line: 23994 中, $sniffer.hasEvent 判断浏览器支持 input 事件, 但是在实际过程中, input 事件并没有更新 element.value, 导致输入框无法获取真正输入的值第一个值.```
+  Line: 23994
+  if ($sniffer.hasEvent('input')) {
+    element.on('input', listener);
+  }
+```完成输入的一刻(after keyup), element.value 其实已经包含该值, 在 line: 23968 方法末尾中可以看出此时 `ctrl.$setViewValue(value, event)` 的 value 仍然是空字符串, 导致 $viewValue 的值仍然是空字符串. 即 `$viewValue === value === ''`;```
+  Line: 23968
+  var listener = function(ev) {
+    if (timeout) {
+      $browser.defer.cancel(timeout);
+      timeout = null;
+    }
+    if (composing) return;
+    var value = element.val(),
+        event = ev && ev.type;    // By default we will trim the value
+    // If the attribute ng-trim exists we will avoid trimming
+    // If input type is 'password', the value is never trimmed
+    if (type !== 'password' && (!attr.ngTrim || attr.ngTrim !== 'false')) {
+      value = trim(value);
+    }    // If a control is suffering from bad input (due to native validators), browsers discard its
+    // value, so it may be necessary to revalidate (by calling $setViewValue again) even if the
+    // control's value is the same empty value twice in a row.
+    if (ctrl.$viewValue !== value || (value === '' && ctrl.$$hasNativeValidators)) {
+      ctrl.$setViewValue(value, event);
+    }
+  };
+```当输入第二个值时, 而此时 $viewValue 的已经更新到第一次输入 element.value. 这个过程之后它会拿第一个值的 $viewValue 与 element.value 对比, 一次很容易发现 (line: 24048) 两个值是不同的, 这样 angular 就会重新赋值 `$element.val($viewValue)` 导致第二次的值会覆盖第一次的值, 而之后的情况不会.因为 input event 不规范导致, 具体原因不明
+但在系统默认浏览器下不会出现该问题因为如果删除 input 事件, keydown 还会导致值未更新情况,
+造成第一个值仍然保存, 但是并不能结合第二个值合并输入成中文
+因此还需要将 keydown 修改成 keyup 事件因为 angular 使用 jQLit 的原因 而且 angular@1.5.8
+line: 1881 行中外置该对象, 因此我们可以重写该方法, 将
+所有安卓在微信端的 input 事件, 都统一转成 keyup 事件 -->
+</div></section><div class="entry-more"><a class="btn" href="/article/前端开发 - 兼容性@AngularJS.html" title="Continue Reading">Continue Reading</a></div></section></div><nav class="pagination"><ul class="pagination-book"><li class="active"><a title="Currrent page">1</a></li></ul></nav></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script></body></html>

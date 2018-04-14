@@ -1,0 +1,136 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 基础知识@协议</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>5/15/2015, 08:50:16</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="-tcp-ip-http-socket-ip-tcp-http-tcp-ip-http-socket-tcp-ip-tcp-transmission-control-protocol-tcp-">协议## TCP/IP, HTTP, Socket网络由下往上分为 <code>物理层</code>, <code>数据链路层</code>, <code>网络层</code>, <code>传输层</code>, <code>会话层</code>, <code>表示层</code> 和 <code>应用层</code>. IP 协议对应于网络层; TCP 协议对应于传输层; HTTP 协议对应于应用层; TCP/IP 协议是传输层协议, 主要解决数据如何在网络中传输; 而 HTTP 协议对应于应用层, 主要解决如何包装数据, Socket 则是对 TCP/IP 协议的封装和应用### TCP - 传输控制协议传输控制协议（Transmission Control Protocol, TCP）是一种面向连接的, 可靠的, 基于字节流的传输层通信协议.</h1>
+<p>在因特网协议族（Internet protocol suite）中, TCP 层是位于 IP 层之上, 应用层之下的中间层.TCP 连接包括三个状态: 连接创建, 数据传送和连接终止. 操作系统将 TCP 连接抽象为套接字的编程接口给程序使用, 并且要经历一系列的状态改变.TCP用三路握手 (three-way handshake) 过程创建一个连接. 在连接创建过程中, 很多参数要被初始化, 例如序号被初始化以保证按序传输和连接的强壮性.TCP 会话的每一端都包含一个 32 位 (bit) 的序列号, 该序列号被用来跟踪该端发送的数据量. 每一个包中都包含序列号, 在接收端则通过确认号用来通知发送端数据成功接收#### TCP 三次握手- 客户端发送一个带<a href="http://baike.baidu.com/item/SYN">SYN</a>标识的 TCP 报文到服务器</p>
+<ul>
+<li>客户端把这段连接的序号设定为随机数 A<ul>
+<li>服务器接受 SYN 之后会确认 SYN 合法性, 并向客户端发送一个同时带 SYN 和 ACK 标识的 TCP 报文</li>
+</ul>
+</li>
+<li>ACK 的确认码应为 A+1</li>
+<li>SYN/ACK 包本身又有一个随机序号 B<ul>
+<li>客户端接受到服务器 TCP 报文后, 会再次发送一个确认字符 <a href="http://baike.baidu.com/view/204040.htm">ACK</a></li>
+</ul>
+</li>
+<li>此时包序号被设定为收到的确认号 A+1, 而响应则为 B+1</li>
+<li>当服务器接受到这个 ACK 的时候, 就完成三次握手, 并进入链接创建状态#### TCP 四次挥手- 客户端发送一个带 FIN 标识的 TCP 报文到服务器, 用来关闭客户到服务器的数据传送<ul>
+<li>服务器收到这个 FIN 报文会发回一个带 ACK 标识的报文</li>
+</ul>
+</li>
+<li>ACK 的确认序号为 A+1</li>
+<li>和 SYN 一样, 一个 FIN 将占用一个序号<ul>
+<li>服务器发送一个 FIN 报文给客户端并关闭与客户端的连接</li>
+<li>客户段发回 ACK 报文确认，并将确认序号设置为收到序号 + 1### HTTP - 超文本传送协议HTTP 协议即超文本传送协议(Hypertext Transfer Protocol), 是 Web 联网的基础, HTTP 协议是建立在 TCP 协议之上的一种应用.HTTP 连接最显著的特点是客户端发送的每次请求都需要服务器回送响应, 在请求结束后, 会主动释放连接. 从建立连接到关闭连接的过程称为&quot;一次连接&quot;.- HTTP 1.0: 客户端的每次请求都要求建立一次单独的连接, 在处理完本次请求后, 就自动释放连接.</li>
+<li>HTTP 1.1: 可以在一次连接中处理多个请求, 并且多个请求可以重叠进行, 不需要等待一个请求结束后再发送下一个请求.</li>
+<li>HTTP 2.0: 主要减少了延迟, 并没有优化宽带速度</li>
+</ul>
+</li>
+<li>通过 HPACK 算法压缩HTTP头部</li>
+<li>将一个 TCP 连接分为多个流(Stream), 每个流可以传输若干消息(Message), 每个消息由若干最小的二进制帧(frame)组成. 通过这样一种流程去实现多路复用</li>
+<li>服务器推送: 通过在服务器预解析客户端将需要的资源进行推送资源, 可以减少客户端请求完资源才进行再次建立连接到服务器拿数据, 例如图片等多媒体资源由于 HTTP 在每次请求结束后都会主动释放连接, 因此 HTTP 连接是一种 &quot;短连接&quot;, 要保持客户端程序的在线状态, 需要不断地向服务器发起连接请求. 通常的做法是即时不需要获得任何数据, 客户端也保持每隔一段固定的时间向服务器发送一次 &quot;保持连接&quot; 的请求, 服务器在收到该请求后对客户端进行回复, 表明知道客户端 &quot;在线&quot;. 若服务器长时间无法收到客户端的请求, 则认为客户端“下线”, 若客户端长时间无法收到服务器的回复, 则认为网络已经断开.#### HTTP 缓存头##### Cache-Control- public (公共缓存): 表示可以被所有响应者缓存, 包括 代理, CDN等<ul>
+<li>private (私有缓存): 表示仅被浏览器缓存</li>
+<li>no-store: 不缓存</li>
+<li>no-cache:</li>
+</ul>
+</li>
+<li>response: 并不是表示无缓存, 而是指使用缓存一定要先经过验证, 若未过期, 返回 304</li>
+<li>(特殊) request: 跟 no-store 一样, 不缓存只请求最新的资源<ul>
+<li>max-age: 表示最大缓存时间</li>
+</ul>
+</li>
+<li>response: <code>max-age=0</code> 表示使用缓存必须经过验证<ul>
+<li>must-revalidate: 表示使用一个旧的资源时, 必须对旧资源进行验证, 已过期的资源将不会被使用##### Etag相当于文件的 hash 值, <code>Etag</code> 主要为了解决 <code>Last-Modified</code> 无法解决的一些问题- 一些文件也许会周期性的更改, 但是他的内容并不改变(仅仅改变的修改时间)</li>
+<li>某些文件修改非常频繁, 比如在秒以下的时间内进行修改, <code>If-Modified-Since</code> 能检查到的粒度是<code>秒</code></li>
+<li>某些服务器不能精确的得到文件的最后修改时间###### 工作原理<code>Etag</code> 是服务器生成的, 浏览器会保存该值, 并在下一次请求的时候将发送一个 <code>If-None-Match</code> 给服务器(它的值等于 <code>Etag</code> 的值). 当服务器将该值与再次生成的 <code>Etag</code> 的值进行对比; 如果两个值不相同, 则返回新的文件内容和新的 <code>Etag</code> 信息(200); 若相同, 则返回 304 (Not Modified) 状态码和空内容, 浏览器继续使用本地缓存* 如果服务器设置了 <code>Cache-Control:max-age</code> 和 <code>Expires</code>; 服务器会同时对比两者, 即完全匹配 <code>If-Modified-Since</code> 和<code>If-None-Match</code> (<code>检查完修改时间</code> 和 <code>Etag</code>) 后才返回 304#### HTTP Status Code- 1xx 消息</li>
+</ul>
+</li>
+<li>100 Continue 服务器收到请求头, 并且客户端继续发送请求主体</li>
+<li>101 Switching Protocols 服务器已经理解了客户端的请求, 并将通过Upgrade消息头通知客户端采用不同的协议来完成这个请求.</li>
+<li>102 Processing 表示​​服务器已经收到并正在处理请求, 但无响应可用<ul>
+<li>2xx 成功</li>
+</ul>
+</li>
+<li>200 OK 请求已成功, 请求所希望的响应头或数据体将随此响应返回</li>
+<li>201 Created 请求已经被实现, 而且有一个新的资源已经依据请求的需要而创建, 且其URI已经随Location头信息返回</li>
+<li>202 Accepted 服务器已接受请求, 但尚未处理</li>
+<li>203 Non-Authoritative Information 服务器是一个转换代理服务器</li>
+<li>204 No Content 服务器成功处理了请求, 没有返回任何内容</li>
+<li>205 Reset Content 服务器成功处理了请求, 但没有返回任何内容. 与 204 响应不同, 此响应要求请求者重置文档视图</li>
+<li>206 Partial Content 服务器已经成功处理了部分 GET 请求</li>
+<li>207 Multi-Status 代表之后的消息体将是一个 XML 消息, 并且可能依照之前子请求数量的不同, 包含一系列独立的响应代码</li>
+<li>208 Already Reported DAV绑定的成员已经在（多状态）响应之前的部分被列举, 且未被再次包含</li>
+<li>226 IM Used 服务器已经满足了对资源的请求, 对实体请求的一个或多个实体操作的结果表示<ul>
+<li>3xx 重定向</li>
+</ul>
+</li>
+<li>300 Multiple Choices 被请求的资源有一系列可供选择的回馈信息, 每个都有自己特定的地址和浏览器驱动的商议信息. 用户或浏览器能够自行选择一个首选的地址进行重定向</li>
+<li>301 Moved Permanently 被请求的资源已永久移动到新位置, 并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一</li>
+<li>302 Found 要求客户端执行临时重定向</li>
+<li>303 See Other 对应当前请求的响应可以在另一个 URI 上被找到, 当响应于 POST（或 PUT / DELETE）接收到响应时, 客户端应该假定服务器已经收到数据, 并且应该使用单独的GET消息发出重定向</li>
+<li>304 Not Modified 表示资源未被修改, 因为请求头指定的版本 If-Modified-Since 或 If-None-Match</li>
+<li>305 Use Proxy 被请求的资源必须通过指定的代理才能被访问</li>
+<li>(x) 306 Switch Proxy 在最新版的规范中, 306状态码已经不再被使用. 最初是指“后续请求应使用指定的代理”</li>
+<li>307 Temporary Redirect 在这种情况下, 请求应该与另一个URI重复, 但后续的请求应仍使用原始的URI</li>
+<li>308 Permanent Redirect 请求和所有将来的请求应该使用另一个URI重复<ul>
+<li>4xx 客户端错误</li>
+</ul>
+</li>
+<li>400 Bad Request 由于明显的客户端错误</li>
+<li>401 Unauthorized 类似于403 Forbidden, 401语义即“未认证”, 即用户没有必要的凭据</li>
+<li>402 Payment Required 暂无用处</li>
+<li>403 Forbidden 服务器已经理解请求, 但是拒绝执行它</li>
+<li>404 Not Found 请求失败, 请求所希望得到的资源未被在服务器上发现, 但允许用户的后续请求</li>
+<li>405 Method Not Allowed 请求行中指定的请求方法不能被用于请求相应的资源</li>
+<li>406 Not Acceptable 请求的资源的内容特性无法满足请求头中的条件, 因而无法生成响应实体, 该请求不可接受</li>
+<li>407 Proxy Authentication Required 与401响应类似, 只不过客户端必须在代理服务器上进行身份验证</li>
+<li>408 Request Timeout 请求超时</li>
+<li>409 Conflict 表示因为请求存在冲突无法处理该请求</li>
+<li>410 Gone 表示所请求的资源不再可用并且将不再可用</li>
+<li>411 Length Required 服务器拒绝在没有定义Content-Length头的情况下接受请求</li>
+<li>412 Precondition Failed 服务器在验证在请求的头字段中给出先决条件时, 没能满足其中的一个或多个</li>
+<li>413 Request Entity Too Large 服务器拒绝处理当前请求, 因为该请求提交的实体数据大小超过了服务器愿意或者能够处理的范围</li>
+<li>414 Request-URI Too Long 请求的URI长度超过了服务器能够解释的长度, 因此服务器拒绝对该请求提供服务</li>
+<li>415 Unsupported Media Type 对于当前请求的方法和所请求的资源, 请求中提交的互联网媒体类型并不是服务器中所支持的格式, 因此请求被拒绝</li>
+<li>416 Requested Range Not Satisfiable 客户端已经要求文件的一部分（Byte serving）, 但服务器不能提供该部分</li>
+<li>417 Expectation Failed 在请求头Expect中指定的预期内容无法被服务器满足, 或者这个服务器是一个代理服显的证据证明在当前路由的下一个节点上, Expect的内容无法被满足</li>
+<li>(x) 418 I&#39;m a teapot 愚人节彩蛋</li>
+<li>420 Enhance Your Caim Twitter Search与Trends API在客户端被限速的情况下返回.<ul>
+<li>5xx 服务器错误</li>
+</ul>
+</li>
+<li>500 Internal Server Error 通用错误消息, 服务器遇到了一个未曾预料的状况, 导致了它无法完成对请求的处理</li>
+<li>501 Not Implemented 服务器不支持当前请求所需要的某个功能</li>
+<li>502 Bad Gateway 作为网关或者代理工作的服务器尝试执行请求时, 从上游服务器接收到无效的响应</li>
+<li>503 Service Unavailable 由于临时的服务器维护或者过载, 服务器当前无法处理请求</li>
+<li>504 Gateway Timeout 作为网关或者代理工作的服务器尝试执行请求时</li>
+<li>505 HTTP Version Not Supported 服务器不支持, 或者拒绝支持在请求中使用的HTTP版本### TLS 与 SSL - 传输层安全协议(Transport Layer Security) 与 安全套接层(Secure Socket Layer)两者都是一种安全协议, SSL 是 TLS 的前身
+<strong><em> 由于 SSL 3.0 出现安全性 BUG, 大部分浏览器都不向后兼容并使用 TLS 代替 </em></strong>### HTTPS - 超文本传输安全协议将 HTTP 建立在 TLS/SSL 之上, 一般称为 HTTP Over TLS, HTTPS 并不是使用 80 端口, 而是默认使用 443 端口, 所以为了兼容可以同时监听两个端口#### HTTPS 工作原理- 客户端将自己支持的一套<code>加密算法</code>列表与<code>哈希算法</code>列表 (明文)<ul>
+<li>服务器选定一种<code>加密算法</code>和<code>哈希算法</code>, 然后将选定的<code>加密算法</code>与<code>哈希算法</code>和证书发送回客户端　(明文)</li>
+</ul>
+</li>
+<li>证书里面包含了网站地址, 加密公钥, 以及证书的颁发机构等信息<ul>
+<li>客户端验证服务器的证书的各种信息, 然后获取证书中的<code>公钥</code>, 这是客户端会生成一个<code>随机数</code> (<code>Pre-Master Key</code>), 并使用公钥对随机数进行加密并发送给服务器</li>
+</ul>
+</li>
+<li>首先客户端会从内置的证书列表中索引, 找到服务器下发证书对应的机构, 如果没有找到, 此时就会提示用户该证书是不是由权威机构颁发, 是不可信任的. 如果查到了对应的机构, 则取出该机构颁发的公钥</li>
+<li>用机构的证书公钥解密得到证书的内容和证书签名, 内容包括网站的网址, 网站的公钥, 证书的有效期等. 客户端会先验证证书签名的合法性 (验证过程类似上面 Bob 和 Susan 的通信). 签名通过后, 客户端验证证书记录的网址是否和当前网址是一致的, 不一致会提示用户.如果网址一致会检查证书有效期, 证书过期了也会提示用户.这些都通过认证时, 客户端就可以安全使用证书中的网站公钥了</li>
+<li>客户端生成一个<code>随机数</code>, 并使用网站公钥对 R 进行加密<ul>
+<li>服务器通过自身的私钥对<code>加密后随机数</code>进行解密并获取到该<code>随机数</code> (<code>Pre-Master Key</code>)</li>
+<li>服务器通过<code>随机数</code> (<code>Pre-Master Key</code>) 使用<code>对称加密算法</code>对网站内容进行加密传输给客户端</li>
+</ul>
+</li>
+<li>非对称加密算法 <code>RSA/DSA</code> 非常耗费CPU资源<ul>
+<li>客户端也通过该<code>随机数</code> (<code>Pre-Master Key</code>) 和使用之前约定好的<code>解密算法</code>对内容进行解密</li>
+<li>当客户端对该域重新发起 HTTPS 连接时, 会使用生成的 key 对内容进行加解密, 并不用每次都发送验证证书### Socket - 套接字Socket 是通信的基石, 是支持 TCP/IP 协议的网络通信的基本操作单元. 它是网络通信过程中端点的抽象表示, 包含进行网络通信必须的五种信息: 连接使用的协议, 本地主机的 IP 地址, 本地进程的协议端口, 远地主机的 IP 地址, 远地进程的协议端口.应用层通过传输层进行数据通信时, TCP 会遇到同时为多个应用程序进程提供并发服务的问题. 多个 TCP 连接或多个应用程序进程可能需要通过同一个 TCP 协议端口传输数据. 为了区别不同的应用程序进程和连接, 许多计算机操作系统为应用程序与 TCP/IP 协议交互提供了 Socket 接口. 应用层可以和传输层通过 Socket 接口, 区分来自不同应用程序进程或网络连接的通信, 实现数据传输的并发服务.### 建立 Socket 连接建立 Socket 连接至少需要一对套接字, 其中一个运行于客户端, 称为 ClientSocket , 另一个运行于服务器端, 称为 ServerSocket.套接字之间的连接过程分为三个步骤:</li>
+<li>服务器监听: 服务器端套接字并不定位具体的客户端套接字, 而是处于等待连接的状态, 实时监控网络状态, 等待客户端的连接请求.</li>
+<li>客户端请求: 指客户端的套接字提出连接请求, 要连接的目标是服务器端的套接字. 为此, 客户端的套接字必须首先描述它要连接的服务器的套接字, 指出服务器端套接字的地址和端口号, 然后就向服务器端套接字提出连接请求.</li>
+<li>连接确认: 当服务器端套接字监听到或者说接收到客户端套接字的连接请求时, 就响应客户端套接字的请求, 建立一个新的线程, 把服务器端套接字的描述发给客户端, 一旦客户端确认了此描述, 双方就正式建立连接. 而服务器端套接字继续处于监听状态, 继续接收其他客户端套接字的连接请求.### Socket 连接与 TCP 连接创建 Socket 连接时, 可以指定使用的传输层协议, Socket 可以支持不同的传输层协议 (TCP or UDP), 当使用 TCP 协议进行连接时, 该 Socket 连接就是一个 TCP 连接.### Socket 连接与 HTTP 连接由于通常情况下 Socket 连接就是 TCP 连接, 因此 Socket 连接一旦建立, 通信双方即可开始相互发送数据内容, 直到双方连接断开. 但在实际网络应用中, 客户端到服务器之间的通信往往需要穿越多个中间节点, 例如路由器, 网关, 防火墙等, 大部分防火墙默认会关闭长时间处于非活跃状态的连接而导致 Socket 连接断连, 因此需要通过轮询告诉网络, 该连接处于活跃状态.而HTTP连接使用的是&quot;请求—响应&quot;的方式, 不仅在请求时需要先建立连接, 而且需要客户端向服务器发出请求后, 服务器端才能回复数据.很多情况下, 需要服务器端主动向客户端推送数据, 保持客户端与服务器数据的实时与同步. 此时若双方建立的是 Socket 连接, 服务器就可以直接将数据传送给客户端; 若双方建立的是 HTTP 连接, 则服务器需要等到客户端发送一次请求后才能将数据传回给客户端, 因此, 客户端定时向服务器端发送连接请求, 不仅可以保持在线, 同时也是在&quot;询问&quot;服务器是否有新的数据, 如果有就将数据传给客户端.参考资料- <a href="https://zh.wikipedia.org/wiki/%E4%BC%A0%E8%BE%93%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE">传输控制协议</a>-<a href="http://kunyali.blog.51cto.com/4890065/1354922">TCP/IP SOCKET HTTP及HTTPS之间的关系及各自特性之总结</a></li>
+</ul>
+</li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 兼容性@浏览器.html" title="前端开发 - 兼容性@浏览器"><span>Previous</span><span>前端开发 - 兼容性@浏览器</span></a></li><li><a href="/article/前端开发 - 基础知识@小程序.html" title="前端开发 - 基础知识@小程序"><span>Next</span><span>前端开发 - 基础知识@小程序</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

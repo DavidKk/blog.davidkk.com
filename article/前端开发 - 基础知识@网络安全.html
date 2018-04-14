@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 基础知识@网络安全</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>5/15/2015, 08:50:16</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="-xss-cross-site-scripting-xss-url-">前端开发 - 基础知识@网络安全## XSS (Cross Site Scripting) - 跨站脚本攻击### 分类- 反射性 XSS: 把恶意脚本放到 URL 地址参数中</h1>
+<ul>
+<li>图片标记 <code>&lt;img src=&quot;javascript:alert(/xss/)&quot;&gt;&lt;/img&gt;</code>, <code>&lt;img dynsrc=&quot;javascript:alert(&#39;xss&#39;)&quot;&gt;</code></li>
+<li>DOM 事件 <code>&lt;img src=&quot;&quot; onerror=alert(&quot;xss&quot;)&gt;</code></li>
+<li>空格与回车符转换 <code>&lt;img src=&quot;Jav&amp;#x09;ascript:alert(&#39;xss&#39;)&quot;&gt;</code></li>
+<li>10 进制转换 <code>&lt;img src=&quot;&amp;#74&amp;#97&amp;#118&amp;#97&amp;#115&amp;#99&amp;#114&amp;#105&amp;#112&amp;#116&amp;#58&amp;#97&amp;#108&amp;#101&amp;#114&amp;#116&amp;#40&amp;#39&amp;#120&amp;#115&amp;#115&amp;#39&amp;#41&quot;&gt;</code><ul>
+<li>储存性 XSS: 将恶意脚本存储到数据库中, 当页面读取数据时就会读取并执行恶意脚本</li>
+<li>DOM XSS: 不依靠任何形式, 在JS读取例如地址中的恶意脚本参数时, 执行了该恶意脚本### 危害- 劫持 Cookie: Cookie 中一般加密保存了用户的登录凭证, 浏览器发起的所有请求都会自动带上, 如果Cookie被盗取, 也就是说用户不用通过密码而直接登录你的账户</li>
+<li>构建请求: XSS 可以在 Javascript 中构建 GET 或者 POST 请求, 来实现自己的攻击, 例如 <code>&lt;img src=&quot;...&quot;&gt;</code></li>
+<li>XSS 钓鱼: 页面重定向或者弹出实况诱导用户填写信息</li>
+<li>获取用户系统信息: 此外 XSS 还可以识别用户的浏览器信息, 用户安装的软件以及用户真实的 IP 等信息</li>
+<li>XSS Worm: 一般以存储性 XSS 为主, 通过伪造用户分享等行为进行大规模传播### 防御- 输入/输出检查, 过滤/转义 (XSS Filter)</li>
+</ul>
+</li>
+<li>用户名, 邮箱等表单验证 (客户端/服务器二次验证)</li>
+<li>富文本使用白名单机制等</li>
+<li>HTML Encode: 将字符转换成 <code>HTMLEntities</code></li>
+<li>Javscript Encode: 使用 <code>\</code> 对特殊字符进行转义, 除数字字母之外, 小于 127 的字符编码使用16进制 <code>\x</code> 的方式进行编码, 大于用 unicode (非常严格模式)<ul>
+<li>HTTP 头部</li>
+</ul>
+</li>
+<li>设置 cookie 时加入 <code>HttpOnly</code> 可使 js 脚本无法获取 cookie<ul>
+<li>例如服务器设置头 <code>Set-Cookie: name=Hello; HttpOnly</code></li>
+<li>JS 无法设置 <code>HttpOnly</code></li>
+</ul>
+</li>
+<li>设置 <code>CSP</code>, 定义允许的资源加载地址, 比如图片 / 视频 / JS 脚本等<ul>
+<li>尽量避免使用 <code>eval</code>, <code>new Function</code>, <code>setTimeout(String)</code> 等d动态执行字符串参考资料<a href="https://www.zhuyingda.com/blog/b2.html">https://www.zhuyingda.com/blog/b2.html</a>## CSRF (Cross Site Request Forgery) - 跨站请求伪造CSRF 主要伪造用户身份, 可能通过信任站点的请求来获取用户信息 (Cookie 或者头部授权信息) 来达到模拟真实操作
+CSRF 攻击是源于 WEB 的隐式身份验证机制, WEB 的身份验证机制虽然可以保证一个请求是来自于某个用户的浏览器, 但却无法保证该请求是用户批准发送的### 危害- 伪造身份进行权限操作### 防御- 用户操作不使用 GET</li>
+<li>表单数据提交使用隐式 Token</li>
+<li>检查请求的 Referer</li>
+<li>添加验证码## XSS 与 CSRF 对比- XSS 需要 Javascript, 而 CSRF 并不需要</li>
+<li>XSS 是站点接受恶意代码, 而 CSRF 并不需要站点, 因为所有代码都运行在攻击站点## CSP (Content Security Policy) - 内容安全测罗CSP 定义在 HTTP 头上. 允许你创建一个可信来源的白名单, 使浏览器只执行和渲染来自白名单的资源### 设置<code>`</code>Conf<h1 id="nginx-conf">Nginx Conf</h1>
+add_header Content-Security-Policy default-src &#39;self&#39;;
+<code>`</code>更多的配置<a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/#inline-code-considered-harmful">参考</a>## DDOS一般是网络层与应用层的攻击### 攻击分类- 网络层攻击:</li>
+</ul>
+</li>
+<li>SYN-flood: 利用 TCP 建立连接时3次握手的漏洞, 发送源地址虚假的提交, 永远无法完成三次握手. 占满系统的协议栈队列资源得不到释放, 进而拒绝服务</li>
+<li>Ack-flood: 虚假Ack包, 远不如syn-flood</li>
+<li>UDP-flood: 使用虚假源地址UDP包, 以DNS协议为主</li>
+<li>ICMP-flood: Ping 洪水攻击<ul>
+<li>应用层攻击:</li>
+</ul>
+</li>
+<li>CC: 通过控制傀儡主机或者寻找匿名代理服务器向目标发起大量真实的HTTP请求, 最终消耗掉大量的并发资源, 拖慢整个网站甚至彻底拒绝服务</li>
+<li>DNS-flood: 发送海量的DNS查询报文导致网络带宽耗尽而无法传送正常DNS查询请求</li>
+<li>慢速连接攻击: 针对 HTTP 协议, 先建立起 HTTP 连接, 设置一个较大的 Conetnt-Length, 每次只发送很少的字节, 让服务器一直以为 HTTP 头部没有传输完成, 这样连接一多就很快会出现连接耗尽### 攻击方式分类- 混合型: 大量的攻击中, 通常并不是以上述一种数据类型来攻击, 往往是 TCP 和 UDP, 网络层和应用层攻击同时进行<ul>
+<li>反射型: <code>质询 — 应答</code> 模式. 将源地址伪造成攻击目的地址, 则应答的回包被发送到目标, 如果回包体积比较大或协议支持递归效果, 攻击的效果会被放大, 性价比高</li>
+<li>流量放大: SSDP协议, 递归效果产生的放大倍数非常大</li>
+<li>脉冲型: 即打打停停, 攻击持续时间非常短; 避免触发自动化防御机制</li>
+<li>链路冷洪: 不直接攻击目标而是以阻塞目标网络的上一级链路为目的; 避免防御系统对攻击流量分摊</li>
+</ul>
+</li>
+</ul>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/基础知识/1.html" title="基础知识">基础知识</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/前端开发 - 基础知识@浏览器.html" title="前端开发 - 基础知识@浏览器"><span>Previous</span><span>前端开发 - 基础知识@浏览器</span></a></li><li><a href="/article/前端开发 - 模块化@Javascript.html" title="前端开发 - 模块化@Javascript"><span>Next</span><span>前端开发 - 模块化@Javascript</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>

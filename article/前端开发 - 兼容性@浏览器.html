@@ -1,0 +1,175 @@
+<!DOCTYPE html><html><head><base href="/"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-title" content=""><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="David Jones Blog"><meta name="keywords" content="blog,codding,font-end,web,developer,javascript"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="styles/bootstrap.css"><title>Welcome | David Jones</title></head><body><header class="header-container"><div class="container"><a class="brand" href="/" title="blog.davidkk.com">dBLog</a><nav class="nav"><a href="/tag/index.html" title="tags">Tags</a><a href="/archive/index.html" title="archive">Archives</a></nav></div></header><div class="article-container container context"><main class="content"><article class="article"><h1 class="article-title">前端开发 - 兼容性@浏览器</h1><div class="article-infobar"><div class="category"><i class="fa fa-sticky-note-o"></i><a href="/category/前端/1.html" title="前端">前端</a></div><time class="date"><i class="fa fa-calendar-o"></i><span>5/15/2015, 08:50:16</span></time><div class="author">Written by:&nbsp;<a title="&lt;David Jones qowera@qq.com&gt;" target="_blank">&lt;David Jones qowera@qq.com&gt;</a></div></div><section class="article-content"><h1 id="-css">浏览器兼容性## 移动端### 各种浏览器#### 禁止长按弹出菜单<code>`</code>CSS</h1>
+<p>a, img {
+  -webkit-touch-callout: none;
+}
+<code>`</code>#### 禁止用户选中文字</p>
+<pre><code class="hljs CSS">html, body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+```#### 改变输入框 placeholder 的颜色值```CSS
+/* WebKit browsers */
+::-webkit-input-placeholder {
+  color: #999;
+}
+/* Mozilla Firefox 4 to 18 */
+:-moz-placeholder {
+  color: #999;
+}
+/* Mozilla Firefox 19+ */
+::-moz-placeholder {
+  color: #999;
+}
+/* Internet Explorer 10+ */
+:-ms-input-placeholder {
+  color: #999;
+}input:focus::-webkit-input-placeholder {
+  color: #999;
+}
+```#### android 上去掉语音输入按钮```CSS
+input::-webkit-input-speech-button {
+  display: none
+}
+```#### 阻止 windows Phone 的默认触摸事件
+winphone 下默认触摸事件事件使用 `event.preventDefault()` 是无效的, 可通过样式来禁用```CSS
+html {
+  -ms-touch-action: none;
+}
+```#### 部分元素自带透明灰色遮罩层ios 和 android 点击一个链接, 会出现一个半透明灰色遮罩, 可设置 `-webkit-tap-highlight-color` 的 alpha 值为 0 去除```CSS
+a, button, input, textarea {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-user-modify:read-write-plaintext-only; //-webkit-user-modify有个副作用, 就是输入法不再能够输入多个字符
+}
+```winphone 系统, 点击标签产生的灰色半透明背景, 能通过设置 `&lt;meta name="msapplication-tap-highlight" content="no"&gt;` 去掉```HTML
+&lt;meta name="msapplication-tap-highlight" content="no"&gt;
+```此外有些机型去除不了, 如小米2. 对于按钮类还有个办法, 不使用 a 或者 input 标签, 可直接用 div 标签### 输入框底栏 Fixed 问题输入框 `position:fixed;` 当唤起软键盘时, 输入框会由 `position:fixed;` 自动变成 `position:absolute;`, 从而导致输入框不能吸附在软键盘上方或定位错误#### 底栏输入框解决方式- 使页面不能滚动, 因为变成 `position:absolute;` 加上页面滚动会导致底栏往上移动, 所以禁止滚动可以让元素贴合软键盘
+  - 上下屏
+- 临时禁止 body 滚动, 但会回到顶部
+- 通过 Javascript 获取到 `window.innerHeight` 与 `window.scrollY` 计算出值
+  - 通过监听 `blur` 事件恢复原来的位置
+- 通过 `document.activeElement.scrollIntoView` 解决
+  - 浏览器弹出软键盘不一定触发 `resize` 事件```CSS
+/**
+ * 占据空间有滚动
+ * 或者使用 flex 布局
+ */
+section {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 30px;
+  left: 0;
+  overflow: auto;
+}footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 30px;
+}
+``````Javascript
+if(/Android/.test(navigator.appVersion)) {
+   window.addEventListener('resize', function () {
+     let { tagName } = document.activeElement
+     if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+       document.activeElement.scrollIntoView()
+     }
+  })
+}
+```### 点击穿透点击穿透因为 `click` 事件有 `300ms` 的延迟
+通常出现的情景是弹出层在点击淡出的时候, 用户手指仍在屏幕上, 当触发离开时 `touchend` 用户的手指触发弹出层下面的某元素并触发其 `click` 事件#### 点击穿透的解决方式- 可以把淡出效果延长超过 300ms
+- 禁用缩放 - 浏览器开发商给出的方案
+- 通过样式设置 `touch-action:none;` 来禁止 300ms 的等待
+- 使用第三方库
+  - `[FastClick](https://github.com/ftlabs/fastclick)`
+  - `[Polymer](https://github.com/Polymer/PointerEvents)`
+  - `[HandJS](https://archive.codeplex.com/?p=handjs)`
+  - `[Points](https://github.com/Rich-Harris/Points)````HTML
+# 禁用缩放
+&lt;meta name="viewport" content="user-scalable=no"&gt;
+&lt;meta name="viewport" content="initial-scale=1,minimum-scale=1,maximun=1"&gt;
+&lt;meta name="viewport" content="width=device-width"&gt;
+``````CSS
+a {
+  touch-action: none;
+}
+```参考文章- [https://www.jianshu.com/p/6e2b68a93c88](https://www.jianshu.com/p/6e2b68a93c88)### 滚动穿透元素滚动带动其他元素跟随滚动
+一般出现在弹出层, 当 `position:fixed;` 的元素通过滑动屏幕会导致 `&lt;body&gt;` 滚动#### 滚动穿透的解决方式- 通过设置 `html, body { overflow: hidden; }` 禁止 `&lt;body&gt;` 滚动
+  - 但是背景页面会回到最顶部
+- 通过 JS 绑定`scroll`或者`touchmove`, 并通过 `event.preventDefault()` 禁止滚动事件### ios#### ios 系统中元素被触摸时产生的半透明灰色遮罩怎么去掉```css
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+```## Chrome### Chrome 自动填写背景颜色```CSS
+input {
+  -webkit-autofill: transparent;
+}
+```### Chrome 中文界面不能设置少于12px 的字体可以设置 `-webkit-text-size-adjust: none;` 解决```CSS
+* {
+  -webkit-text-size-adjust: none;
+}
+```但现在只能通过 `config:about` 设置允许出现 12px 该样式才能生效也可以使用 `transform:scale(.1);````CSS
+span {
+  transform:scale(.8);
+}
+```## 低级浏览器主要针对IE来对比说明### PNG24位饿图片在 IE6 浏览器上出现背景将图片做成 PNG8### 浏览器默认 margin 和 padding 不同设置全局 margin 和 padding 均为 0 来统一```css
+* {
+  margin: 0;
+  padding: 0;
+}
+```### 垂直居中</code></pre><h1 id="-div-line-height-200px-">将行距增加到和整个DIV一样高 line-height:200px;然后插入文字, 就垂直居中了；缺点是要控制内容不要换行。</h1>
+<p>vertical-align: middle;# DIV 随之居中, 但是高度必须确定, 否则无法垂直居中。
+height: 100px;
+display: block;
+position: absolute;
+top: 0;
+bottom: 0;
+margin-top: auto;
+margin-bottom: auto;
+<code>## 旧浏览器### Double margin设置为float的div在ie下设置的margin会加倍。将 div 设置成 `display: inline;` 能解决该问题</code>
+_display: inline;
+flat: left;
+margin-right: 10px;</p>
+<pre><code class="hljs clean">display: table;
+```### ie6 `min-` 问题IE6 没有 `min-`, 但是他本身 `width`, `height` 就支持这种特性。</code></pre><p>#container {
+  min-width: 600px;
+  width: expression_r(document.body.clientWidth ＜ 600? &quot;600px&quot;: &quot;auto&quot; );
+}</p>
+<h1 id="-min-width-css-2-width-javascript-ie-html-">第一个min-width是正常的；css制作但第2行的width使用了Javascript, 这只有IE才认得, 这也会让你的HTML文档不太正规。</h1>
+<h1 id="-javascript-">它实际上通过Javascript的判断来实现最小宽度。</h1>
+<p><code>### div 浮动 ie 文本产生 3px 的 bug左边对象浮动, 右边采用外补丁的左边距来定位, 右边对象内的文本会离左边有3px的间距。</code></p>
+<p>#left {
+  float: left;
+}*html #left {
+  margin-right: -3px;
+}
+<code>### 清除浮动### IE6图片有空隙</code>
+img {
+  display: block;</p>
+<h1 id="or">or</h1>
+<p>  vertical-align: top|bottom|middle|text-bottom;
+}
+<code>### 使用 hack.a {
+  color: #fff; /* 所有浏览器 *
+  .color: #000; /* IE6,7,8 */
+  +color: #f0f; /* IE6,7 */
+  _color: #0f0; /* IE6 */
+}### 自定义属性获取IE下, 可以使用获取常规属性的方法来获取自定义属性, 也可以使用 getAttribute() 获取自定义属性;
+Firefox下, 只能使用 getAttribute() 获取自定义属性；
+解决方法:统一通过 getAttribute() 获取自定义属性。### Event 对象IE 下, event 对象有 x, y 属性, 但是没有 pageX,pageY 属性；
+Firefox 下, event 对象有 pageX, pageY 属性, 但是没有 x, y 属性。### 超链接访问过后 hover 样式就不出现了被点击访问过的超链接样式不在具有 hover 和 active 了, 可以通过改变CSS属性的排列顺序: L-V-H-A: a:link {} a:visited {} a:hover {} a:active {}</code>css
+a {
+  &amp;:link {}
+  &amp;:visited {}
+  &amp;:hover {}
+  &amp;:active {}
+}
+<code>`</code></p>
+</section><div class="article-widgets"><div class="tags"><i class="fa fa-tags"></i><a href="/tag/兼容性/1.html" title="兼容性">兼容性</a></div></div></article><nav class="pagination"><ul class="pagination-simple"><li><a href="/article/Vagrant &amp;&amp; VirtualBox 安装，打包和分享 Base Box.html" title="Vagrant &amp;&amp; VirtualBox 安装，打包和分享 Base Box"><span>Previous</span><span>Vagrant &amp;&amp; VirtualBox 安装，打包和分享 Base Box</span></a></li><li><a href="/article/前端开发 - 基础知识@协议.html" title="前端开发 - 基础知识@协议"><span>Next</span><span>前端开发 - 基础知识@协议</span></a></li></ul></nav><div class="comments"><div class="disqus-plugin"><div id="disqus_thread"></div><script>!(function() {
+  var d = document;
+  s = d.createElement('script');
+  s.src = '//davidkk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  !(d.head || d.body).appendChild(s);
+})();</script></div></div></main></div><footer class="footer-container"><div class="container"><div class="about"><a class="link" href="https://github.com/DavidKk" title="Github" target="_blank"><i class="fa fa-github-alt"></i></a><a class="link" href="http://codepen.io/DavidJones" title="CodePen" target="_blank"><i class="fa fa-codepen"></i></a><a class="link" href="https://twitter.com/Mr_DavidJones" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a><span><i class="fa fa-heart"></i></span><a class="link" href="https://plus.google.com/u/0/111899862347999076942" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a><a class="link" href="http://weibo.com/307853201" title="微博" target="_blank"><i class="fa fa-weibo"></i></a><a class="link" href="mailto:qowera@qq.com" title="E-Mail"><i class="fa fa-envelope-o"></i></a></div><p class="copyright clearfix">Powered by&nbsp;<a href="/">davidkk.com</a>&nbsp;&copy; 2016
+,&nbsp;<a href="/static/sitemap.xml" title="Sitemap">Sitemap</a></p></div></footer><script src="scripts/index.js"></script><script id="dsq-count-scr" src="//davidkk.disqus.com/count.js" async></script></body></html>
